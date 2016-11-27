@@ -19,7 +19,7 @@ function showSub(obj,name){
         }
     }else{
             $('.'+name).hide();
-            $('.'+name+'[index='+index+']').css('display','inline-block');
+            $('.'+name+'[index='+index+']').css('display','block');
         }
 }
 //
