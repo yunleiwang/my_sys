@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @item.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @item.description %>
+</p>
+
+<p>
+  <strong>Units:</strong>
+  <%= @item.units %>
+</p>
+
+<p>
+  <strong>Header:</strong>
+  <%= @item.header %>
+</p>
+
+<p>
+  <strong>Left item text:</strong>
+  <%= @item.left_item_text %>
+</p>
+
+<p>
+  <strong>Right item text:</strong>
+  <%= @item.right_item_text %>
+</p>
+
+<p>
+  <strong>Phi status:</strong>
+  <%= @item.phi_status %>
+</p>
+
+<p>
+  <strong>Item data type:</strong>
+  <%= @item.item_data_type %>
+</p>
+
+<p>
+  <strong>Response type:</strong>
+  <%= @item.response_type %>
+</p>
+
+<p>
+  <strong>Options text:</strong>
+  <%= @item.options_text %>
+</p>
+
+<p>
+  <strong>Options value:</strong>
+  <%= @item.options_value %>
+</p>
+
+<p>
+  <strong>Defeault value:</strong>
+  <%= @item.defeault_value %>
+</p>
+
+<p>
+  <strong>Regexp:</strong>
+  <%= @item.regexp %>
+</p>
+
+<p>
+  <strong>Regexp error msg:</strong>
+  <%= @item.regexp_error_msg %>
+</p>
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

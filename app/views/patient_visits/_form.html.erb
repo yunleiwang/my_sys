@@ -1,0 +1,399 @@
+<div class="breadcrumbs" id="breadcrumbs">
+  <script type="text/javascript">
+      try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+  </script>
+
+  <ul class="breadcrumb">
+    <li>
+      <i class="icon-home home-icon"></i>
+      <a href="#">Home</a>
+    </li>
+
+    <li>
+      <a href="#">Tables</a>
+    </li>
+    <li class="active">Simple &amp; Dynamic</li>
+  </ul><!-- .breadcrumb -->
+
+  <div class="nav-search" id="nav-search">
+    <form class="form-search">
+        <span class="input-icon">
+            <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+            <i class="icon-search nav-search-icon"></i>
+        </span>
+    </form>
+  </div><!-- #nav-search -->
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- PAGE CONTENT BEGINS -->
+      <%= form_for(@patient_visit, :html=>{:class=>"form-horizontal"}, :role=>"form") do |f| %>
+          <!--基本信息-->
+          <div class="widget-box">
+            <div class="widget-header">
+              <h4>基本信息</h4>
+
+              <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                  <i class="icon-chevron-up"></i>
+                </a>
+              </div>
+            </div>
+            <div class="widget-body">
+              <div class="widget-main">
+                <div class="form-group">
+                  <%= label :patient, :file_number, "病案号", :class=>"col-lg-2 control-label no-padding-right" %>
+                  <div class="col-lg-3">
+                    <%= @patient.file_number %>
+                  </div>
+                  <%= label :patient, :name, "姓名", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-lg-3">
+                    <%= @patient.name %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient, :gender, "性别", :class=>"col-lg-2 control-label no-padding-right" %>
+                  <div class="col-lg-3">
+                    <%= @patient.gender %>
+                  </div>
+                  <%= label :patient, :birthday, "出生日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-lg-3">
+                    <%= @patient.birthday %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+
+                <div class="form-group">
+                  <%= label :patient, :nation, "民族", :class=>"col-lg-2 control-label no-padding-right" %>
+                  <div class="col-lg-3">
+                    <%= @patient.nation %>
+                  </div>
+                  <%= label :patient, :native_place, "籍贯", :class=>"col-sm-3  control-label no-padding-right" %>
+                  <div class="col-lg-3">
+                    <%= @patient.native_place %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+              </div>
+            </div>
+          </div>
+          <!--基本信息结束-->
+          <!--就诊信息-->
+          <div class="widget-box">
+            <div class="widget-header">
+              <h4>就诊信息</h4>
+              <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                  <i class="icon-chevron-up"></i>
+                </a>
+              </div>
+            </div>
+            <div class="widget-body">
+              <div class="widget-main">
+                <!--<h3 class="lighter block green">Enter the following information</h3>-->
+                <div class="form-group">
+                  <%= label :patient_visit, :visiting_time, "就诊时间", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= text_field :patient_visit, :visiting_time, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                            <i class="icon-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :telephone, "联系电话", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :telephone, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :home_address, "家庭住址", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :home_address, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :degree_of_education, "文化程度", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= select :patient_visit, :degree_of_education, options_from_collection_for_select(PublicLib.where('table_name=? and item_name=?', 'patient_visits', 'degree_of_education'), 'item_text', 'item_value'),{include_blank: true}, :class=>"width-40 chosen-select"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :occupation, "职业", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= select :patient_visit,  :occupation, options_from_collection_for_select(PublicLib.where('table_name=? and item_name=?', 'patient_visits', 'occupation'), 'item_text', 'item_value'),{include_blank: true}, :class=>"width-40 chosen-select"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :responsible_doctor, "责任医生", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= select :patient_visit, :responsible_doctor, [],{}, :class=>"width-40 chosen-select"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :person_filing, "建档人", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= select :patient_visit, :person_filing, [],{}, :class=>"width-40 chosen-select"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :created_date, "建档日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= text_field :patient_visit, :created_date, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                            <i class="icon-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :created_unit, "建档单位", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :created_unit, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :marital_status, "婚姻状况", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= select :patient_visit, :marital_status, options_from_collection_for_select(PublicLib.where('table_name=? and item_name=?', 'patient_visits', 'marital_status'), 'item_text', 'item_value'),{include_blank: true}, :class=>"width-40 chosen-select"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :contact_name, "联系人姓名", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :contact_name, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :contact_relationship, "联系人关系", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :contact_relationship, :class=>"col-xs-10 col-sm-5"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :contact_address, "联系人地址", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :contact_address, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :contact_phone, "联系人电话", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :contact_phone, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :visit_type, "就诊类型", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="col-sm-9">
+                      <div class="radio">
+                        <label>
+                          <%= radio_button :patient_visit, :visit_type, "门诊", :class=>"ace" %>
+                          <span class="lbl"> 门诊</span>
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>
+                          <%= radio_button :patient_visit, :visit_type, "住院", :class=>"ace" %>
+                          <span class="lbl"> 住院</span>
+                        </label>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :patient_source, "病人来源", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= select :patient_visit, :patient_source, options_from_collection_for_select(PublicLib.where('table_name=? and item_name=?', 'patient_visits', 'patient_source'), 'item_text', 'item_value'),{:prompt_text=>""}, :class=>"width-40 chosen-select"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :admission_number, "住院号", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :admission_number, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :admission_date, "入院日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :admission_date, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :discharge_date, "出院日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :discharge_date, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :outpatient_number, "门诊号", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :outpatient_number, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :diagnostic_types, "诊断类型", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_types, "正常", :class=>"ace"  %>
+                        <span class="lbl"> 正常</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_types, "鼾症", :class=>"ace"  %>
+                        <span class="lbl"> 鼾症</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_types, "阻塞", :class=>"ace"  %>
+                        <span class="lbl"> 阻塞</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_types, "中枢", :class=>"ace"  %>
+                        <span class="lbl"> 中枢</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_types, "混合", :class=>"ace"  %>
+                        <span class="lbl"> 混合</span>
+                      </label>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :diagnostic_degree, "诊断程度", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_degree, "轻度", :class=>"ace"  %>
+                        <span class="lbl"> 轻度</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_degree, "中度", :class=>"ace"  %>
+                        <span class="lbl"> 中度</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_degree, "重度", :class=>"ace"  %>
+                        <span class="lbl"> 重度</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :diagnostic_anoxia, "缺氧", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_anoxia, "正常", :class=>"ace"  %>
+                        <span class="lbl"> 正常</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_anoxia, "轻度", :class=>"ace"  %>
+                        <span class="lbl"> 轻度</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_anoxia, "中度", :class=>"ace"  %>
+                        <span class="lbl"> 中度</span>
+                      </label>
+                      &nbsp;&nbsp;
+                      <label>
+                        <%= radio_button :patient_visit, :diagnostic_anoxia, "重度", :class=>"ace"  %>
+                        <span class="lbl"> 重度</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= label :patient_visit, :other_diseases, "其他疾病", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :other_diseases, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+              </div>
+            </div>
+          </div>
+          <!--就诊信息结束-->
+          <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+              <button class="btn btn-info" >
+                <i class="icon-ok bigger-110"></i>
+                提交
+              </button>
+              &nbsp; &nbsp; &nbsp;
+              <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-undo bigger-110")}返回"), patients_path, :class=>"btn" %>
+
+
+            </div>
+          </div>
+      <% end %>
+      <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+</div>

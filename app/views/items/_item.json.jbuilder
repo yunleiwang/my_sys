@@ -1,0 +1,2 @@
+json.extract! item, :id, :name, :description, :units, :header, :left_item_text, :right_item_text, :phi_status, :item_data_type, :response_type, :options_text, :options_value, :defeault_value, :regexp, :regexp_error_msg, :created_at, :updated_at
+json.url item_url(item, format: :json)

@@ -1,0 +1,69 @@
+<%= form_for(@item_group_metaelement) do |f| %>
+  <% if @item_group_metaelement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@item_group_metaelement.errors.count, "error") %> prohibited this item_group_metaelement from being saved:</h2>
+
+      <ul>
+      <% @item_group_metaelement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :no %><br>
+    <%= f.text_field :no %>
+  </div>
+  <div class="field">
+    <%= f.label :parentno %><br>
+    <%= f.text_field :parentno %>
+  </div>
+  <div class="field">
+    <%= f.label :item_group_id %><br>
+    <%= f.number_field :item_group_id %>
+  </div>
+  <div class="field">
+    <%= f.label :crf_info_id %><br>
+    <%= f.number_field :crf_info_id %>
+  </div>
+  <div class="field">
+    <%= f.label :header %><br>
+    <%= f.text_field :header %>
+  </div>
+  <div class="field">
+    <%= f.label :subheader %><br>
+    <%= f.text_field :subheader %>
+  </div>
+  <div class="field">
+    <%= f.label :repeat_number %><br>
+    <%= f.number_field :repeat_number %>
+  </div>
+  <div class="field">
+    <%= f.label :repeat_max %><br>
+    <%= f.number_field :repeat_max %>
+  </div>
+  <div class="field">
+    <%= f.label :item_id %><br>
+    <%= f.number_field :item_id %>
+  </div>
+  <div class="field">
+    <%= f.label :seq %><br>
+    <%= f.number_field :seq %>
+  </div>
+  <div class="field">
+    <%= f.label :show_group %><br>
+    <%= f.check_box :show_group %>
+  </div>
+  <div class="field">
+    <%= f.label :repeating_group %><br>
+    <%= f.check_box :repeating_group %>
+  </div>
+  <div class="field">
+    <%= f.label :options_index %><br>
+    <%= f.text_field :options_index %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,1 @@
+json.array! @public_libs, partial: 'public_libs/public_lib', as: :public_lib

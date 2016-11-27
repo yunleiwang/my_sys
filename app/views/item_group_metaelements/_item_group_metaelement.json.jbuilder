@@ -1,0 +1,2 @@
+json.extract! item_group_metaelement, :id, :no, :parentno, :item_group_id, :crf_info_id, :header, :subheader, :repeat_number, :repeat_max, :item_id, :seq, :show_group, :repeating_group, :options_index, :created_at, :updated_at
+json.url item_group_metaelement_url(item_group_metaelement, format: :json)

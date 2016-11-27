@@ -1,0 +1,73 @@
+<%= form_for(@item) do |f| %>
+  <% if @item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+      <% @item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :units %><br>
+    <%= f.text_field :units %>
+  </div>
+  <div class="field">
+    <%= f.label :header %><br>
+    <%= f.text_field :header %>
+  </div>
+  <div class="field">
+    <%= f.label :left_item_text %><br>
+    <%= f.text_field :left_item_text %>
+  </div>
+  <div class="field">
+    <%= f.label :right_item_text %><br>
+    <%= f.text_field :right_item_text %>
+  </div>
+  <div class="field">
+    <%= f.label :phi_status %><br>
+    <%= f.check_box :phi_status %>
+  </div>
+  <div class="field">
+    <%= f.label :item_data_type %><br>
+    <%= f.text_field :item_data_type %>
+  </div>
+  <div class="field">
+    <%= f.label :response_type %><br>
+    <%= f.text_field :response_type %>
+  </div>
+  <div class="field">
+    <%= f.label :options_text %><br>
+    <%= f.text_field :options_text %>
+  </div>
+  <div class="field">
+    <%= f.label :options_value %><br>
+    <%= f.text_field :options_value %>
+  </div>
+  <div class="field">
+    <%= f.label :defeault_value %><br>
+    <%= f.text_field :defeault_value %>
+  </div>
+  <div class="field">
+    <%= f.label :regexp %><br>
+    <%= f.text_field :regexp %>
+  </div>
+  <div class="field">
+    <%= f.label :regexp_error_msg %><br>
+    <%= f.text_field :regexp_error_msg %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

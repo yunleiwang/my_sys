@@ -1,0 +1,126 @@
+<%= javascript_include_tag 'item_form_metaelements' %>
+<div class="breadcrumbs" id="breadcrumbs">
+  <script type="text/javascript">
+      try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+  </script>
+
+  <ul class="breadcrumb">
+    <li>
+      <i class="icon-home home-icon"></i>
+      <a href="#">Home</a>
+    </li>
+
+    <li>
+      <a href="#">Forms</a>
+    </li>
+    <li class="active">Form Elements</li>
+  </ul><!-- .breadcrumb -->
+
+
+</div>
+
+<div class="page-content">
+
+  <div class="row">
+    <div class="col-xs-10">
+      <!-- PAGE CONTENT BEGINS -->
+      <form class="form-horizontal" role="form">
+        <% @sections.each do |section| %>
+            <div class="widget-box" id="section<%= section.id %>">
+              <div class="widget-header">
+                <h4><%= section.title %></h4>
+
+                <div class="widget-toolbar">
+                  <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-main">
+                  <% section.item_form_metaelements.each do |item_form_metaelement|%>
+                      <% item = item_form_metaelement.item %>
+                      <% parent_item = item_form_metaelement.parent_item  %>
+                      <% cls_suffix="" %>
+                      <% if !parent_item.nil? %>
+                          <% cls_suffix = "_children" %>
+                      <% end %>
+                      <% if !item.nil? %> <!--普通item-->
+                          <div class="form-group <%= parent_item.nil? ? 'item' : parent_item.name + " "+item_#{cls_suffix} %>" index="<%=item_form_metaelement.options_index %>">
+                            <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                            <div class="col-sm-9">
+                              <%= item_display(item, value = nil, options = {}) %>
+                            </div>
+                          </div>
+                      <% else %> <!--普通item -->
+                          <% items = item_form_metaelement.items %>
+                          <% item_group = item_form_metaelement.item_group %>
+
+                          <!-- PAGE CONTENT BEGINS -->
+                          <div class="alert alert-block alert-success">
+                            <button type="button" class="close" data-dismiss="alert">
+                              <i class="icon-remove"></i>
+                            </button>
+                            <i class="icon-ok green"></i>
+                            <%= item_group.description %>
+                          </div>
+
+                          <% items.each do |item| %>
+                              <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                                <div class="col-sm-9">
+                                  <%= item_display(item, value = nil, options = {}) %>
+                                </div>
+                              </div>
+                          <% end %>
+
+                      <% end %>
+                      <div class="space-4"></div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+        <% end %>
+
+        <!--submit & reset button-->
+        <div class="clearfix form-actions">
+          <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-info" type="button">
+              <i class="icon-ok bigger-110"></i>
+              提交
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="reset">
+              <i class="icon-undo bigger-110"></i>
+              返回
+            </button>
+          </div>
+        </div>
+        <div class="hr hr-24"></div>
+        <hr />
+      </form>
+     <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+
+    <div class="col-xs-2">
+      <div class="fixed_div">
+        <% @sections.each do |section| %>
+            <a href="#section<%= section.id %>"><%= section.title %></a><br><br><br>
+        <% end %>
+      </div>
+
+    </div>
+  </div><!-- /.row -->
+</div><!-- /.page-content -->
+
+<style type="text/css">
+    .fixed_div{
+        position:fixed;
+        top:100px;
+    }
+    .item_children{
+        display:none
+    }
+
+</style>

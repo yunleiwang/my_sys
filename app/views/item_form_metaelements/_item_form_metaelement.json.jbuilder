@@ -1,0 +1,2 @@
+json.extract! item_form_metaelement, :id, :no, :parentno, :item_id, :crf_info_id, :section_id, :header, :subheader, :parent_id, :ordinal, :required, :show_item, :trigger, :options_index, :item_group_id, :created_at, :updated_at
+json.url item_form_metaelement_url(item_form_metaelement, format: :json)

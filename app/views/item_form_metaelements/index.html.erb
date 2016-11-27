@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Item Form Metaelements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Parentno</th>
+      <th>Item</th>
+      <th>Crf info</th>
+      <th>Section</th>
+      <th>Header</th>
+      <th>Subheader</th>
+      <th>Parent</th>
+      <th>Ordinal</th>
+      <th>Required</th>
+      <th>Show item</th>
+      <th>Trigger</th>
+      <th>Options index</th>
+      <th>Item group</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @item_form_metaelements.each do |item_form_metaelement| %>
+      <tr>
+        <td><%= item_form_metaelement.no %></td>
+        <td><%= item_form_metaelement.parentno %></td>
+        <td><%= item_form_metaelement.item_id %></td>
+        <td><%= item_form_metaelement.crf_info_id %></td>
+        <td><%= item_form_metaelement.section_id %></td>
+        <td><%= item_form_metaelement.header %></td>
+        <td><%= item_form_metaelement.subheader %></td>
+        <td><%= item_form_metaelement.parent_id %></td>
+        <td><%= item_form_metaelement.ordinal %></td>
+        <td><%= item_form_metaelement.required %></td>
+        <td><%= item_form_metaelement.show_item %></td>
+        <td><%= item_form_metaelement.trigger %></td>
+        <td><%= item_form_metaelement.options_index %></td>
+        <td><%= item_form_metaelement.item_group_id %></td>
+        <td><%= link_to 'Show', item_form_metaelement %></td>
+        <td><%= link_to 'Edit', edit_item_form_metaelement_path(item_form_metaelement) %></td>
+        <td><%= link_to 'Destroy', item_form_metaelement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Item form metaelement', new_item_form_metaelement_path %>

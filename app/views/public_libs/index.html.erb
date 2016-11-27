@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Public Libs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Table name</th>
+      <th>Item name</th>
+      <th>Item text</th>
+      <th>Item value</th>
+      <th>Pinyin</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @public_libs.each do |public_lib| %>
+      <tr>
+        <td><%= public_lib.table_name %></td>
+        <td><%= public_lib.item_name %></td>
+        <td><%= public_lib.item_text %></td>
+        <td><%= public_lib.item_value %></td>
+        <td><%= public_lib.pinyin %></td>
+        <td><%= link_to 'Show', public_lib %></td>
+        <td><%= link_to 'Edit', edit_public_lib_path(public_lib) %></td>
+        <td><%= link_to 'Destroy', public_lib, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Public lib', new_public_lib_path %>

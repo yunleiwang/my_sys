@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Table name:</strong>
+  <%= @public_lib.table_name %>
+</p>
+
+<p>
+  <strong>Item name:</strong>
+  <%= @public_lib.item_name %>
+</p>
+
+<p>
+  <strong>Item text:</strong>
+  <%= @public_lib.item_text %>
+</p>
+
+<p>
+  <strong>Item value:</strong>
+  <%= @public_lib.item_value %>
+</p>
+
+<p>
+  <strong>Pinyin:</strong>
+  <%= @public_lib.pinyin %>
+</p>
+
+<%= link_to 'Edit', edit_public_lib_path(@public_lib) %> |
+<%= link_to 'Back', public_libs_path %>

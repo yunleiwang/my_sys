@@ -1,0 +1,37 @@
+<%= form_for(@public_lib) do |f| %>
+  <% if @public_lib.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@public_lib.errors.count, "error") %> prohibited this public_lib from being saved:</h2>
+
+      <ul>
+      <% @public_lib.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :table_name %><br>
+    <%= f.text_field :table_name %>
+  </div>
+  <div class="field">
+    <%= f.label :item_name %><br>
+    <%= f.text_field :item_name %>
+  </div>
+  <div class="field">
+    <%= f.label :item_text %><br>
+    <%= f.text_field :item_text %>
+  </div>
+  <div class="field">
+    <%= f.label :item_value %><br>
+    <%= f.text_field :item_value %>
+  </div>
+  <div class="field">
+    <%= f.label :pinyin %><br>
+    <%= f.text_field :pinyin %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

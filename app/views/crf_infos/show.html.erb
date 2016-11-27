@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @crf_info.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @crf_info.description %>
+</p>
+
+<p>
+  <strong>Seq:</strong>
+  <%= @crf_info.seq %>
+</p>
+
+<p>
+  <strong>Crf type:</strong>
+  <%= @crf_info.crf_type %>
+</p>
+
+<p>
+  <strong>Follow:</strong>
+  <%= @crf_info.follow %>
+</p>
+
+<%= link_to 'Edit', edit_crf_info_path(@crf_info) %> |
+<%= link_to 'Back', crf_infos_path %>

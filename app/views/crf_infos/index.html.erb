@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Crf Infos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Seq</th>
+      <th>Crf type</th>
+      <th>Follow</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @crf_infos.each do |crf_info| %>
+      <tr>
+        <td><%= crf_info.name %></td>
+        <td><%= crf_info.description %></td>
+        <td><%= crf_info.seq %></td>
+        <td><%= crf_info.crf_type %></td>
+        <td><%= crf_info.follow %></td>
+        <td><%= link_to 'Show', crf_info %></td>
+        <td><%= link_to 'Edit', edit_crf_info_path(crf_info) %></td>
+        <td><%= link_to 'Destroy', crf_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Crf info', new_crf_info_path %>

@@ -1,0 +1,1 @@
+json.array! @crf_infos, partial: 'crf_infos/crf_info', as: :crf_info

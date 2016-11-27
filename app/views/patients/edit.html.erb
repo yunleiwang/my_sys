@@ -1,0 +1,133 @@
+<div class="breadcrumbs" id="breadcrumbs">
+  <script type="text/javascript">
+      try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+  </script>
+
+  <ul class="breadcrumb">
+    <li>
+      <i class="icon-home home-icon"></i>
+      <a href="#">Home</a>
+    </li>
+
+    <li>
+      <a href="#">Tables</a>
+    </li>
+    <li class="active">Simple &amp; Dynamic</li>
+  </ul><!-- .breadcrumb -->
+
+  <div class="nav-search" id="nav-search">
+    <form class="form-search">
+        <span class="input-icon">
+            <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+            <i class="icon-search nav-search-icon"></i>
+        </span>
+    </form>
+  </div><!-- #nav-search -->
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- PAGE CONTENT BEGINS -->
+      <%= form_for(@patient, :html=>{:class=>"form-horizontal"}, :role=>"form") do |f| %>
+          <!--基本信息-->
+          <div class="widget-box">
+            <div class="widget-header">
+              <h4>基本信息</h4>
+
+              <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                  <i class="icon-chevron-up"></i>
+                </a>
+              </div>
+            </div>
+            <div class="widget-body">
+              <div class="widget-main">
+                <div class="form-group">
+                  <%= f.label :file_number, "病案号", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :file_number, :placeholder=>"", :class=>"col-xs-10 col-sm-5" %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :name, "姓名", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :name, :placeholder=>"", :class=>"col-xs-10 col-sm-5" %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :gender, "性别", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= f.radio_button :gender, "男", :class=>"ace" %>
+                        <span class="lbl"> 男</span>
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label>
+                        <%= f.radio_button :gender, "女", :class=>"ace" %>
+                        <span class="lbl"> 女</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :birthday, "出生日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= f.text_field :birthday, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                            <i class="icon-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :nation, "民族", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.select :nation, [1,2,3],{}, :class=>"width-40 chosen-select", "data-placeholder"=>"选择民族..." %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :native_place, "籍贯", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :native_place, :placeholder=>"", :class=>"col-xs-10 col-sm-5" %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+              </div>
+            </div>
+          </div>
+          <!--基本信息结束-->
+
+          <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+              <button class="btn btn-info" >
+                <i class="icon-ok bigger-110"></i>
+                提交
+              </button>
+              &nbsp; &nbsp; &nbsp;
+              <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-undo bigger-110")}返回"), patients_path, :class=>"btn" %>
+
+
+            </div>
+          </div>
+      <% end %>
+      <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+</div>
+
+
+

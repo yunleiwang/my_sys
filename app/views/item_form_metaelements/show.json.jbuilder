@@ -1,0 +1,1 @@
+json.partial! "item_form_metaelements/item_form_metaelement", item_form_metaelement: @item_form_metaelement

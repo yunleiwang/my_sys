@@ -1,0 +1,2 @@
+json.extract! patient_visit, :id, :patient_id, :visiting_time, :telephone, :home_address, :degree_of_education, :occupation, :responsible_doctor, :person_filing, :created_date, :created_unit, :marital_status, :contact_name, :contact_relationship, :contact_address, :contact_phone, :visit_type, :patient_source, :admission_number, :admission_date, :discharge_date, :outpatient_number, :diagnostic_types, :diagnostic_degree, :diagnostic_anoxia, :other_diseases, :created_at, :updated_at
+json.url patient_visit_url(patient_visit, format: :json)

@@ -1,0 +1,1 @@
+json.array! @item_form_metaelements, partial: 'item_form_metaelements/item_form_metaelement', as: :item_form_metaelement

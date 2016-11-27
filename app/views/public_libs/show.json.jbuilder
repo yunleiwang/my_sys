@@ -1,0 +1,1 @@
+json.partial! "public_libs/public_lib", public_lib: @public_lib
