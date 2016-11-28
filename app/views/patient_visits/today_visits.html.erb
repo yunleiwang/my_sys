@@ -10,13 +10,13 @@
   <ul class="breadcrumb">
     <li>
       <i class="icon-home home-icon"></i>
-      <a href="#">Home</a>
+      <a href="/home/index">主页</a>
     </li>
 
     <li>
-      <a href="#">Tables</a>
+      <a href="/patient_visits">就诊管理</a>
     </li>
-    <li class="active">Simple &amp; Dynamic</li>
+    <li class="active">今日就诊</li>
   </ul><!-- .breadcrumb -->
 
   <div class="nav-search" id="nav-search">
@@ -136,19 +136,5 @@
 
         });
 
-
-        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-        function tooltip_placement(context, source) {
-            var $source = $(source);
-            var $parent = $source.closest('table')
-            var off1 = $parent.offset();
-            var w1 = $parent.width();
-
-            var off2 = $source.offset();
-            var w2 = $source.width();
-
-            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-            return 'left';
-        }
     })
 </script>

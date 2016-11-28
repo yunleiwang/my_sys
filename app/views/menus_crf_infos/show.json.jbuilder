@@ -1,0 +1,1 @@
+json.partial! "menus_crf_infos/menus_crf_info", menus_crf_info: @menus_crf_info

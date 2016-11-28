@@ -80,7 +80,30 @@ function call(obj,name,i){
 }
 
 function dbclickcancel(obj,name){
-    alert(11)
     $(obj).attr("checked",false)
     $('.'+name).hide();
 }
+
+// group add
+function addGroup(tableId){
+    var groupId = tableId.split("_")[2]
+    //var group_num =  document.getElementById("group_num"+groupId).value;
+    var group_num =  1;
+    $.ajax({
+        type: 'GET',
+        url: '/item_groups/'+groupId+'/add_item_group',
+        data: "groupId="+groupId+"&&num="+group_num+"&&tableId="+tableId,
+        success: function(msg) {
+
+        }
+    });
+    //document.getElementById("group_num"+groupId).value = Number(group_num)+1;
+}
+function delGroup(divId)
+{
+    if($("#"+divId + ">div").size()>1){
+        $("#"+divId + " >div:last-child").remove()
+    }
+
+}
+

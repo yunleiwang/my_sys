@@ -10,7 +10,8 @@ module ApplicationHelper
   def nav_a_class(menu)
     a_class= ""
     sub_menus = menu.submenus
-    if !sub_menus.empty?
+    crf_infos_size = menu.crf_infos.count
+    if !sub_menus.empty?||crf_infos_size>0
       a_class= "dropdown-toggle"
     end
     a_class

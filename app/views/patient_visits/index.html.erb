@@ -10,13 +10,13 @@
   <ul class="breadcrumb">
     <li>
       <i class="icon-home home-icon"></i>
-      <a href="#">Home</a>
+      <a href="/home/index">主页</a>
     </li>
 
     <li>
-      <a href="#">Tables</a>
+      <a href="/patient_visits">就诊管理</a>
     </li>
-    <li class="active">Simple &amp; Dynamic</li>
+    <li class="active">就诊列表</li>
   </ul><!-- .breadcrumb -->
 
   <div class="nav-search" id="nav-search">
@@ -78,8 +78,9 @@
                 <td><%= patient_visit.updated_at %></td>
                 <td>
                   <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                    <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>1}, :class=>"green", :target=>'_blank', :title => '添加详细档案' %>
+                    <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>3}, :class=>"green", :target=>'_blank', :title => '添加简易档案' %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), patient_visit, :class=>"blue" %>
-                    <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), {:controller => :item_form_metaelements, :action => :new}, :class=>"blue" %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130"), edit_patient_visit_path(patient_visit), :class=>"green" %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130"), patient_visit, {method: :delete, data: { confirm: 'Are you sure?' }, :class=>"red"} %>
                   </div>
@@ -136,19 +137,5 @@
 
         });
 
-
-        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-        function tooltip_placement(context, source) {
-            var $source = $(source);
-            var $parent = $source.closest('table')
-            var off1 = $parent.offset();
-            var w1 = $parent.width();
-
-            var off2 = $source.offset();
-            var w2 = $source.width();
-
-            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-            return 'left';
-        }
     })
 </script>

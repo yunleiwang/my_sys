@@ -1,0 +1,14 @@
+<%= form_tag :action => :create do %>
+    <% @menus.each do |menu| %>
+        <div>
+          <%= menu.name_cn %>
+        </div>
+        <div>
+          <% @crf_infos.each do |crf_info| %>
+              <input type="checkbox" name="results[]" value="<%= menu.id %>_<%= crf_info.id %>"><%= crf_info.name %>&nbsp;&nbsp;&nbsp;&nbsp;
+          <% end %>
+        </div>
+
+    <% end %>
+    <%= submit_tag "提交" %>
+<% end %>

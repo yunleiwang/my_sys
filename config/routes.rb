@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :menus_crf_infos
   resources :public_libs
   resources :patient_visits do
     collection do
@@ -11,7 +12,12 @@ Rails.application.routes.draw do
   resources :item_form_metaelements
   resources :crf_infos
   resources :item_group_metadata
-  resources :item_groups
+  resources :item_groups do
+    member do
+      get 'add_item_group'
+      get 'remove_item_group'
+    end
+  end
   resources :item_form_data
   resources :items
   resources :sections

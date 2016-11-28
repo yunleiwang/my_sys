@@ -1,13 +1,19 @@
 class ItemFormMetaelementsController < ApplicationController
   before_action :set_item_form_metaelement, only: [:show, :edit, :update, :destroy]
-
+  layout 'item_form_metaelements'
   # GET /item_form_metaelements
   # GET /item_form_metaelements.json
   def index
-    # crf_info_id = params[:crf_info_id]
-    crf_info_id = 17
+    if params[:crf_info_id].nil?
+      crf_info_id = Menu.find(params["menu_type"]).crf_infos.first.id
+    else
+      crf_info_id = params[:crf_info_id]
+    end
+    # crf_info_id = 17
+
     @item_form_metaelements = ItemFormMetaelement.where(crf_info_id: crf_info_id).includes(:item).order('id asc')
     #@sections = CrfInfo.find(crf_info_id).sections
+
   end
 
   # GET /item_form_metaelements/1
@@ -18,7 +24,12 @@ class ItemFormMetaelementsController < ApplicationController
   # GET /item_form_metaelements/new
   def new
     @item_form_metaelement = ItemFormMetaelement.new
-    crf_info_id = 17
+    if params[:crf_info_id].nil?
+      crf_info_id = 114
+    else
+      crf_info_id = params[:crf_info_id]
+    end
+
     @sections = CrfInfo.find(crf_info_id).sections
     #@item_form_metaelements = ItemFormMetaelement.where(crf_info_id: crf_info_id).includes(:item)
   end

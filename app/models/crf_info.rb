@@ -1,12 +1,16 @@
+
 require 'poi'
 class CrfInfo < ActiveRecord::Base
   has_many :sections, :dependent => :destroy
   has_many :item_form_metaelements, :dependent => :destroy
+  has_many :item_group_metaelements, :dependent => :destroy
+  has_many :menus_crf_infos
+  has_many :menus, :through => :menus_crf_infos
 
   #导入CRF表
-  def import_crf
+  def import_crf(filepath)
     crf_info=nil
-    filepath = File.join(Rails.root,'4.xls')
+    #filepath = File.join(Rails.root, "doc",'4.xls')
 
     CrfInfo.transaction do
       if File.exist?(filepath)
@@ -75,10 +79,15 @@ class CrfInfo < ActiveRecord::Base
           return
         end
         rows = sheet.rows
-        no = 0
-        rows.each do |row|
+        #no = 0
+        rows.each_with_index do |row,no|
           if no>0
-            item = Item.new
+            name = row[0].to_s
+            left_item_text= row[2].to_s
+            item = Item.find_by_name_and_left_item_text(name,left_item_text)
+            if item.nil?
+              item = Item.new
+            end
             item.name= row[0].to_s
             item.description=  row[1].to_s
             item.left_item_text= row[2].to_s
@@ -146,7 +155,7 @@ class CrfInfo < ActiveRecord::Base
               item_form_metaelement.show_item= true
             end
             item_form_metaelement.trigger= row[14].to_s #response_label
-            item_form_metaelement.options_index= row[23].to_s #respinse_layout
+            item_form_metaelement.options_index= row[12].to_s #respinse_layout
 
             # 导入item_group_metaelement
             #group_label = row[6].to_s
@@ -166,13 +175,17 @@ class CrfInfo < ActiveRecord::Base
                   item_group_metaelement.subheader=row[8].to_s
                   item_group_metaelement.item_id=item.id
                   item_group_metaelement.show_group=phi
+                  item_group_metaelement.crf_info_id=crf_info.id
                 end
 
                 if !parent_item.nil?
                   parent_item_group_metaelement = ItemGroupMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).first
                   item_group_metaelement.parent_id= parent_item_group_metaelement.id
                 end
-                item_group_metaelement.save
+                if !item_group_metaelement.nil?
+                  item_group_metaelement.save
+                end
+
               end
             else
               item_form_metaelement.item_id= item.id
@@ -181,7 +194,7 @@ class CrfInfo < ActiveRecord::Base
 
 
           end
-          no+=1
+          #no+=1
         end
 
       end
@@ -190,4 +203,18 @@ class CrfInfo < ActiveRecord::Base
     end
   end
 
+  def import(file_path)
+    #file_path = File.join(Rails.root, "doc")
+    if File.directory? file_path
+      Dir.foreach(file_path) do |file|
+        if file !="." and file !=".."
+          import(file_path+"/"+file)
+        else
+          import_crf(file_path)
+        end
+        end
+      end
+
+
+  end
 end

@@ -61,6 +61,18 @@ class ItemGroupsController < ApplicationController
     end
   end
 
+  def add_item_group
+    item_group = ItemGroup.find(params[:id])
+    @items = item_group.items
+  end
+
+  def remove_item_group
+    respond_to do |format|
+      format.html
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item_group

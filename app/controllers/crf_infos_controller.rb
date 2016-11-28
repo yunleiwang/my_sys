@@ -1,3 +1,4 @@
+#coding:utf-8
 class CrfInfosController < ApplicationController
   before_action :set_crf_info, only: [:show, :edit, :update, :destroy]
 
@@ -5,7 +6,10 @@ class CrfInfosController < ApplicationController
   # GET /crf_infos.json
   def index
     @crf_infos = CrfInfo.all
-    #CrfInfo.new.import_crf
+    # file_path = File.join(Rails.root, "doc")
+    # CrfInfo.new.import(file_path)
+    # filepath = File.join(Rails.root, "doc","治疗.xls")
+    # CrfInfo.new.import_crf(filepath)
   end
 
   # GET /crf_infos/1

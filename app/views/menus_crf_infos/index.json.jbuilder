@@ -1,0 +1,1 @@
+json.array! @menus_crf_infos, partial: 'menus_crf_infos/menus_crf_info', as: :menus_crf_info

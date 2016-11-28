@@ -1,3 +1,4 @@
+
 <%= javascript_include_tag 'item_form_metaelements' %>
 <div class="breadcrumbs" id="breadcrumbs">
   <script type="text/javascript">
@@ -47,7 +48,7 @@
                       <% end %>
                       <% if !item.nil? %> <!--普通item-->
                           <div class="form-group <%= parent_item.nil? ? 'item' : (parent_item.name + " item_children")  %>" index="<%=item_form_metaelement.options_index %>">
-                            <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                            <label class="col-sm-3 control-label " for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
                             <div class="col-sm-9">
                               <%= item_display(item, value = nil, options = {}) %>
                             </div>
@@ -56,24 +57,29 @@
                           <% items = item_form_metaelement.items %>
                           <% item_group = item_form_metaelement.item_group %>
 
-                          <!-- PAGE CONTENT BEGINS -->
-                          <div class="alert alert-block alert-success">
-                            <button type="button" class="close" data-dismiss="alert">
-                              <i class="icon-remove"></i>
-                            </button>
-                            <i class="icon-ok green"></i>
-                            <%= item_group.description %>
-                          </div>
+                          <fieldset>
+                            <legend>
+                              <h4>
+                                <%= item_group.description %>
+                                <a href="javascript:void(null)" onclick="javascript:addGroup('item_group_<%= item_group.id %>')"><span class="icon-plus-sign purple"></span></a>
+                                <a href="javascript:void(null)" onclick="javascript:delGroup('item_group_<%= item_group.id %>')"><span class="icon-trash red"></span></a>
 
-                          <% items.each do |item| %>
-                              <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
-                                <div class="col-sm-9">
-                                  <%= item_display(item, value = nil, options = {}) %>
-                                </div>
+                              </h4>
+                            </legend>
+                            <div id="item_group_<%= item_group.id %>">
+                              <div>
+                                  <% items.each do |item| %>
+                                      <div class="form-group" >
+                                        <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                                        <div class="col-sm-9">
+                                          <%= item_display(item, value = nil, options = {}) %>
+                                        </div>
+                                      </div>
+                                  <% end %>
                               </div>
-                          <% end %>
+                            </div>
 
+                          </fieldset>
                       <% end %>
                       <div class="space-4"></div>
                   <% end %>
@@ -85,7 +91,8 @@
         <!--submit & reset button-->
         <div class="clearfix form-actions">
           <div class="col-md-offset-3 col-md-9">
-            <button class="btn btn-info" type="button">
+            <!--<button class="btn btn-info" type="button">-->
+            <button class="btn btn-info" type="reset">
               <i class="icon-ok bigger-110"></i>
               提交
             </button>

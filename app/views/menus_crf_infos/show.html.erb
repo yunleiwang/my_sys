@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Menu:</strong>
+  <%= @menus_crf_info.menu_id %>
+</p>
+
+<p>
+  <strong>Crf info:</strong>
+  <%= @menus_crf_info.crf_info_id %>
+</p>
+
+<%= link_to 'Edit', edit_menus_crf_info_path(@menus_crf_info) %> |
+<%= link_to 'Back', menus_crf_infos_path %>

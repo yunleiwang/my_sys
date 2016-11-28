@@ -7,10 +7,6 @@
   <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%#= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
-  <script src='/assets/jquery-2.0.3.min.js'></script>
-  <script src='/assets/jquery_ujs.js'></script>
-
-
   <!-- basic styles -->
   <link href="/assets/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/font-awesome.min.css" />
@@ -368,15 +364,14 @@
       </div><!-- #sidebar-shortcuts -->
 
       <ul class="nav nav-list">
-        <% menus= Menu.order('id asc') %>
+        <% menus= Menu.where('menu_type=?',0).order('id asc') %>
         <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
         <% first_level_menus.each_with_index do |first_level_menu,index| %>
             <li class="<%= nav_li_class(index,params[:menu_id]) %>">
-              <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %>">
+              <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %>" class="pjax-link">
                 <i class="<%= first_level_menu.icon_class %>"></i>
                 <span class="menu-text"> <%= first_level_menu.name_cn %> </span>
               </a>
-
               <!--二级菜单判断-->
               <% second_level_menus= first_level_menu.submenus %>
               <%#= second_level_menus.empty? %>
@@ -384,7 +379,7 @@
                   <ul class="submenu">
                     <% second_level_menus.each do |second_level_menu| %>
                         <li>
-                          <a href="<%= second_level_menu.link %>">
+                          <a href="<%= second_level_menu.link %>"  class="<%= nav_a_class(second_level_menu) %> pjax-link">
                             <i class="icon-double-angle-right"></i>
                             <%= second_level_menu.name_cn %>
                             <% third_level_menus= second_level_menu.submenus %>
@@ -392,20 +387,21 @@
                                 <b class="arrow icon-angle-down"></b>
                           <% end %>
                           </a>
+                          <!-- 三级菜单判断 -->
+                          <% if !third_level_menus.empty? %>
+                              <ul class="submenu">
+                                <% third_level_menus.each do |third_level_menu| %>
+                                    <li>
+                                      <a href="<%= third_level_menu.link %>" class="pjax-link">
+                                        <i class="icon-pencil"></i>
+                                        <%= third_level_menu.name_cn %>
+                                      </a>
+                                    </li>
+                                <% end %>
+                              </ul>
+                          <% end %>
                         </li>
-                        <!-- 三级菜单判断 -->
 
-                        <% if !third_level_menus.empty? %>
-                            <% third_level_menus.each do |third_level_menu| %>
-                                <li>
-                                  <a href="<%= third_level_menu.link %>">
-                                    <i class="icon-pencil"></i>
-                                    <%= third_level_menu.name_cn %>
-                                  </a>
-                                </li>
-                            <% end %>
-
-                        <% end %>
                     <% end %>
                   </ul>
             <% end %>
@@ -426,7 +422,7 @@
       </script>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" id="pjax-container">
       <%= yield %>
     </div><!-- /.main-content -->
 
@@ -465,7 +461,7 @@
 <script type="text/javascript">
     if("ontouchend" in document) document.write("<script src='/assets/jquery.mobile.custom.min.js'>"+"<"+"script>");
 </script>
-<script src="/assets/bootstrap.min.js"></script>
+<!--<script src="/assets/bootstrap.min.js"></script>-->
 <script src="/assets/typeahead-bs2.min.js"></script>
 
 
@@ -474,16 +470,14 @@
 <!--[if lte IE 8]>
 <script src="/assets/excanvas.min.js"></script>
 <![endif]-->
-
+<script src="/assets/jquery.sparkline.min.js"></script>
 <script src="/assets/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="/assets/bootstrap.min.js"></script>
 <script src="/assets/jquery.ui.touch-punch.min.js"></script>
 <script src="/assets/chosen.jquery.min.js"></script>
 <script src="/assets/jquery.slimscroll.min.js"></script>
 <script src="/assets/jquery.easy-pie-chart.min.js"></script>
 <script src="/assets/jquery.sparkline.min.js"></script>
-<script src="/assets/flot/jquery.flot.min.js"></script>
-<script src="/assets/flot/jquery.flot.pie.min.js"></script>
-<script src="/assets/flot/jquery.flot.resize.min.js"></script>
 
 
 
@@ -498,8 +492,17 @@
 <!--<script src="/assets/jquery.inputlimiter.1.3.1.min.js"></script>-->
 <!--<script src="/assets/jquery.maskedinput.min.js"></script>-->
 <!--<script src="/assets/bootstrap-tag.min.js"></script>-->
+<script src="/assets/flot/jquery.flot.min.js"></script>
+<script src="/assets/flot/jquery.flot.pie.min.js"></script>
+<script src="/assets/flot/jquery.flot.resize.min.js"></script>
 <!-- ace scripts -->
-
+<script src='/assets/jquery_ujs.js'></script>
+<script src='/assets/jquery.pjax.js'></script>
+<script>
+    //pjax局部刷新
+    $(document).pjax('a', '#pjax-container');
+</script>
+<%= csrf_meta_tag %>
 <script src="/assets/ace-elements.min.js"></script>
 <script src="/assets/ace.min.js"></script>
 
@@ -508,6 +511,7 @@
 
 <script type="text/javascript">
     jQuery(function($) {
+
         // form info js
         $(".chosen-select").chosen();
         $('#chosen-multiple-style').on('click', function(e){
@@ -520,15 +524,9 @@
             $(this).prev().focus();
         });
 
-        /**
-         //or you can activate the chosen plugin after modal is shown
-         //this way select element becomes visible with dimensions and chosen works as expected
-         $('#modal-form').on('shown', function () {
-					$(this).find('.modal-chosen').chosen();
-				})
-         */
 
 
+        // 首页百分比病状图
         $('.easy-pie-chart.percentage').each(function(){
             var $box = $(this).closest('.infobox');
             var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
@@ -544,12 +542,6 @@
                 size: size
             });
         })
-
-//        $('.sparkline').each(function(){
-//            var $box = $(this).closest('.infobox');
-//            var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
-//            $(this).sparkline('html', {tagValuesAttribute:'data-values', type: 'bar', barColor: barColor , chartRangeMin:$(this).data('min') || 0} );
-//        });
 
         var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
         var data = [
@@ -596,120 +588,6 @@
          */
         placeholder.data('chart', data);
         placeholder.data('draw', drawPieChart);
-
-
-
-        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
-        var previousPoint = null;
-
-        placeholder.on('plothover', function (event, pos, item) {
-            if(item) {
-                if (previousPoint != item.seriesIndex) {
-                    previousPoint = item.seriesIndex;
-                    var tip = item.series['label'] + " : " + item.series['percent']+'%';
-                    $tooltip.show().children(0).text(tip);
-                }
-                $tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
-            } else {
-                $tooltip.hide();
-                previousPoint = null;
-            }
-
-        });
-
-        var d1 = [];
-        for (var i = 0; i < Math.PI * 2; i += 0.5) {
-            d1.push([i, Math.sin(i)]);
-        }
-
-        var d2 = [];
-        for (var i = 0; i < Math.PI * 2; i += 0.5) {
-            d2.push([i, Math.cos(i)]);
-        }
-
-        var d3 = [];
-        for (var i = 0; i < Math.PI * 2; i += 0.2) {
-            d3.push([i, Math.tan(i)]);
-        }
-
-
-        var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
-        $.plot("#sales-charts", [
-            { label: "Domains", data: d1 },
-            { label: "Hosting", data: d2 },
-            { label: "Services", data: d3 }
-        ], {
-            hoverable: true,
-            shadowSize: 0,
-            series: {
-                lines: { show: true },
-                points: { show: true }
-            },
-            xaxis: {
-                tickLength: 0
-            },
-            yaxis: {
-                ticks: 10,
-                min: -2,
-                max: 2,
-                tickDecimals: 3
-            },
-            grid: {
-                backgroundColor: { colors: [ "#fff", "#fff" ] },
-                borderWidth: 1,
-                borderColor:'#555'
-            }
-        });
-
-
-        $('#recent-box [data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-        function tooltip_placement(context, source) {
-            var $source = $(source);
-            var $parent = $source.closest('.tab-content')
-            var off1 = $parent.offset();
-            var w1 = $parent.width();
-
-            var off2 = $source.offset();
-            var w2 = $source.width();
-
-            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-            return 'left';
-        }
-
-
-        $('.dialogs,.comments').slimScroll({
-            height: '300px'
-        });
-
-
-        //Android's default browser somehow is confused when tapping on label which will lead to dragging the task
-        //so disable dragging when clicking on label
-        var agent = navigator.userAgent.toLowerCase();
-        if("ontouchstart" in document && /applewebkit/.test(agent) && /android/.test(agent))
-            $('#tasks').on('touchstart', function(e){
-                var li = $(e.target).closest('#tasks li');
-                if(li.length == 0)return;
-                var label = li.find('label.inline').get(0);
-                if(label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation() ;
-            });
-
-        $('#tasks').sortable({
-                    opacity:0.8,
-                    revert:true,
-                    forceHelperSize:true,
-                    placeholder: 'draggable-placeholder',
-                    forcePlaceholderSize:true,
-                    tolerance:'pointer',
-                    stop: function( event, ui ) {//just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
-                        $(ui.item).css('z-index', 'auto');
-                    }
-                }
-        );
-        $('#tasks').disableSelection();
-        $('#tasks input:checkbox').removeAttr('checked').on('click', function(){
-            if(this.checked) $(this).closest('li').addClass('selected');
-            else $(this).closest('li').removeClass('selected');
-        });
 
 
 

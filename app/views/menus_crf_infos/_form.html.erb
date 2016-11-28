@@ -1,0 +1,25 @@
+<%= form_for(@menus_crf_info) do |f| %>
+  <% if @menus_crf_info.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@menus_crf_info.errors.count, "error") %> prohibited this menus_crf_info from being saved:</h2>
+
+      <ul>
+      <% @menus_crf_info.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :menu_id %><br>
+    <%= f.number_field :menu_id %>
+  </div>
+  <div class="field">
+    <%= f.label :crf_info_id %><br>
+    <%= f.number_field :crf_info_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

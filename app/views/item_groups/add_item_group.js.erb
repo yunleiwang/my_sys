@@ -1,0 +1,3 @@
+var divId = "item_group_<%= params[:id] %>"
+$("#"+ divId).append('<%= escape_javascript(render :partial => 'add_group_items') %>')
+$(".chosen-select").chosen();
