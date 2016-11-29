@@ -10,6 +10,9 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/models/crf_info2.rb" />
+  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="RVM: jruby-1.7.19" project-jdk-type="JRUBY_SDK" />
   <component name="VagrantProjectSettings">
     <option name="instanceFolder" value="" />

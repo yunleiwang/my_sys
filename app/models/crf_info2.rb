@@ -11,6 +11,7 @@ class CrfInfo < ActiveRecord::Base
   def import_crf(filepath)
     crf_info=nil
     #filepath = File.join(Rails.root, "doc",'4.xls')
+
     CrfInfo.transaction do
       if File.exist?(filepath)
         book = POI::Workbook.open(filepath)
@@ -182,22 +183,21 @@ class CrfInfo < ActiveRecord::Base
                   item_group_metaelement.parent_id= parent_item_group_metaelement.id
                 end
                 if !item_group_metaelement.nil?
-                  item_group_metaelement.save
-                end
-              else
-                item_form_metaelement.item_id= item.id
-                item_form_metaelement.save
+                item_group_metaelement.save
               end
-
-
+            else
+              item_form_metaelement.item_id= item.id
+              item_form_metaelement.save
             end
-            #no+=1
-          end
 
+
+          end
+          #no+=1
         end
 
-
       end
+
+
     end
   end
 
@@ -214,5 +214,4 @@ class CrfInfo < ActiveRecord::Base
     end
 
   end
-
 end

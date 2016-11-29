@@ -76,7 +76,7 @@
                     <td><%= patient.updated_at %></td>
                     <td>
                       <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                        <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>2}, :class=>"green", :target=>'_blank', :title => '添加随访' %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>2}, :class=>"green", :target=>'_blank', :title => '添加随访' %>
                         <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), patient, :class=>"blue" %>
                         <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130"), edit_patient_path(patient), :class=>"green" %>
                         <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130"), patient, {method: :delete, data: { confirm: 'Are you sure?' }, :class=>"red"} %>
