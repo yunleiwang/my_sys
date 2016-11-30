@@ -23,6 +23,7 @@
         <td><%= crf_info.seq %></td>
         <td><%= crf_info.crf_type %></td>
         <td><%= crf_info.follow %></td>
+        <td><a href="/item_form_metaelements/new?crf_info_id=<%= crf_info.id %>&&menu_type=<%= params[:menu_type] %>" class="pjax-link">查看</a></td>
         <td><%= link_to 'Show', crf_info %></td>
         <td><%= link_to 'Edit', edit_crf_info_path(crf_info) %></td>
         <td><%= link_to 'Destroy', crf_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>

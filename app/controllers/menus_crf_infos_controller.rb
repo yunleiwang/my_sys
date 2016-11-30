@@ -4,9 +4,9 @@ class MenusCrfInfosController < ApplicationController
   # GET /menus_crf_infos
   # GET /menus_crf_infos.json
   def index
-    @menus = Menu.where("menu_type!=0").order('seq asc')
-    @crf_infos = CrfInfo.all
-    @menus_crf_infos = MenusCrfInfo.all
+    @menus = Menu.where("menu_type!=0").order('menu_type,seq asc')
+    @crf_infos = CrfInfo.order('seq asc')
+    @menus_crf_infos = MenusCrfInfo.order('seq asc')
   end
 
   # GET /menus_crf_infos/1

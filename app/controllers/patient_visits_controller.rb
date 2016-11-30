@@ -15,6 +15,8 @@ class PatientVisitsController < ApplicationController
   # GET /patient_visits/1
   # GET /patient_visits/1.json
   def show
+    @patient = @patient_visit.patient
+    render layout: "item_form_metaelements"
   end
 
   # GET /patient_visits/new

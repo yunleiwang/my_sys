@@ -39,7 +39,7 @@
               </div>
               <div class="widget-body">
                 <div class="widget-main">
-                  <% section.item_form_metaelements.each do |item_form_metaelement|%>
+                  <% section.item_form_metaelements.order('id asc').each do |item_form_metaelement|%>
                       <% item = item_form_metaelement.item %>
                       <% parent_item = item_form_metaelement.parent_item  %>
                       <% cls_suffix="" %>
@@ -50,7 +50,7 @@
                           <div class="form-group <%= parent_item.nil? ? 'item' : (parent_item.name + " item_children")  %>" index="<%=item_form_metaelement.options_index %>">
                             <label class="col-sm-3 control-label " for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
                             <div class="col-sm-9">
-                              <%= item_display(item, value = nil, options = {}) %>
+                              <%= item_display(item, value = nil, options = {}) %><%= item.units %>
                             </div>
                           </div>
                       <% else %> <!--普通item -->

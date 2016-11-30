@@ -62,25 +62,25 @@ function delete_img(item_id,pat_image_after_id){
     });
 
 }
-function radio_click(obj,name,n){
-    var i = n;
-    var val = setTimeout(call(obj,name,i),250);
-    if(n==2){
-        clearTimeout(val);
-    }
+//function radio_click(obj,name,n){
+//    var i = n;
+//    var val = setTimeout(call(obj,name,i),250);
+//    if(n==2){
+//        clearTimeout(val);
+//    }
+//
+//}
+//
+//function call(obj,name,i){
+//    if(i==1){
+//        showSub(obj,name);
+//    }else if(i==2){
+//        dbclickcancel(obj,name);
+//    }
+//}
 
-}
-
-function call(obj,name,i){
-    if(i==1){
-        showSub(obj,name);
-    }else if(i==2){
-        dbclickcancel(obj,name);
-    }
-}
-
-function dbclickcancel(obj,name){
-    $(obj).attr("checked",false)
+function dbclickcancel(id,name){
+    $("#"+id).attr("checked",false)
     $('.'+name).hide();
 }
 

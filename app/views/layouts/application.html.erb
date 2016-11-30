@@ -4,9 +4,8 @@
   <title>患者信息管理系统</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%#= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-
   <!-- basic styles -->
   <link href="/assets/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/font-awesome.min.css" />
@@ -26,7 +25,6 @@
   <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />-->
 
   <!-- ace styles -->
-
   <link rel="stylesheet" href="/assets/ace.min.css" />
   <link rel="stylesheet" href="/assets/ace-rtl.min.css" />
   <link rel="stylesheet" href="/assets/ace-skins.min.css" />
@@ -90,7 +88,7 @@
       <%= render 'layouts/sidebar' %>
 
       <ul class="nav nav-list">
-        <% menus= Menu.where('menu_type=?',0).order('id asc') %>
+        <% menus= Menu.where('menu_type=?',1).order('id asc') %>
         <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
         <% first_level_menus.each_with_index do |first_level_menu,index| %>
             <li class="<%= nav_li_class(index,params[:menu_id]) %>">

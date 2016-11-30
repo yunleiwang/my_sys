@@ -1,7 +1,5 @@
-
 <script src="/assets/jquery.dataTables.min.js"></script>
 <script src="/assets/jquery.dataTables.bootstrap.js"></script>
-
 <div class="breadcrumbs" id="breadcrumbs">
   <script type="text/javascript">
       try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -30,10 +28,8 @@
 </div>
 
 <div class="page-content">
-
   <div class="row">
     <div class="col-xs-12">
-
       <div class="table-header">
         患者信息－列表
       </div>
@@ -78,8 +74,10 @@
                 <td><%= patient_visit.updated_at %></td>
                 <td>
                   <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                    <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>1}, :class=>"green", :target=>'blank', :title => '添加详细档案' %>
-                    <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>3}, :class=>"green", :target=>'blank', :title => '添加简易档案' %>
+                    <%#= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>2, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '添加详细档案' %>
+                    <%#= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>3, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '添加简易档案' %>
+                    <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:action => :show, :id=>patient_visit.id, :menu_type=>2, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '添加详细档案' %>
+                    <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), { :action => :show, :id=>patient_visit.id,:menu_type=>3, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '添加简易档案' %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), patient_visit, :class=>"blue" %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130"), edit_patient_visit_path(patient_visit), :class=>"green" %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130"), patient_visit, {method: :delete, data: { confirm: 'Are you sure?' }, :class=>"red"} %>
@@ -96,8 +94,6 @@
 </div><!-- /.col -->
 </div><!-- /.row -->
 </div><!-- /.page-content -->
-
-
 
 <script type="text/javascript">
     jQuery(function($) {
@@ -126,7 +122,6 @@
 
         });
 
-
         $('table th input:checkbox').on('click' , function(){
             var that = this;
             $(this).closest('table').find('tr > td:first-child input:checkbox')
@@ -136,6 +131,5 @@
                     });
 
         });
-
     })
 </script>

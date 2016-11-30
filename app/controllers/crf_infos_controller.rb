@@ -5,11 +5,12 @@ class CrfInfosController < ApplicationController
   # GET /crf_infos
   # GET /crf_infos.json
   def index
-    @crf_infos = CrfInfo.all
+
     # file_path = File.join(Rails.root, "doc")
     # CrfInfo.new.import(file_path)
-    # filepath = File.join(Rails.root, "doc","治疗.xls")
+    # filepath = File.join(Rails.root, "doc", "基本资料", "11标本记录.xls")
     # CrfInfo.new.import_crf(filepath)
+    @crf_infos = CrfInfo.all
   end
 
   # GET /crf_infos/1

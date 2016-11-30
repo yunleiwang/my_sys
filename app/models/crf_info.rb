@@ -17,15 +17,14 @@ class CrfInfo < ActiveRecord::Base
         # 导入crf_info信息
         sheet = book.worksheets[0]
         rows = sheet.rows
-        no = 0
-        rows.each do |row|
-          if no>0
+
+        rows.each_with_index do |row, nn|
+          if nn>0
             crf_info = CrfInfo.new
             crf_info.name = row[0].to_s
             crf_info.description= row[2].to_s
             crf_info.save
           end
-          no+=1
         end
 
         # 导入section信息
@@ -36,9 +35,9 @@ class CrfInfo < ActiveRecord::Base
           return
         end
         rows = sheet.rows
-        no = 0
-        rows.each do |row|
-          if no>0
+
+        rows.each_with_index do |row,no1|
+          if no1>0
             section = Section.new
             section.crf_info_id=crf_info.id
             section.name= row[0].to_s
@@ -46,7 +45,6 @@ class CrfInfo < ActiveRecord::Base
             section.subtitle = row[2].to_s
             section.save
           end
-          no+=1
         end
 
         # 导入group信息
@@ -57,16 +55,20 @@ class CrfInfo < ActiveRecord::Base
           return
         end
         rows = sheet.rows
-        no = 0
-        rows.each do |row|
-          if no>0
-            group = ItemGroup.new
-            group.name= row[0].to_s
-            group.description= row[1].to_s
-            group.save
-
+        rows.each_with_index do |row,no2|
+          if no2>0
+            name= row[0].to_s
+            if !name.blank?
+              group = ItemGroup.find_by_name(name)
+              if group.nil?
+                group = ItemGroup.new
+              end
+              group.name= row[0].to_s
+              group.description= row[1].to_s
+              group.save
+            end
           end
-          no+=1
+
         end
 
 
@@ -78,9 +80,8 @@ class CrfInfo < ActiveRecord::Base
           return
         end
         rows = sheet.rows
-        #no = 0
-        rows.each_with_index do |row,no|
-          if no>0
+        rows.each_with_index do |row,no3|
+          if no3>0
             name = row[0].to_s
             left_item_text= row[2].to_s
             item = Item.find_by_name_and_left_item_text(name,left_item_text)
@@ -121,21 +122,24 @@ class CrfInfo < ActiveRecord::Base
 
             # 导入item_form_metaelement
             group_label = row[6].to_s
-
-            item_form_metaelement = ItemFormMetaelement.new
-            item_form_metaelement.crf_info_id=crf_info.id
             section_label= row[5].to_s
             section= Section.where("title=? and crf_info_id=?",section_label,crf_info.id).first
-            item_form_metaelement.section_id=section.id
+
+            item_form_metaelement = ItemFormMetaelement.find_by_item_id_and_section_id(item.id, section.id)
+            if item_form_metaelement.nil?
+              item_form_metaelement = ItemFormMetaelement.new
+              item_form_metaelement.section_id=section.id
+            end
+            item_form_metaelement.crf_info_id=crf_info.id
             item_form_metaelement.header= row[7].to_s
             item_form_metaelement.subheader= row[8].to_s
             # ######查询item_form_metaelement的parent_id#####
             parent_name = row[9].to_s
             parent_item = nil
             if !parent_name.nil?
-              parent_item = Item.find_by_name(parent_item)
+              parent_item = Item.find_by_name(parent_name)
               if !parent_item.nil?
-                parent_item_form_metaelement = ItemFormMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).first
+                parent_item_form_metaelement = ItemFormMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).last
                 item_form_metaelement.parent_id= parent_item_form_metaelement.id
               end
             end
@@ -154,44 +158,43 @@ class CrfInfo < ActiveRecord::Base
               item_form_metaelement.show_item= true
             end
             item_form_metaelement.trigger= row[14].to_s #response_label
-            item_form_metaelement.options_index= row[12].to_s #respinse_layout
+            item_form_metaelement.options_index= row[12].to_s.to_i #respinse_layout
 
             # 导入item_group_metaelement
             #group_label = row[6].to_s
             # group_label 不为空
             if !group_label.blank?
-              item_group = ItemGroup.find_by_name(group_label)
+              item_group = ItemGroup.where("name=?",group_label).last
               if !item_group.blank?
                 # item_form_metaelements中只需要存一个item_group_id，不需要重复存
                 ifm = ItemFormMetaelement.find_by_item_group_id(item_group.id)
                 if ifm.nil?
                   item_form_metaelement.item_group_id=item_group.id
                   item_form_metaelement.save
-                else
-                  item_group_metaelement = ItemGroupMetaelement.new
-                  item_group_metaelement.item_group_id=item_group.id
-                  item_group_metaelement.header=row[7].to_s
-                  item_group_metaelement.subheader=row[8].to_s
-                  item_group_metaelement.item_id=item.id
-                  item_group_metaelement.show_group=phi
-                  item_group_metaelement.crf_info_id=crf_info.id
                 end
-
+                item_group_metaelement = ItemGroupMetaelement.find_by_item_group_id_and_item_id(item_group.id, item.id)
+                if item_group_metaelement.nil?
+                  item_group_metaelement = ItemGroupMetaelement.new
+                  item_group_metaelement.item_id=item.id
+                  item_group_metaelement.item_group_id=item_group.id
+                end
+                item_group_metaelement.header=row[7].to_s
+                item_group_metaelement.subheader=row[8].to_s
+                item_group_metaelement.show_group=phi
+                item_group_metaelement.crf_info_id=crf_info.id
                 if !parent_item.nil?
-                  parent_item_group_metaelement = ItemGroupMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).first
+                  parent_item_group_metaelement = ItemGroupMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).last
                   item_group_metaelement.parent_id= parent_item_group_metaelement.id
                 end
-                if !item_group_metaelement.nil?
-                  item_group_metaelement.save
-                end
+                item_group_metaelement.save
               else
-                item_form_metaelement.item_id= item.id
                 item_form_metaelement.save
               end
-
-
+            else
+              item_form_metaelement.item_id= item.id
+              item_form_metaelement.save
             end
-            #no+=1
+
           end
 
         end

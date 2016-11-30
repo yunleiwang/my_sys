@@ -100,17 +100,17 @@ module ItemFormMetaelementsHelper
     radio_html = ""
     arr_options_text.each_with_index do |option_text, index|
       radio_html<<(
-        content_tag :label do
+        content_tag :label, :ondblclick => "dbclickcancel('item_#{item.id}_#{index}','#{item.name}')" do
           options[:index] = index
           options[:id] = "item_#{item.id}_#{index}"
           options[:value]=arr_options_value[index]
-          options[:ondblclick] = "dbclickcancel(this,'#{item.name}')"
           options[:onchange] = "showSub(this,'#{item.name}')"
           options[:class]="ace"
           concat radio_button_tag "item_#{item.id}", arr_options_value[index], checked, options
           concat content_tag :span, option_text, :class=>"lbl"
+          concat "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp".html_safe;
         end)
-      radio_html<< "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+
       # radio_html << %{
       #     <script>
 				# 		$(function(){

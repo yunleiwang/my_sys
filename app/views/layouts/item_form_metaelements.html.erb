@@ -90,9 +90,14 @@
       <%= render 'layouts/sidebar' %>
 
       <ul class="nav nav-list">
+        <li class="active">
+          <a href="/patient_visits/<%= params[:patient_visit_id] %>">
+            <i class="icon-dashboard"></i>
+            <span class="menu-text"> 就诊信息 </span>
+          </a>
+        </li>
         <% menus= Menu.where('menu_type=?',params[:menu_type].to_i).order('id asc') %>
         <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
-
         <% first_level_menus.each_with_index do |first_level_menu,index| %>
             <% crf_infos = first_level_menu.crf_infos %>
             <li class="<%= nav_li_class(index,params[:menu_id]) %>">
@@ -100,10 +105,8 @@
                 <i class="<%= first_level_menu.icon_class %>"></i>
                 <span class="menu-text"> <%= first_level_menu.name_cn %></span>
               </a>
-
               <!--二级菜单判断-->
               <% second_level_menus= first_level_menu.submenus %>
-
               <% if ((!second_level_menus.empty?) || (crf_infos.length>0))%>
                   <ul class="submenu">
                     <!--菜单上所挂表单开始-->

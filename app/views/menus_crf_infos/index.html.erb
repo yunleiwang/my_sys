@@ -1,7 +1,7 @@
 <%= form_tag :action => :create do %>
     <% @menus.each do |menu| %>
         <div>
-          <%= menu.name_cn %>
+          <%= menu.menu_type.to_s+"_"+menu.name_cn %>
         </div>
         <div>
           <% @crf_infos.each do |crf_info| %>
