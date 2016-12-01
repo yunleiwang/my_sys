@@ -99,6 +99,7 @@
         <% menus= Menu.where('menu_type=?',params[:menu_type].to_i).order('id asc') %>
         <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
         <% first_level_menus.each_with_index do |first_level_menu,index| %>
+            <% index=index+1 %>
             <% crf_infos = first_level_menu.crf_infos %>
             <li class="<%= nav_li_class(index,params[:menu_id]) %>">
               <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %>">

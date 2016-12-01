@@ -47,12 +47,21 @@
                           <% cls_suffix = "_children" %>
                       <% end %>
                       <% if !item.nil? %> <!--普通item-->
+
                           <div class="form-group <%= parent_item.nil? ? 'item' : (parent_item.name + " item_children")  %>" index="<%=item_form_metaelement.options_index %>">
                             <label class="col-sm-3 control-label " for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
                             <div class="col-sm-9">
                               <%= item_display(item, value = nil, options = {}) %><%= item.units %>
                             </div>
                           </div>
+
+                          <!--<label class="col-sm-3 control-label " for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>-->
+                          <!--<div class="col-sm-9 input-group <%= parent_item.nil? ? 'item' : (parent_item.name + " item_children")  %>" index="<%=item_form_metaelement.options_index %>">-->
+                            <!--<%#= item_display(item, value = nil, options = {}) %>-->
+                            <!--<span class="input-group-addon"><%= item.units %></span>-->
+                          <!--</div>-->
+
+
                       <% else %> <!--普通item -->
                           <% items = item_form_metaelement.items %>
                           <% item_group = item_form_metaelement.item_group %>

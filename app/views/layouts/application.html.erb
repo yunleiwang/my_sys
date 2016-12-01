@@ -7,6 +7,10 @@
   <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%#= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <!-- basic styles -->
+  <!-- inline scripts related to this page -->
+  <script src='/assets/jquery-2.0.3.min.js'></script>
+  <script src='/assets/jquery.pjax.js'></script>
+  <script src='/assets/jquery_ujs.js'></script>
   <link href="/assets/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/font-awesome.min.css" />
 
@@ -63,7 +67,7 @@
       window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
   </script>
   <![endif]-->
-  <![endif]-->
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -201,19 +205,13 @@
 <script src="/assets/ace-elements.min.js"></script>
 <script src="/assets/ace.min.js"></script>
 
-<!-- inline scripts related to this page -->
-<script src='/assets/jquery.pjax.js'></script>
-<script src='/assets/jquery_ujs.js'></script>
-
-<script>
-    //pjax局部刷新
-    $(document).pjax('a .pjax', '#pjax-container');
-</script>
-<%= csrf_meta_tag %>
 
 <!-- inline scripts related to this page -->
+
 <script type="text/javascript">
     jQuery(function($) {
+        //pjax局部刷新
+        $(document).pjax('a.pjax-link', '#pjax-container');
         // form info js
         $(".chosen-select").chosen();
         $('#chosen-multiple-style').on('click', function(e){

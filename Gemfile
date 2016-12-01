@@ -22,8 +22,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # devise used to login
 gem 'devise'
-
+# jruby-poi used to import excel
 gem 'jruby-poi'
+# puma web server
+gem 'puma'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -302,6 +302,7 @@
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.12.1, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.6.8, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="puma (v3.1.0, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v1.6.4, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v0.6.3, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails (v4.2.4, RVM: jruby-9.0.0.0.pre1 [rails42]) [gem]" level="application" />
