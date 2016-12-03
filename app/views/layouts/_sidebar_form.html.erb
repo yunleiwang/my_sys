@@ -32,22 +32,39 @@
 </div><!-- #sidebar-shortcuts -->
 
 <ul class="nav nav-list">
-  <% menus= Menu.where('menu_type=?',1).order('id asc') %>
+  <li class="active">
+    <a href="/patient_visits/<%= params[:patient_visit_id] %>">
+      <i class="icon-dashboard"></i>
+      <span class="menu-text"> 就诊信息 </span>
+    </a>
+  </li>
+  <% menus= Menu.where('menu_type=?',params[:menu_type].to_i).order('id asc') %>
   <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
   <% first_level_menus.each_with_index do |first_level_menu,index| %>
+      <% index=index+1 %>
+      <% crf_infos = first_level_menu.crf_infos %>
       <li class="<%= nav_li_class(index,params[:menu_id]) %>">
-        <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %> pjax-link">
+        <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %>">
           <i class="<%= first_level_menu.icon_class %>"></i>
-          <span class="menu-text"> <%= first_level_menu.name_cn %> </span>
+          <span class="menu-text"> <%= first_level_menu.name_cn %></span>
         </a>
         <!--二级菜单判断-->
         <% second_level_menus= first_level_menu.submenus %>
-        <%#= second_level_menus.empty? %>
-        <% if !second_level_menus.empty? %>
+        <% if ((!second_level_menus.empty?) || (crf_infos.length>0))%>
             <ul class="submenu">
+              <!--菜单上所挂表单开始-->
+              <% crf_infos.each do |crf_info| %>
+                  <li>
+                    <a href="/item_form_metaelements/new?crf_info_id=<%= crf_info.id %>&&menu_type=<%= params[:menu_type] %>" class="pjax-link">
+                      <i class="icon-double-angle-right"></i>
+                      <%= crf_info.name %>
+                    </a>
+                  </li>
+              <% end %>
+              <!--菜单上所挂的表单结束-->
               <% second_level_menus.each do |second_level_menu| %>
                   <li>
-                    <a href="<%= second_level_menu.link %>"  class="<%= nav_a_class(second_level_menu) %> pjax-link">
+                    <a href="<%= second_level_menu.link %>" class="pjax-link">
                       <i class="icon-double-angle-right"></i>
                       <%= second_level_menu.name_cn %>
                       <% third_level_menus= second_level_menu.submenus %>
@@ -69,17 +86,21 @@
                         </ul>
                     <% end %>
                   </li>
-
               <% end %>
             </ul>
         <% end %>
+
       </li>
   <% end %>
+
 </ul>
+
+
 <!-- /.nav-list -->
 <div class="sidebar-collapse" id="sidebar-collapse">
   <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
 </div>
+
 <script type="text/javascript">
     try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 </script>

@@ -40,6 +40,8 @@
                     # {name_cn: '治疗情况',name_en:'',link: '#',seq:8,menu_id:0,menu_type:3,hidden:0},
                     # {name_cn: '标本记录',name_en:'',link: '#',seq:9,menu_id:0,menu_type:3,hidden:0},
                     # {name_cn: '菜单管理',name_en:'',link: '#',seq:9,menu_id:6,menu_type:1,hidden:0},
+                    {name_cn: '随访方案',name_en:'',link: '/follow_programs',seq:2,menu_id:5,menu_type:1,hidden:0},
+                    {name_cn: '待随访列表',name_en:'',link: '/follow_ups',seq:1,menu_id:5,menu_type:1,hidden:0},
 
                 ])
     # 创建出事用户,用户名admin,密码123456

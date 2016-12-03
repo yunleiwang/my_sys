@@ -1,5 +1,4 @@
-<script src="/assets/jquery.dataTables.min.js"></script>
-<script src="/assets/jquery.dataTables.bootstrap.js"></script>
+
 <div class="breadcrumbs" id="breadcrumbs">
   <script type="text/javascript">
       try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -71,7 +70,7 @@
                 <td><%= patient_visit.admission_number %></td>
                 <td class="hidden-480"><%= patient_visit.patient.name %></td>
                 <td>A,B,C</td>
-                <td><%= patient_visit.updated_at %></td>
+                <td><%= patient_visit.updated_at.localtime.to_s(:db) %></td>
                 <td>
                   <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                     <%#= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>2, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '添加详细档案' %>
@@ -96,6 +95,7 @@
 </div><!-- /.page-content -->
 
 <script type="text/javascript">
+
     jQuery(function($) {
         var oTable1 = $('#sample-table').dataTable( {
             "aoColumns": [

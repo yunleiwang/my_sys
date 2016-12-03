@@ -1,7 +1,4 @@
 
-<script src="/assets/jquery.dataTables.min.js"></script>
-<script src="/assets/jquery.dataTables.bootstrap.js"></script>
-
 <div class="breadcrumbs" id="breadcrumbs">
   <script type="text/javascript">
       try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -43,7 +40,7 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th class="hidden-480">出生日期</th>
-                <th class="hidden-480">状态</th>
+                <th class="hidden-480">档案类型</th>
                 <th>
                   <i class="icon-time bigger-110 hidden-480"></i>
                   更新时间
@@ -70,16 +67,25 @@
                     <td><%= patient.birthday %></td>
 
                     <td class="hidden-480">
-                      <span class="label label-sm label-warning">Expiring</span>
+                      <% if patient.file_type==Patient::EASY %>
+                          <span class="label label-sm label-warning"><%= patient.get_file_type %></span>
+                      <% elsif patient.file_type==Patient::DETAIL %>
+                          <span class="label label-sm label-success"><%= patient.get_file_type %></span>
+                      <% end %>
                     </td>
 
-                    <td><%= patient.updated_at %></td>
+                    <td><%= patient.updated_at.localtime.to_s(:db)%></td>
                     <td>
                       <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                        <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>2}, :class=>"green", :target=>'_blank', :title => '添加随访' %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), patient, :class=>"blue" %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130"), edit_patient_path(patient), :class=>"green" %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130"), patient, {method: :delete, data: { confirm: 'Are you sure?' }, :class=>"red"} %>
+                        <%#= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130")+"查看", patient, :class=>"blue" %>
+                        <% if patient.file_type==Patient::EASY %>
+                            <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130")+"补充详细", {:action => :edit, :id=>patient.id, :file_type=>2}, :class=>"green pjax-link", :title => '补充详细' %>
+                            <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_path(patient)+"?file_type=1", :class=>"blue  pjax-link" %>
+                        <% elsif patient.file_type==Patient::DETAIL %>
+                            <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130")+"添加随访", {:controller => :item_form_metaelements, :action => :new, :menu_type=>3}, :class=>"green", :target=>'_blank', :title => '添加随访' %>
+                            <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_path(patient)+"?file_type=2", :class=>"blue  pjax-link" %>
+                        <% end %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130")+"删除", patient, {method: :delete, data: { confirm: '确定要删除?' }, :class=>"red  pjax-link"} %>
                       </div>
                     </td>
                   </tr>
@@ -97,7 +103,7 @@
 
 
 <script type="text/javascript">
-    jQuery(function($) {
+    $(function($) {
         var oTable1 = $('#sample-table').dataTable( {
             "aoColumns": [
                 { "bSortable": false },
@@ -122,10 +128,14 @@
             }
 
         });
-        $('#sample-table_filter').prepend(
-                '<a href="/patients/new"><button class="btn btn-sm btn-primary" name="button">添加</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'
-        )
+//        if($("#sample-table").attr('class')!="table table-striped table-bordered table-hover dataTable") { //阻止pjax刷新后 前进后退时多次执行初始化
+//
+//         }
 
+        $('#sample-table_filter').prepend(
+                    '<a href="/patients/new?file_type=2"><button class="btn btn-sm btn-primary" name="button">添加详细档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<a href="/patients/new?file_type=1"><button class="btn btn-sm btn-primary" name="button">添加简易档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'
+        )
         $('table th input:checkbox').on('click' , function(){
             var that = this;
             $(this).closest('table').find('tr > td:first-child input:checkbox')
@@ -137,4 +147,6 @@
         });
 
     })
+
+
 </script>

@@ -4,7 +4,7 @@ class PatientsController < ApplicationController
   # GET /patients
   # GET /patients.json
   def index
-    @patients = Patient.all
+    @patients = Patient.all.order('id desc')
   end
 
   # GET /patients/1
@@ -15,16 +15,27 @@ class PatientsController < ApplicationController
   # GET /patients/new
   def new
     @patient = Patient.new
+    @patient_visit = PatientVisit.new
+    if params[:file_type].to_i==Patient::EASY
+      @crf_info = CrfInfo.includes(:sections).where('crf_type=?',0).first
+    end
   end
 
   # GET /patients/1/edit
   def edit
+    @patient_visit = @patient.patient_visits.order('id asc').last
+    p @patient_visit.id
   end
 
   # POST /patients
   # POST /patients.json
   def create
     params.permit!
+    if params[:patient][:file_type].to_i==Patient::DETAIL
+      patient_params[:file_type]=Patient::DETAIL
+    elsif params[:patient][:file_type].to_i==Patient::EASY
+      patient_params[:file_type]=Patient::DETAIL
+    end
     @patient = Patient.new(patient_params)
     respond_to do |format|
       if @patient.save
@@ -43,8 +54,14 @@ class PatientsController < ApplicationController
   # PATCH/PUT /patients/1
   # PATCH/PUT /patients/1.json
   def update
+    params.permit!
+    if params[:patient][:file_type].to_i==Patient::DETAIL
+      patient_params[:file_type]=Patient::DETAIL
+    end
     respond_to do |format|
       if @patient.update(patient_params)
+        @patient_visit = PatientVisit.find(params[:patient_visit][:id])
+        @patient_visit.update(params[:patient_visit])
         format.html { redirect_to @patient, notice: 'Patient was successfully updated.' }
         format.json { render :show, status: :ok, location: @patient }
       else
@@ -72,6 +89,6 @@ class PatientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def patient_params
-      params.require(:patient).permit(:file_number, :id_number, :name, :gender, :birthday, :nation, :native_place)
+      params.require(:patient).permit(:file_number, :id_number, :name, :gender, :birthday, :nation, :native_place, :file_type)
     end
 end

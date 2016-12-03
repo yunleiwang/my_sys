@@ -20,13 +20,11 @@
   <link rel="stylesheet" href="/assets/chosen.css" />
   <link rel="stylesheet" href="/assets/datepicker.css" />
   <link rel="stylesheet" href="/assets/bootstrap-timepicker.css" />
-  <link rel="stylesheet" href="/assets/daterangepicker.css" />
   <!-- fonts -->
 
   <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />-->
 
   <!-- ace styles -->
-
   <link rel="stylesheet" href="/assets/ace.min.css" />
   <link rel="stylesheet" href="/assets/ace-rtl.min.css" />
   <link rel="stylesheet" href="/assets/ace-skins.min.css" />
@@ -47,30 +45,14 @@
   <script src="/assets/html5shiv.js"></script>
   <script src="/assets/respond.min.js"></script>
   <!--[if !IE]> -->
-  <script src='/assets/jquery-2.0.3.min.js'></script>
-  <!-- <![endif]-->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
-  <!--[if IE]>
-  <script src='/assets/jquery-1.10.2.min.js'></script>
-  <![endif]-->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
-  <!--[if !IE]> -->
-  <script type="text/javascript">
-      window.jQuery || document.write("<script src='/assets/jquery-2.0.3.min.js'>"+"<"+"script>");
-  </script>
-  <!-- <![endif]-->
-
-  <!--[if IE]>
-  <script type="text/javascript">
-      window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
-  </script>
-  <![endif]-->
-  <![endif]-->
+  <script src="/assets/item_form_metaelements.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="navbar navbar-default" id="navbar">
+  <%= render 'layouts/navbar' %>
+</div>
 
-<%= render 'layouts/navbar' %>
 
 <div class="main-container" id="main-container">
   <script type="text/javascript">
@@ -83,93 +65,12 @@
     </a>
 
     <div class="sidebar" id="sidebar">
-      <script type="text/javascript">
-          try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-      </script>
-
-      <%= render 'layouts/sidebar' %>
-
-      <ul class="nav nav-list">
-        <li class="active">
-          <a href="/patient_visits/<%= params[:patient_visit_id] %>">
-            <i class="icon-dashboard"></i>
-            <span class="menu-text"> 就诊信息 </span>
-          </a>
-        </li>
-        <% menus= Menu.where('menu_type=?',params[:menu_type].to_i).order('id asc') %>
-        <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
-        <% first_level_menus.each_with_index do |first_level_menu,index| %>
-            <% index=index+1 %>
-            <% crf_infos = first_level_menu.crf_infos %>
-            <li class="<%= nav_li_class(index,params[:menu_id]) %>">
-              <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %>">
-                <i class="<%= first_level_menu.icon_class %>"></i>
-                <span class="menu-text"> <%= first_level_menu.name_cn %></span>
-              </a>
-              <!--二级菜单判断-->
-              <% second_level_menus= first_level_menu.submenus %>
-              <% if ((!second_level_menus.empty?) || (crf_infos.length>0))%>
-                  <ul class="submenu">
-                    <!--菜单上所挂表单开始-->
-                    <% crf_infos.each do |crf_info| %>
-                        <li>
-                          <a href="/item_form_metaelements/new?crf_info_id=<%= crf_info.id %>&&menu_type=<%= params[:menu_type] %>" class="pjax-link">
-                            <i class="icon-double-angle-right"></i>
-                            <%= crf_info.name %>
-                          </a>
-                        </li>
-                    <% end %>
-                    <!--菜单上所挂的表单结束-->
-                    <% second_level_menus.each do |second_level_menu| %>
-                        <li>
-                          <a href="<%= second_level_menu.link %>" class="pjax-link">
-                            <i class="icon-double-angle-right"></i>
-                            <%= second_level_menu.name_cn %>
-                            <% third_level_menus= second_level_menu.submenus %>
-                            <% if !third_level_menus.empty? %>
-                                <b class="arrow icon-angle-down"></b>
-                            <% end %>
-                          </a>
-                          <!-- 三级菜单判断 -->
-                          <% if !third_level_menus.empty? %>
-                              <ul class="submenu">
-                                <% third_level_menus.each do |third_level_menu| %>
-                                    <li>
-                                      <a href="<%= third_level_menu.link %>" class="pjax-link">
-                                        <i class="icon-pencil"></i>
-                                        <%= third_level_menu.name_cn %>
-                                      </a>
-                                    </li>
-                                <% end %>
-                              </ul>
-                          <% end %>
-                        </li>
-
-
-                    <% end %>
-                  </ul>
-              <% end %>
-
-            </li>
-        <% end %>
-
-      </ul>
-
-      <!-- /.nav-list -->
-
-      <div class="sidebar-collapse" id="sidebar-collapse">
-        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
-      </div>
-
-      <script type="text/javascript">
-          try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-      </script>
+      <%= render 'layouts/sidebar_form' %>
     </div>
 
     <div class="main-content" id="pjax-container">
       <%= yield %>
     </div><!-- /.main-content -->
-
 
   </div><!-- /.main-container-inner -->
 
@@ -177,7 +78,26 @@
     <i class="icon-double-angle-up icon-only bigger-110"></i>
   </a>
 </div><!-- /.main-container -->
+<!--[if !IE]> -->
+<script src='/assets/jquery-2.0.3.min.js'></script>
+<!--<![endif]-->
 
+<!--[if IE]>
+<script src='/assets/jquery-1.10.2.min.js'></script>
+<![endif]-->
+<script src="/assets/jquery_ujs.js"></script>
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/assets/jquery-2.0.3.min.js'>"+"<"+"script>");
+</script>
+<!--<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
+</script>
+<!-- <![endif]-->
+<script src='/assets/jquery.pjax.js'></script>
 
 <!-- basic scripts -->
 
@@ -195,42 +115,38 @@
 <script src="/assets/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="/assets/jquery.ui.touch-punch.min.js"></script>
 
-<!--form表单js开始-->
+<!--form js begin-->
 <script src="/assets/chosen.jquery.min.js"></script>
-<script src="/assets/fuelux/fuelux.spinner.min.js"></script>
 <script src="/assets/date-time/bootstrap-datepicker.min.js"></script>
 <script src="/assets/date-time/bootstrap-timepicker.min.js"></script>
-<script src="/assets/date-time/moment.min.js"></script>
-<script src="/assets/date-time/daterangepicker.min.js"></script>
-<script src="/assets/bootstrap-colorpicker.min.js"></script>
-<script src="/assets/jquery.knob.min.js"></script>
-<script src="/assets/jquery.autosize.min.js"></script>
-<script src="/assets/jquery.inputlimiter.1.3.1.min.js"></script>
-<script src="/assets/jquery.maskedinput.min.js"></script>
-<script src="/assets/bootstrap-tag.min.js"></script>
-<!--form表单js结束-->
-
-<script src="/assets/jquery.slimscroll.min.js"></script>
-<script src="/assets/jquery.easy-pie-chart.min.js"></script>
-<script src="/assets/jquery.sparkline.min.js"></script>
-<script src="/assets/flot/jquery.flot.min.js"></script>
-<script src="/assets/flot/jquery.flot.pie.min.js"></script>
-<script src="/assets/flot/jquery.flot.resize.min.js"></script>
-
-<!-- ace scripts -->
-
-<script src="/assets/ace-elements.min.js"></script>
+<!--<script src="/assets/bootstrap-tag.min.js"></script>-->
+<!--form js end-->
+<%= yield :js %>
+<!--&lt;!&ndash; ace scripts &ndash;&gt;-->
 <script src="/assets/ace.min.js"></script>
-
-<!-- inline scripts related to this page -->
+<script src="/assets/ace-elements.min.js"></script>
 <script src='/assets/jquery.pjax.js'></script>
-<script src='/assets/jquery_ujs.js'></script>
-
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function($) {
         //pjax局部刷新
-        $(document).pjax('a .pjax', '#pjax-container');
+        if ($.support.pjax) {
+            $(document).on('click', 'a.pjax-link', function (event) {
+                $.pjax.click(event, { container: '#pjax-container', cache: false  });
+            });
+            $(document).on('pjax:end', function () {
+                $(".chosen-select").chosen();
+                $('#chosen-multiple-style').on('click', function(e){
+                    var target = $(e.target).find('input[type=radio]');
+                    var which = parseInt(target.val());
+                    if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+                    else $('#form-field-select-4').removeClass('tag-input-style');
+                });
+                $('.date-picker').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+            });
+        }
         // form info js
         $(".chosen-select").chosen();
         $('#chosen-multiple-style').on('click', function(e){
@@ -242,9 +158,7 @@
         $('.date-picker').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
             $(this).prev().focus();
         });
-
     })
-
 
 </script>
 </body>

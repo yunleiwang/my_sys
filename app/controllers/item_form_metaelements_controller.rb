@@ -24,13 +24,13 @@ class ItemFormMetaelementsController < ApplicationController
   # GET /item_form_metaelements/new
   def new
     @item_form_metaelement = ItemFormMetaelement.new
-    if params[:crf_info_id].nil?
-      crf_info_id = 114
-    else
+    @sections = []
+    if !params[:crf_info_id].nil?
       crf_info_id = params[:crf_info_id]
+      @sections = CrfInfo.find(crf_info_id).sections
     end
 
-    @sections = CrfInfo.find(crf_info_id).sections
+
     #@item_form_metaelements = ItemFormMetaelement.where(crf_info_id: crf_info_id).includes(:item)
   end
 

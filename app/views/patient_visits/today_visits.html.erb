@@ -75,7 +75,7 @@
                     <td><%= patient_visit.admission_number %></td>
                     <td class="hidden-480"><%= patient_visit.patient.name %></td>
                     <td>A,B,C</td>
-                    <td><%= patient_visit.updated_at %></td>
+                    <td><%= patient_visit.updated_at.localtime.to_s(:db) %></td>
                     <td>
                       <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                         <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>1}, :class=>"green", :target=>'blank', :title => '添加详细档案' %>

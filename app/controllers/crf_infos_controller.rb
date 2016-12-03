@@ -1,16 +1,16 @@
 #coding:utf-8
 class CrfInfosController < ApplicationController
   before_action :set_crf_info, only: [:show, :edit, :update, :destroy]
-
+  #layout false
   # GET /crf_infos
   # GET /crf_infos.json
   def index
-
     # file_path = File.join(Rails.root, "doc")
     # CrfInfo.new.import(file_path)
-    # filepath = File.join(Rails.root, "doc", "基本资料", "11标本记录.xls")
+    # filepath = File.join(Rails.root, "doc", "基本资料", "简易crf.xls")
     # CrfInfo.new.import_crf(filepath)
     @crf_infos = CrfInfo.all
+
   end
 
   # GET /crf_infos/1

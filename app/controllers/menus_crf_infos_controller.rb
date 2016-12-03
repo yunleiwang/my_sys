@@ -27,7 +27,7 @@ class MenusCrfInfosController < ApplicationController
   # POST /menus_crf_infos.json
   def create
     #@menus_crf_info = MenusCrfInfo.new(menus_crf_info_params)
-    MenusCrfInfo.delete_all
+    #MenusCrfInfo.delete_all
     params.permit!
     params[:results].each do |result|
       arr = result.split('_')
@@ -35,6 +35,7 @@ class MenusCrfInfosController < ApplicationController
       crf_info_id = arr[1]
       MenusCrfInfo.create(:menu_id=>menu_id, :crf_info_id=>crf_info_id)
     end
+
     respond_to do |format|
       #if @menus_crf_info.save
       if true
