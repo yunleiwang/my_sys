@@ -50,7 +50,7 @@
                 <th>患者ID</th>
                 <th>住院号</th>
                 <th>姓名</th>
-                <th>就诊内容</th>
+                <th>就诊类型</th>
                 <th>
                   <i class="icon-time bigger-110 hidden-480"></i>
                   最后操作时间
@@ -60,7 +60,7 @@
               </thead>
 
               <tbody>
-              <% @patient_visits.each do |patient_visit| %>
+              <% @patient_visits.each_with_index do |patient_visit, index| %>
                   <tr>
                     <td class="center">
                       <label>
@@ -74,16 +74,20 @@
                     </td>
                     <td><%= patient_visit.admission_number %></td>
                     <td class="hidden-480"><%= patient_visit.patient.name %></td>
-                    <td>A,B,C</td>
+                    <% if index==0 %>
+                        <td><span class="label label-sm label-warning">初诊</span></td>
+                    <% else %>
+                        <td><span class="label label-sm label-warning">随访</span></td>
+                    <% end %>
                     <td><%= patient_visit.updated_at.localtime.to_s(:db) %></td>
                     <td>
                       <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                        <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>1}, :class=>"green", :target=>'blank', :title => '添加详细档案' %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130"), {:controller => :item_form_metaelements, :action => :new, :menu_type=>3}, :class=>"green", :target=>'blank', :title => '添加简易档案' %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), patient_visit, :class=>"blue" %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130"), {:controller => :item_form_metaelements}, :class=>"blue" %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130"), edit_patient_visit_path(patient_visit), :class=>"green" %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130"), patient_visit, {method: :delete, data: { confirm: 'Are you sure?' }, :class=>"red"} %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130")+"简易档案", {:controller => :item_form_metaelements, :action => :new, :menu_type=>1, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '简易档案' %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130")+"详细档案", { :action => :show, :id=>patient_visit.id,:menu_type=>2, :patient_visit_id=>patient_visit.id}, :class=>"blue", :target=>'blank', :title => '详细档案' %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130")+"随访信息", { :action => :show, :id=>patient_visit.id,:menu_type=>3, :patient_visit_id=>patient_visit.id}, :class=>"green", :target=>'blank', :title => '随访内容' %>
+                        <%#= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130")+"查看", patient_visit, :class=>"blue" %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_visit_path(patient_visit), :class=>"green" %>
+                        <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130")+"删除", patient_visit, {method: :delete, data: { confirm: 'Are you sure?' }, :class=>"red"} %>
                       </div>
                     </td>
                   </tr>

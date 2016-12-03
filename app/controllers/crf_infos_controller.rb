@@ -7,7 +7,7 @@ class CrfInfosController < ApplicationController
   def index
     # file_path = File.join(Rails.root, "doc")
     # CrfInfo.new.import(file_path)
-    # filepath = File.join(Rails.root, "doc", "基本资料", "简易crf.xls")
+    # filepath = File.join(Rails.root, "doc", "随访", "4诊断.xls")
     # CrfInfo.new.import_crf(filepath)
     @crf_infos = CrfInfo.all
 
