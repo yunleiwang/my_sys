@@ -10,6 +10,7 @@ class PatientsController < ApplicationController
   # GET /patients/1
   # GET /patients/1.json
   def show
+    @patient_visit = @patient.patient_visits.order('id asc').last
   end
 
   # GET /patients/new
@@ -24,7 +25,7 @@ class PatientsController < ApplicationController
   # GET /patients/1/edit
   def edit
     @patient_visit = @patient.patient_visits.order('id asc').last
-    p @patient_visit.id
+
   end
 
   # POST /patients
