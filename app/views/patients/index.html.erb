@@ -60,7 +60,7 @@
                     </td>
 
                     <td>
-                      <a href="#"><%= patient.file_number %></a>
+                      <%= link_to patient.file_number, {:action=>:show, :id=>patient.id} %>
                     </td>
                     <td><%= patient.name %></td>
                     <td class="hidden-480"><%= patient.gender %></td>

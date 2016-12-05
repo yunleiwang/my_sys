@@ -329,6 +329,10 @@
               </button>
               &nbsp; &nbsp; &nbsp;
               <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-undo bigger-110")}返回"), patients_path, :class=>"btn" %>
+              &nbsp; &nbsp; &nbsp;
+              <% if @patient.file_type==Patient::DETAIL %>
+                <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-ok bigger-110")}填写调查表"), {:controller => :patient_visits, :action => :show, :id=>@patient_visit.id,:menu_type=>2, :patient_visit_id=>@patient_visit.id}, :target=>'blank', :class=>"btn btn-info" %>
+              <% end %>
 
 
             </div>

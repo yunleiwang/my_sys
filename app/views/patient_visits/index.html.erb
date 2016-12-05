@@ -65,7 +65,7 @@
                 </td>
 
                 <td>
-                  <a href="#"><%= patient_visit.patient.file_number %></a>
+                  <%= link_to patient_visit.patient.file_number, patient_path %>
                 </td>
                 <td><%= patient_visit.admission_number %></td>
                 <td class="hidden-480"><%= patient_visit.patient.name %></td>
