@@ -18,10 +18,7 @@
 
   <div class="nav-search" id="nav-search">
     <form class="form-search">
-        <span class="input-icon">
-            <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-            <i class="icon-search nav-search-icon"></i>
-        </span>
+
     </form>
   </div><!-- #nav-search -->
 </div>
@@ -65,7 +62,7 @@
                 </td>
 
                 <td>
-                  <%= link_to patient_visit.patient.file_number, patient_path %>
+                  <%= link_to patient_visit.patient.file_number %>
                 </td>
                 <td><%= patient_visit.admission_number %></td>
                 <td class="hidden-480"><%= patient_visit.patient.name %></td>
@@ -99,7 +96,9 @@
 </div><!-- /.col -->
 </div><!-- /.row -->
 </div><!-- /.page-content -->
-
+<script src='/assets/jquery-2.0.3.min.js'></script>
+<script src="/assets/jquery.dataTables.min.js"></script>
+<script src="/assets/jquery.dataTables.bootstrap.js"></script>
 <script type="text/javascript">
 
     jQuery(function($) {

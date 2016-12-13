@@ -45,7 +45,6 @@
                           <% cls_suffix = "_children" %>
                       <% end %>
                       <% if !item.nil? %> <!--普通item-->
-
                           <div class="form-group <%= parent_item.nil? ? 'item' : (parent_item.name + " item_children")  %>" index="<%=item_form_metaelement.options_index %>">
                             <label class="col-sm-3 control-label " for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
                             <div class="col-sm-9">
@@ -112,10 +111,21 @@
 
     <div class="col-xs-2">
       <div class="fixed_div">
-        <% @sections.each do |section| %>
-            <a href="#section<%= section.id %>"><%= section.title %></a><br><br><br>
-        <% end %>
+
       </div>
+
+    </div>
+
+    <div class="col-xs-2">
+      <div class="fixed_div">
+        <ul class="nav">
+          <% @sections.each do |section| %>
+              <li><a href="#section<%= section.id %>"><%= section.title %></a></li>
+          <% end %>
+
+        </ul>
+      </div>
+
 
     </div>
   </div><!-- /.row -->

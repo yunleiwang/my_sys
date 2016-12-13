@@ -100,8 +100,9 @@
   </div><!-- /.row -->
 </div><!-- /.page-content -->
 
-
-
+<script src='/assets/jquery-2.0.3.min.js'></script>
+<script src="/assets/jquery.dataTables.min.js"></script>
+<script src="/assets/jquery.dataTables.bootstrap.js"></script>
 <script type="text/javascript">
     $(function($) {
         var oTable1 = $('#sample-table').dataTable( {
@@ -133,8 +134,8 @@
 //         }
 
         $('#sample-table_filter').prepend(
-                    '<a href="/patients/new?file_type=2"><button class="btn btn-sm btn-primary" name="button">添加详细档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'+
-                    '<a href="/patients/new?file_type=1"><button class="btn btn-sm btn-primary" name="button">添加简易档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                    '<a href="/patients/new?file_type=2" class="pjax-link"><button class="btn btn-sm btn-primary" name="button">添加详细档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<a href="/patients/new?file_type=1" class="pjax-link"><button class="btn btn-sm btn-primary" name="button">添加简易档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'
         )
         $('table th input:checkbox').on('click' , function(){
             var that = this;
