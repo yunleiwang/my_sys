@@ -6,3 +6,9 @@
 .item_children{
     display:none
 }
+
+.fixed_submit{
+    position:fixed;
+    bottom:30px;
+
+}

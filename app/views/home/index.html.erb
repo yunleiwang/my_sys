@@ -1,18 +1,5 @@
+<%= breadcrumbs("主页", "首页") %>
 
-<div class="breadcrumbs" id="breadcrumbs">
-  <script type="text/javascript">
-      try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-  </script>
-
-  <ul class="breadcrumb">
-    <li>
-      <i class="icon-home home-icon"></i>
-      <a href="#">首页</a>
-    </li>
-    <li class="active">控制台</li>
-  </ul><!-- .breadcrumb -->
-
-</div>
 <div class="page-content">
   <div class="row">
     <div class="col-xs-12">
@@ -177,29 +164,7 @@
                 <div class="hr hr8 hr-double"></div>
 
                 <div class="clearfix">
-                  <!--<div class="grid3">-->
-                    <!--<span class="grey">-->
-                        <!--<i class="icon-facebook-sign icon-2x blue"></i>-->
-                        <!--&nbsp; likes-->
-                    <!--</span>-->
-                    <!--<h4 class="bigger pull-right">1,255</h4>-->
-                  <!--</div>-->
 
-                  <!--<div class="grid3">-->
-                    <!--<span class="grey">-->
-                        <!--<i class="icon-twitter-sign icon-2x purple"></i>-->
-                        <!--&nbsp; tweets-->
-                    <!--</span>-->
-                    <!--<h4 class="bigger pull-right">941</h4>-->
-                  <!--</div>-->
-
-                  <!--<div class="grid3">-->
-                    <!--<span class="grey">-->
-                        <!--<i class="icon-pinterest-sign icon-2x red"></i>-->
-                        <!--&nbsp; pins-->
-                    <!--</span>-->
-                    <!--<h4 class="bigger pull-right">1,050</h4>-->
-                  <!--</div>-->
                 </div>
               </div><!-- /widget-main -->
             </div><!-- /widget-body -->
@@ -215,7 +180,6 @@
     </div><!-- /.col -->
   </div><!-- /.row -->
 </div><!-- /.page-content -->
-
 
 <script>
     jQuery(function($) {
@@ -294,6 +258,23 @@
         placeholder.data('chart', data);
         placeholder.data('draw', drawPieChart);
 
+        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+        var previousPoint = null;
+
+        placeholder.on('plothover', function (event, pos, item) {
+            if(item) {
+                if (previousPoint != item.seriesIndex) {
+                    previousPoint = item.seriesIndex;
+                    var tip = item.series['label'] + " : " + item.series['percent']+'%';
+                    $tooltip.show().children(0).text(tip);
+                }
+                $tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
+            } else {
+                $tooltip.hide();
+                previousPoint = null;
+            }
+
+        });
 
     })
 

@@ -16,4 +16,23 @@ module ApplicationHelper
     end
     a_class
   end
+
+  def breadcrumbs(*arg)
+    len = arg.length
+    content_tag(:div, :class => "breadcrumbs", :id=>"breadcrumbs") do
+      content_tag(:ul, :class => "breadcrumb") do
+        arg.each_with_index do |member, index|
+          if index==len-1
+            concat(content_tag(:li, :class=>"active") do
+              member
+            end)
+          else
+            concat(content_tag(:li) do
+              content_tag :a,member
+            end)
+          end
+        end
+      end
+    end
+  end
 end
