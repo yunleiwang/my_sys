@@ -17,6 +17,7 @@
 
   <!-- page specific plugin styles -->
   <link rel="stylesheet" href="/assets/jquery-ui-1.10.3.custom.min.css" />
+
   <link rel="stylesheet" href="/assets/chosen.css" />
   <link rel="stylesheet" href="/assets/datepicker.css" />
   <link rel="stylesheet" href="/assets/bootstrap-timepicker.css" />
@@ -41,6 +42,28 @@
   <script src="/assets/html5shiv.js"></script>
   <script src="/assets/respond.min.js"></script>
   <![endif]-->
+
+  <!--[if !IE]> -->
+  <script src='/assets/jquery-2.0.3.min.js'></script>
+  <!--<![endif]-->
+
+  <!--[if IE]>
+  <script src='/assets/jquery-1.10.2.min.js'></script>
+  <![endif]-->
+  <script src="/assets/jquery_ujs.js"></script>
+  <!--[if !IE]> -->
+  <script type="text/javascript">
+      window.jQuery || document.write("<script src='/assets/jquery-2.0.3.min.js'>"+"<"+"script>");
+  </script>
+  <!--<![endif]-->
+
+  <!--[if IE]>
+  <script type="text/javascript">
+      window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
+  </script>
+  <!-- <![endif]-->
+  <script src='/assets/jquery.pjax.js'></script>
+  <!-- basic scripts -->
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -73,27 +96,7 @@
       </a>
     </div><!-- /.main-container -->
 
-    <!--[if !IE]> -->
-    <script src='/assets/jquery-2.0.3.min.js'></script>
-    <!--<![endif]-->
 
-    <!--[if IE]>
-    <script src='/assets/jquery-1.10.2.min.js'></script>
-    <![endif]-->
-    <script src="/assets/jquery_ujs.js"></script>
-    <!--[if !IE]> -->
-    <script type="text/javascript">
-        window.jQuery || document.write("<script src='/assets/jquery-2.0.3.min.js'>"+"<"+"script>");
-    </script>
-    <!--<![endif]-->
-
-    <!--[if IE]>
-    <script type="text/javascript">
-        window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
-    </script>
-    <!-- <![endif]-->
-    <script src='/assets/jquery.pjax.js'></script>
-    <!-- basic scripts -->
 
     <script type="text/javascript">
         if("ontouchend" in document) document.write("<script src='/assets/jquery.mobile.custom.min.js'>"+"<"+"script>");
@@ -107,6 +110,7 @@
     <script src="/assets/excanvas.min.js"></script>
     <![endif]-->
     <script src="/assets/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/assets/jquery-ui-1.10.3.full.min.js"></script>
     <script src="/assets/jquery.ui.touch-punch.min.js"></script>
 
     <!--form elements js-->
@@ -114,14 +118,14 @@
     <script src="/assets/date-time/bootstrap-datepicker.min.js"></script>
     <script src="/assets/date-time/bootstrap-timepicker.min.js"></script>
 
-    <%= yield :js %>
+    <%#= yield :js %>
+
     <script src="/assets/jquery.slimscroll.min.js"></script>
     <script src="/assets/jquery.easy-pie-chart.min.js"></script>
     <script src="/assets/jquery.sparkline.min.js"></script>
     <script src="/assets/flot/jquery.flot.min.js"></script>
     <script src="/assets/flot/jquery.flot.pie.min.js"></script>
     <script src="/assets/flot/jquery.flot.resize.min.js"></script>
-
     <!-- ace scripts -->
     <script src="/assets/ace.min.js"></script>
     <script src="/assets/ace-elements.min.js"></script>
@@ -146,151 +150,9 @@
                    $(this).prev().focus();
                });
 
-               // 首页百分比病状图
-               $('.easy-pie-chart.percentage').each(function(){
-                   var $box = $(this).closest('.infobox');
-                   var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
-                   var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
-                   var size = parseInt($(this).data('size')) || 50;
-                   $(this).easyPieChart({
-                       barColor: barColor,
-                       trackColor: trackColor,
-                       scaleColor: false,
-                       lineCap: 'butt',
-                       lineWidth: parseInt(size/10),
-                       animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
-                       size: size
-                   });
-               })
-
-               var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
-               var data = [
-                   { label: "正常",  data: 38.7, color: "#68BC31"},
-                   { label: "鼾症",  data: 24.5, color: "#2091CF"},
-                   { label: "阻塞",  data: 8.2, color: "#AF4E96"},
-                   { label: "中枢",  data: 18.6, color: "#DA5430"},
-                   { label: "混合",  data: 10, color: "#FEE074"}
-               ]
-               function drawPieChart(placeholder, data, position) {
-                   $.plot(placeholder, data, {
-                       series: {
-                           pie: {
-                               show: true,
-                               tilt:0.8,
-                               highlight: {
-                                   opacity: 0.25
-                               },
-                               stroke: {
-                                   color: '#fff',
-                                   width: 2
-                               },
-                               startAngle: 2
-                           }
-                       },
-                       legend: {
-                           show: true,
-                           position: position || "ne",
-                           labelBoxBorderColor: null,
-                           margin:[-30,15]
-                       }
-                       ,
-                       grid: {
-                           hoverable: true,
-                           clickable: true
-                       }
-                   })
-               }
-               drawPieChart(placeholder, data);
-
-               /**
-                we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
-                so that's not needed actually.
-                */
-               placeholder.data('chart', data);
-               placeholder.data('draw', drawPieChart);
-
-
            });
        }
 
-        jQuery(function($) {
-            $(".chosen-select").chosen();
-            $('#chosen-multiple-style').on('click', function(e){
-                var target = $(e.target).find('input[type=radio]');
-                var which = parseInt(target.val());
-                if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
-                else $('#form-field-select-4').removeClass('tag-input-style');
-            });
-            $('.date-picker').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });
-
-
-            // 首页百分比病状图
-            $('.easy-pie-chart.percentage').each(function(){
-                var $box = $(this).closest('.infobox');
-                var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
-                var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
-                var size = parseInt($(this).data('size')) || 50;
-                $(this).easyPieChart({
-                    barColor: barColor,
-                    trackColor: trackColor,
-                    scaleColor: false,
-                    lineCap: 'butt',
-                    lineWidth: parseInt(size/10),
-                    animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
-                    size: size
-                });
-            })
-
-            var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
-            var data = [
-                { label: "正常",  data: 38.7, color: "#68BC31"},
-                { label: "鼾症",  data: 24.5, color: "#2091CF"},
-                { label: "阻塞",  data: 8.2, color: "#AF4E96"},
-                { label: "中枢",  data: 18.6, color: "#DA5430"},
-                { label: "混合",  data: 10, color: "#FEE074"}
-            ]
-            function drawPieChart(placeholder, data, position) {
-                $.plot(placeholder, data, {
-                    series: {
-                        pie: {
-                            show: true,
-                            tilt:0.8,
-                            highlight: {
-                                opacity: 0.25
-                            },
-                            stroke: {
-                                color: '#fff',
-                                width: 2
-                            },
-                            startAngle: 2
-                        }
-                    },
-                    legend: {
-                        show: true,
-                        position: position || "ne",
-                        labelBoxBorderColor: null,
-                        margin:[-30,15]
-                    }
-                    ,
-                    grid: {
-                        hoverable: true,
-                        clickable: true
-                    }
-                })
-            }
-            drawPieChart(placeholder, data);
-
-            /**
-             we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
-             so that's not needed actually.
-             */
-            placeholder.data('chart', data);
-            placeholder.data('draw', drawPieChart);
-
-
-        })
 
     </script>
 
