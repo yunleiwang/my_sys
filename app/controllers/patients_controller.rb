@@ -5,6 +5,12 @@ class PatientsController < ApplicationController
   # GET /patients.json
   def index
     @patients = Patient.all.order('id desc')
+    Patient.attribute_names.each do |attr|
+      attr
+    end
+
+
+
   end
 
   # GET /patients/1
