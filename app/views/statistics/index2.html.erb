@@ -4,11 +4,11 @@
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div style="padding: 20px 30px">
   年份: <input type="text" name="year" id="year" value="<%= Date.today.year %>">  <button id="search_btn" class="btn btn-sm btn-primary" name="button">搜索</button>
-  <h2><font color="red">提示：点击发作次数可查看详情</font></h2>
+  <h5><font color="red">提示：点击发作次数可查看详情</font></h5>
 </div>
 <div style="width: 960px;height:100px; margin-top: 20px; margin-left: 80px">
 
-  <table id="monthtable" border="1px" style="width: 80%;height: 80px">
+  <table id="monthtable" border="1px" style="width: 80%;height: 80px;text-align: center">
     <tr>
       <td>月份</td>
       <td>1月</td>
@@ -43,7 +43,7 @@
 
   </table>
 </div>
-<div id="main" style="width: 960px;height:600px; margin-top: 20px"></div>
+<div id="main" style="width: 960px;height:500px; margin-top: 20px"></div>
 
 <script>
     $(document).ready(function(){

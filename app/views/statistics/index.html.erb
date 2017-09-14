@@ -1,7 +1,16 @@
 <% patient=Patient.find(params[:patient_id]) %>
 <%= breadcrumbs("当前患者", patient.name, patient.id_number) %>
 <div style="padding: 20px 30px">
-  开始日期: <input type="text" name="begin_date" id="begin_date" value="<%= params[:begin_date] %>" data-date-format="yyyy-mm-dd" class="date-picker">-&nbsp;&nbsp;截止日期<input type="text" name="end_date" id="end_date" value="<%= params[:end_date] %>" class="date-picker" data-date-format="yyyy-mm-dd">&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <button id="search_btn" class="btn btn-sm btn-primary" name="button">搜索</button>
+  <span>
+      开始日期:
+      <input type="text" name="begin_date" id="begin_date" value="<%= params[:begin_date] %>" data-date-format="yyyy-mm-dd" class="date-picker">
+      -&nbsp;&nbsp;
+      截止日期:
+      <input type="text" name="end_date" id="end_date" value="<%= params[:end_date] %>"  data-date-format="yyyy-mm-dd" class="date-picker2">&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+  </span>
+  <span>
+    <button type="button" id="search_btn" class="btn btn-sm btn-primary" name="button">搜索</button>
+  </span>
 </div>
 
 

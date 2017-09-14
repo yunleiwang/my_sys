@@ -2,8 +2,11 @@
 <%= breadcrumbs("当前患者", patient.name, patient.id_number) %>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div style="width: 960px;height:100px; margin-top: 20px; margin-left: 80px">
-  <div style="width:100%;text-align: center"><h1>当前时间：<%= params[:year] %>年<%= params[:month] %>月</h1></div>
-  <table id="monthtable" border="1px" style="width: 80%;height: 80px">
+  <div style="width:100%;text-align: center">
+    <h1>当前时间：<%= params[:year] %>年<%= params[:month] %>月</h1>
+    <h5><font color="red">提示：点击发作次数可查看详情</font></h5>
+  </div>
+  <table id="monthtable" border="1px" style="width: 80%;height: 50px;text-align: center">
     <!--<tr>-->
       <!--<td>日期</td>-->
       <!--<td>1</td>-->
@@ -231,7 +234,8 @@
             td.appendTo(tr)
             var td2;
             if(data.series[0].data[i]>0){
-                td2 =$("<td><i class='icon-check'></i></td>");
+                //td2 =$("<td><i class='icon-check'></i></td>");
+                td2 =$("<td></td>");
             }else{
                 td2 =$("<td></td>");
             }

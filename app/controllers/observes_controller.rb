@@ -3,13 +3,42 @@ class ObservesController < ApplicationController
   layout 'item_form_metaelements'
   # GET /observes
   # GET /observes.json
+  # 数据格式如下
+  # [
+  #     {
+  #         "date": '2017-09-05',
+  #         "1": {
+  #             "drug": "A",
+  #             "attack": 1,
+  #             "cause": "B",
+  #             "sleep_info": "是"
+  #         },
+  #         "2": {
+  #             "drug": "A",
+  #             "attack": 1,
+  #             "cause": "B",
+  #             "sleep_info": "是"
+  #         }
+  #     }
+  # ]
   def index
-    if params[:date].nil?
-      @observes = Observe.all.where('patient_id=?', params[:patient_id].to_i)
-    else
-      @observes = Observe.where('patient_id=? and observe_date=?', params[:patient_id].to_i, params[:date].to_date)
+    observe_dates = Observe.where('patient_id=?', params[:patient_id].to_i).order('observe_date asc').pluck(:observe_date).uniq
+    @data = []
+    observe_dates.each do |observe_date|
+      hash = {:date=>observe_date}
+      observes = Observe.where('patient_id=? and observe_date=?', params[:patient_id].to_i,observe_date)
+      (1..24).each do |hour|
+        hour_observes = observes.select{|observe| observe.observe_hour==hour}
+         date_hash={
+            "drug"=> hour_observes.collect{|hour_observe|"<a class='pjax-link' href='/observes/#{hour_observe.id}/edit?patient_id=#{params[:patient_id]}'>"+hour_observe.drug+"</a>"}.join(' '),
+            "attack"=> hour_observes.collect{|hour_observe| "<a class='pjax-link' href='/observes/#{hour_observe.id}/edit?patient_id=#{params[:patient_id]}'>"+ (hour_observe.attack==1? '是' : "否")+"</a>"}.join(' '),
+            "cause"=> hour_observes.collect{|hour_observe|"<a class='pjax-link' href='/observes/#{hour_observe.id}/edit?patient_id=#{params[:patient_id]}'>"+hour_observe.cause+"</a>"}.join(' '),
+            "sleep_info"=> hour_observes.collect{|hour_observe|"<a class='pjax-link' href='/observes/#{hour_observe.id}/edit?patient_id=#{params[:patient_id]}'>"+ hour_observe.sleep_info+"</a>"}.join(' '),
+        }
+        hash[hour.to_s] = date_hash
+      end
+      @data << hash
     end
-
   end
 
   # GET /observes/1
