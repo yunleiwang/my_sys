@@ -1,9 +1,9 @@
-<div>
+<div class="group">
   <% @items.each do |item| %>
       <div class="form-group" >
         <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
         <div class="col-sm-9">
-          <%= item_display(item, value = nil, options = {}) %>
+          <%= item_display(item, @item_group.id, @num, nil, options = {}) %><%= item.units %>
         </div>
       </div>
   <% end %>

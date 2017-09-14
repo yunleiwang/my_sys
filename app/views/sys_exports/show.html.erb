@@ -1,0 +1,40 @@
+<% content_for :show_title do %>导出字段设置<% end %>
+
+<% @sys_fields = SysField.find(:all,:group=>"zh_table_name,en_table_name,table_no",:select=>"zh_table_name,en_table_name,table_no",:conditions=>{:is_sys_model=>false},:order=>'table_no')%>
+<% @sys_fields.each do |m|%>
+    <fieldset name="model">
+
+      <legend><input type="checkbox" name="main_<%= m.en_table_name %>" id="main_<%= m.en_table_name %>_model_id" onclick="check_box(this.name)"  disabled="true"/><%=m.zh_table_name || m.en_table_name%></legend>
+      <table>
+        <tr>
+          <% @sf = SysField.find(:all,:order=>'field_no',:conditions=>{:en_table_name=>m.en_table_name,:field_show=>true}) %>
+          <% @sf.each_with_index do |n,i| %>
+              <% @sf_check = SysExport.find_by_field_en_name_and_table_name(n.en_field_name,n.en_table_name) %>
+              <td><input type="checkbox" name="<%=m.en_table_name%>[<%=n.en_field_name %>]" id="main_<%=m.en_table_name %>" <%= "checked" if @sf_check %>  disabled="true" /><%= n.zh_field_name || n.en_field_name %></td>
+              <% if (i + 1) % 5 == 0%>
+                  </tr><tr>
+              <% end %>
+
+          <% end %>
+          </tr>
+          </table>
+    </fieldset>
+<% end %>
+<% content_for :button do %>
+    <table border="0" width="100%">
+      <tbody><tr class="odd">
+        <td width="9%" class=" empty">&nbsp;</td>
+        <td width="91%" class=""><table border="0" width="200">
+          <tbody><tr class="odd">
+            <td><a href="/sys_exports/new/1" class="lan_an">编辑</a></td>
+          </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      </tbody></table>
+<% end %>
+
+<%#= (r_button '编辑',:action=>'edit').html_safe %>
+
+<%#= link_to 'Edit', edit_search_lib_path(@search_lib) %>
+<%#= link_to 'Back', search_libs_path %>

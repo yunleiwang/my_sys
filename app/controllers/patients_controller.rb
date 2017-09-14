@@ -1,22 +1,24 @@
 class PatientsController < ApplicationController
-  before_action :set_patient, only: [:show, :edit, :update, :destroy]
+  before_action :set_patient, only: [:show, :edit, :update, :destroy, :show_form]
 
   # GET /patients
   # GET /patients.json
   def index
     @patients = Patient.all.order('id desc')
-    Patient.attribute_names.each do |attr|
-      attr
-    end
-
-
-
+    # Patient.attribute_names.each do |attr|
+    #   attr
+    # end
   end
 
   # GET /patients/1
   # GET /patients/1.json
   def show
     @patient_visit = @patient.patient_visits.order('id asc').last
+  end
+
+  def show_form
+    @patient_visit = @patient.patient_visits.order('id asc').last
+    render layout: 'item_form_metaelements'
   end
 
   # GET /patients/new
@@ -31,7 +33,6 @@ class PatientsController < ApplicationController
   # GET /patients/1/edit
   def edit
     @patient_visit = @patient.patient_visits.order('id asc').last
-
   end
 
   # POST /patients
@@ -96,6 +97,6 @@ class PatientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def patient_params
-      params.require(:patient).permit(:file_number, :id_number, :name, :gender, :birthday, :nation, :native_place, :file_type)
+      params.require(:patient).permit(:file_number, :id_number, :name, :gender, :birthday, :nation, :native_place, :file_type, :birth_place, :first_admission_date, :family_name, :contact_phone)
     end
 end

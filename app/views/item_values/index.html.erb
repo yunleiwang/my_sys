@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Item Values</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Value</th>
+      <th>Patient</th>
+      <th>Menus crf info</th>
+      <th>Patient visit</th>
+      <th>Item value order</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @item_values.each do |item_value| %>
+      <tr>
+        <td><%= item_value.item_id %></td>
+        <td><%= item_value.value %></td>
+        <td><%= item_value.patient_id %></td>
+        <td><%= item_value.menus_crf_info_id %></td>
+        <td><%= item_value.patient_visit_id %></td>
+        <td><%= item_value.item_value_order_id %></td>
+        <td><%= link_to 'Show', item_value %></td>
+        <td><%= link_to 'Edit', edit_item_value_path(item_value) %></td>
+        <td><%= link_to 'Destroy', item_value, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Item value', new_item_value_path %>

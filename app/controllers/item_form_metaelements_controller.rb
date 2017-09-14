@@ -9,9 +9,8 @@ class ItemFormMetaelementsController < ApplicationController
     else
       crf_info_id = params[:crf_info_id]
     end
-    # crf_info_id = 17
 
-    @item_form_metaelements = ItemFormMetaelement.where(crf_info_id: crf_info_id).includes(:item).order('id asc')
+    #@item_form_metaelements = ItemFormMetaelement.where(crf_info_id: crf_info_id).includes(:item).order('id asc')
     #@sections = CrfInfo.find(crf_info_id).sections
 
   end
@@ -41,10 +40,47 @@ class ItemFormMetaelementsController < ApplicationController
   # POST /item_form_metaelements
   # POST /item_form_metaelements.json
   def create
-    @item_form_metaelement = ItemFormMetaelement.new(item_form_metaelement_params)
+#    @item_form_metaelement = ItemFormMetaelement.new(item_form_metaelement_params)
+    crf_info_id = params[:crf_info_id].to_i
+    menu_id = params[:menu_id].to_i
+    patient_id = params[:patient_id].to_i
+    patient_visit_id = params[:patient_visit_id].to_i
+
+    item_value_order = ItemValueOrder.where('menus_crf_info_id=? and patient_visit_id=?', crf_info_id, patient_visit_id).select('max(ordinal) as max_ordinal').collect{|o|o.max_ordinal}
+    max_ordinal = item_value_order[0].to_i
+
+    menus_crf_info = MenusCrfInfo.find_by_crf_info_id_and_menu_id(crf_info_id, menu_id)
+    ItemValueOrder.transaction do
+      item_value_order = ItemValueOrder.create(
+          :crf_info_id => crf_info_id,
+          :menus_crf_info_id => menus_crf_info.id,
+          :patient_id => patient_id,
+          :patient_visit_id => patient_visit_id,
+          :ordinal => max_ordinal+1
+      )
+
+      item_params = params.select{|key,value| key =~ /^item/}
+      item_params.each do |key, value|
+        arr = key.split("_")
+        item_group_id = arr[1]
+        item_group_ordinal = arr[2]
+        item_id = arr[3]
+        ItemValue.create(
+          :item_id => item_id,
+          :value => value,
+          :patient_id => patient_id,
+          :patient_visit_id => patient_visit_id,
+          :item_value_order_id => item_value_order.id,
+          :item_group_id => item_group_id,
+          :item_group_ordinal => item_group_ordinal,
+          :menus_crf_info_id => menus_crf_info.id,
+        )
+      end
+    end
 
     respond_to do |format|
-      if @item_form_metaelement.save
+      #if @item_form_metaelement.save
+      if true
         format.html { redirect_to @item_form_metaelement, notice: 'Item form metaelement was successfully created.' }
         format.json { render :show, status: :created, location: @item_form_metaelement }
       else

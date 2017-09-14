@@ -1,0 +1,1 @@
+json.array! @observes, partial: 'observes/obserf', as: :obserf

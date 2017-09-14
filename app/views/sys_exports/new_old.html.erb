@@ -1,0 +1,75 @@
+<script>
+    var clear_checkbox = function() {
+        var es = document.getElementsByTagName("input");
+        for(var i = 0; i < es.length; i++) {
+            if (es[i].type == 'checkbox') es[i].checked = false;
+        }
+
+    }
+    function check_box(obj){
+        var r = document.getElementsByTagName("input");
+        var flag = document.getElementById(obj+"_model_id").checked;
+
+        for(var i = 0; i < r.length; i++) {
+            if (r[i].id==obj & r[i].type == 'checkbox'){
+                r[i].checked = flag;
+            }
+
+        }
+    }
+</script>
+<script>
+    function form_submit(){
+
+        var form = document.getElementsByTagName("form");
+
+        form[0].submit()
+    }
+</script>
+<% content_for :edit_title do %>导出字段设置<% end %>
+<% @sys_fields = SysField.find(:all,:group=>"zh_table_name,en_table_name,table_no",:select=>"zh_table_name,en_table_name,table_no",:conditions=>{:is_sys_model=>false},:order=>'table_no')%>
+<% if !@sys_fields.blank? %>
+    <%= form_for(@sys_export) do |f| %>
+
+        <% @sys_fields.each do |m|%>
+            <fieldset name="model">
+
+              <legend><input type="checkbox" name="main_<%= m.en_table_name %>" id="main_<%= m.en_table_name %>_model_id" onclick="check_box(this.name)"/><%=m.zh_table_name || m.en_table_name%></legend>
+              <table>
+                <tr>
+                  <% @sf = SysField.find(:all,:order=>'field_no',:conditions=>{:en_table_name=>m.en_table_name,:field_show=>true}) %>
+                  <% @sf.each_with_index do |n,i| %>
+                      <% @sf_check = SysExport.find_by_field_en_name_and_table_name(n.en_field_name,n.en_table_name) %>
+                      <td><input type="checkbox" name="<%=m.en_table_name%>[<%=n.en_field_name %>]" id="main_<%=m.en_table_name %>" <%= "checked" if @sf_check %> /><%= n.zh_field_name || n.en_field_name %></td>
+                      <% if (i + 1) % 5 == 0%>
+                          </tr><tr>
+                      <% end %>
+
+                  <% end %>
+                  </tr>
+                  </table>
+            </fieldset>
+        <% end %>
+        <%#= f.submit "提交" %>
+        <!--<input type="button" value="全不选" onclick="clear_checkbox();" />-->
+    <% end %>
+<% end %>
+
+<% content_for :button do %>
+    <table border="0" width="100%">
+      <tbody><tr class="odd">
+        <td width="9%" class=" empty">&nbsp;</td>
+        <td width="91%" class=""><table border="0" width="200">
+          <tbody><tr class="odd">
+            <td><%= submit_tag '提交' ,:onclick => 'form_submit()',:class=>'lan_an' %></td>
+            <td><input class="lan_an" type="button" value="全不选" onclick="clear_checkbox();" /></td>
+          </tr>
+          </tbody></table>
+        </td>
+      </tr>
+      </tbody></table>
+<% end %>
+<%#= render 'form' %>
+
+<%#= link_to 'Show', @search_lib %>
+<%#= link_to 'Back', search_libs_path %>

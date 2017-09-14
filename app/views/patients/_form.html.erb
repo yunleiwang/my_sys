@@ -21,11 +21,162 @@
   <div class="row">
     <div class="col-xs-10">
       <!-- PAGE CONTENT BEGINS -->
-      <% if params[:file_type]=="1" %>
-        <%= render partial: "form_easy" %>
-      <% elsif params[:file_type]=="2" %>
-          <%= render partial: "form_detail" %>
+      <%= form_for(@patient, :html=>{:class=>"form-horizontal"}, :role=>"form") do |f| %>
+          <%= f.hidden_field :file_type, :value=>params[:file_type] %>
+          <!--基本信息-->
+          <div class="widget-box" id="patient">
+            <div class="widget-header">
+              <h4>基本信息</h4>
+              <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                  <i class="icon-chevron-up"></i>
+                </a>
+              </div>
+            </div>
+            <div class="widget-body">
+              <div class="widget-main">
+                <div class="form-group">
+                  <%= f.label :first_admission_date, "首次入院日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= f.text_field :first_admission_date, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                            <i class="icon-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :file_number, "患儿ID号", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :file_number, :placeholder=>"", :class=>"col-xs-10 col-sm-5" %>
+                  </div>
+                </div>
+
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :name, "患儿姓名", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :name, :placeholder=>"", :class=>"col-xs-10 col-sm-5" %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :gender, "患儿性别", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= f.radio_button :gender, "男", :class=>"ace" %>
+                        <span class="lbl"> 男</span>
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label>
+                        <%= f.radio_button :gender, "女", :class=>"ace" %>
+                        <span class="lbl"> 女</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :family_name, "家属姓名", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :family_name, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :contact_phone, "联系人电话", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :contact_phone, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :birthday, "患儿出生日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= f.text_field :birthday, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                        <i class="icon-calendar bigger-110"></i>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :birthday, "患儿出生地点", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :birth_place, :placeholder=>"", :class=>"col-xs-10 col-sm-5" %>医院
+                  </div>
+                </div>
+                <div class="space-4"></div>
+              </div>
+            </div>
+          </div>
+          <!--基本信息结束-->
+
+          <!--就诊信息-->
+          <%= hidden_field :patient_visit, :id, :value=>@patient_visit.id %>
+          <div class="widget-box" id="patient_visit">
+            <div class="widget-header">
+              <h4>就诊信息</h4>
+              <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                  <i class="icon-chevron-up"></i>
+                </a>
+              </div>
+            </div>
+            <div class="widget-body">
+              <div class="widget-main">
+
+                <div class="form-group">
+                  <%= label :patient_visit, :visiting_time, "填表日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= text_field :patient_visit, :visiting_time, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                        <i class="icon-calendar bigger-110"></i>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-4"></div>
+                <div class="form-group">
+                  <%= label :patient_visit, :responsible_doctor, "填表医生", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= text_field :patient_visit, :responsible_doctor, :class=>"col-xs-10 col-sm-5"%>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+              </div>
+            </div>
+          </div>
+          <!--就诊信息结束-->
+
+          <!--crf 内容展现结束-->
+          <div class=" col-md-offset-6 col-md-8 fixed_submit ">
+            <button class="btn btn-info pjax-link" >
+              <i class="icon-ok bigger-110"></i>
+              提交
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-undo bigger-110")}返回"), patients_path, :class=>"btn pjax-link" %>
+          </div>
       <% end %>
+
+
       <!-- PAGE CONTENT ENDS -->
     </div><!-- /.col -->
 
@@ -49,8 +200,6 @@
 
         </ul>
       </div>
-
-
     </div>
   </div><!-- /.row -->
 </div>

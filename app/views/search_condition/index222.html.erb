@@ -1,0 +1,137 @@
+<%= stylesheet_link_tag 'bootstrap' %>
+<%= stylesheet_link_tag 'style' %>
+
+<script>
+function showSectionInfo(obj,num){
+	
+	if (obj.value!=""){
+		var crf_id= obj.value;
+		//将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+        if (crf_id !=0)
+            $.ajax({
+                    type: 'GET',
+                    url: '/search_condition/add_section',
+                    data: 'crf_id='+crf_id+'&num='+num,
+                    success: function(msg) {
+                        //alert(msg);
+                             eval(msg);
+                    }
+                });
+
+        else{
+            $.ajax({
+                type: 'GET',
+                url: '/search_condition/add_item',
+                data: 'crf_id='+crf_id+'&num='+num,
+                success: function(msg) {
+                    //alert(msg);
+                    eval(msg);
+                }
+            });
+
+        }
+
+        return false;
+
+	}
+}
+
+function showItemInfo(obj,num){
+
+	if (obj.value!=""){
+		var section_id= obj.value;
+		//将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+		$.ajax({
+                type: 'GET',
+                url: '/search_condition/add_item',
+                data: 'section_id='+section_id+'&num='+num,
+                success: function(msg) {
+                	//alert(msg);
+                         eval(msg);
+                }
+            });
+            return false;
+	}
+}
+
+
+</script>
+<style>
+    fieldset { border:2px solid #D8E5F9 }
+
+    legend {
+        padding: 0.2em 0.5em;
+        border:2px solid #D8E5F9;
+        color:#5040FF;
+        font-size:90%;
+        text-align:right;
+    }
+
+    input[type="text"] {
+        height: 18px;
+    }
+
+</style>
+<% content_for :title do %>
+    数据检索
+<% end %>
+<%= form_tag :action => 'index2' do %>
+    <input type="hidden" name="graph" value="graph">
+    <input type="hidden" name="search_info" value="true">
+   <!-- <fieldset style="-moz-border-radius:12px;font-size:16px;margin:3px;">
+      <legend><em>
+        <%# unless session[:search_condition_id].blank? %>
+          <input type="checkbox" name="in_result"/>在结果中检索<br/>
+        <%# end %>
+      </em></legend>-->
+      <div class="well contentsBackground span11">
+        <div class="allConditionContainer conditionGroup contentsBackground well">
+          <div class="header">
+            <span>
+              <strong>所有条件</strong>
+            </span>
+            <span>(所有条件都必须满足)</span>
+          </div>
+          <div class="contents">
+            <div class="conditionList">
+              <div class="row-fluid conditionRow marginBottom10px">
+                <div id="search_con" style="clear:left"> </div>
+                <div class="addCondition">
+                  <a href="/search_condition/add_condition/1" class="btn" data-remote="true">
+                    <strong>添加条件</strong>
+                  </a>
+                  <a class="btn"  href="/search_condition/remove_condition/1" data-remote="true">
+                    <strong>删除条件</strong>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <font size=2><strong><%= format_search_word(@search_word) %></strong></font>
+
+        </div>
+        <div class="allConditionContainer conditionGroup contentsBackground well">
+           <!-- <div style="clear: both"></div>-->
+           <!-- <h2><small>(共<%#= @patient_infos.total_entries %>人)</small></h2>-->
+            <!-- </fieldset>-->
+                <%= radio_button_tag :statistic_type, '1' ,check(params[:statistic_type],'1'),:onclick=>"showStNum(this.value)"%> 字符类型统计
+                <%= radio_button_tag :statistic_type, '2' ,check(params[:statistic_type],'2'),:onclick=>"showStNum(this.value)"%> 数字类型统计
+                <button class = "btn">提交</button>
+            <!--</div>-->
+            <div id="reportContentsDiv">
+              <div class="contents-topscroll">
+                <div class="topscroll-div container-fluid" style="width: 1068px;"> </div>
+              </div>
+              <div id="reportDetails" class="container-fluid contents-bottomscroll">
+                <div class="bottomscroll-div">
+                  <div>
+                    <%= render "statistic" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+     </div>
+   <!-- </fieldset>-->
+
+<% end %>

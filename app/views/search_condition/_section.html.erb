@@ -1,0 +1,5 @@
+<% if !@crf_table.blank? %>
+    <%=  select_tag "section_id#{@num}",options_from_collection_for_select(@crf_table.sections,'id',"title"),{:prompt => "-请选择section-" ,:onchange=> "showItemInfo(this,#{@num})"} %>
+<% else %>
+    <%=select_tag :section_id,options_for_select([[],[]]),:prompt => "-基本信息-"%>
+<% end %>

@@ -1,10 +1,11 @@
 function showSub(obj,name){
     //alert(1)
-    console.log(name)
-    console.log(obj.type)
+    //console.log(name)
+    //console.log(obj.type)
 
     var index = "";
     if(obj.type == 'select-one'){
+
         index = $(obj).find("option:selected").attr('index');
     }else{
         index = $(obj).attr('index');
@@ -12,15 +13,26 @@ function showSub(obj,name){
 
     if(obj.type == 'checkbox'){
         if($(obj).is(':checked')){
-            $('.'+name+'[index='+index+']').css('display','inline-block');
+            $('.'+name+'[index='+index+']').css('display','block');
         }else{
             $('.'+name+'[index='+index+']').hide();
             //$('.item_children:hidden :input').val('').removeAttr('checked').removeAttr('selected');
         }
-    }else{
+    }
+    //else{
+    //    $('.'+name).hide();
+    //    $('.'+name+'[index='+index+']').css('display','block');
+    //}
+    if(obj.type == 'radio'){
+        if($(obj).is(':checked')){
             $('.'+name).hide();
             $('.'+name+'[index='+index+']').css('display','block');
+        }else{
+            $('.'+name+'[index='+index+']').hide();
+            //$('.item_children:hidden :input').val('').removeAttr('checked').removeAttr('selected');
         }
+    }
+
 }
 //
 function allNo(table_id){
@@ -87,8 +99,8 @@ function dbclickcancel(id,name){
 // group add
 function addGroup(tableId){
     var groupId = tableId.split("_")[2]
-    //var group_num =  document.getElementById("group_num"+groupId).value;
-    var group_num =  1;
+    var group_num =  document.getElementById("group_num"+groupId).value;
+    //var group_num =  1;
     $.ajax({
         type: 'GET',
         url: '/item_groups/'+groupId+'/add_item_group',
@@ -97,7 +109,7 @@ function addGroup(tableId){
 
         }
     });
-    //document.getElementById("group_num"+groupId).value = Number(group_num)+1;
+    document.getElementById("group_num"+groupId).value = Number(group_num)+1;
 }
 function delGroup(divId)
 {

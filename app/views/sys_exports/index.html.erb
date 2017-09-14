@@ -1,0 +1,85 @@
+<%= breadcrumbs("主页", "导出管理", "导出字段设置") %>
+<style>
+    .item_line{
+        vertical-align:top;
+        display:inline-block;
+        *display:inline;
+        zoom:1;
+        padding:5px;
+        /*border-top:1px dashed #e4e4e4;*/
+        width:99%;
+        overflow:hidden;
+    }
+    .sub_item{
+        margin-left:10px;
+        vertical-align:top;
+        width:20%;
+        position: relative;
+        float: left;
+        padding:5px;
+        font-weight: bold;
+    }
+</style>
+<script>
+  function clearAllcheckbox(){
+      //$("input:checkbox").attr("checked",false)
+      $("input:checkbox").prop("checked",false)
+      //$("#table input:checkbox")
+      // $("#table input[type=checkbox]")
+      //$("#table").find("input[type=checkbox]")
+  }
+  function selectAllCheckbox(){
+      $("input:checkbox").prop("checked",true)
+  }
+
+  function check_box(parent_checkbox_id,container_id){
+      if($("#"+parent_checkbox_id).prop("checked")){
+          $("#"+container_id+" input:checkbox").prop("checked",true)
+      }else{
+          $("#"+container_id+" input:checkbox").prop("checked",false)
+      }
+
+  }
+</script>
+
+<div style="padding-left: 20px">
+  <div style="line-height: 50px">
+    <input type="button" value="全不选" class="btn btn-info" onclick="clearAllcheckbox();" />&nbsp;&nbsp;
+    <input type="button" value="全选" class="btn btn-info" onclick="selectAllCheckbox();" />
+  </div>
+
+  <%= form_tag :action => 'create' do%>
+      <fieldset id="patient_info_fieldset">
+        <legend><input type="checkbox" name="patient_infos" id="patient_infos" onclick="check_box(this.id,'patient_info_fieldset')"/>患者基本信息</legend>
+        <div class = "item_line">
+          <% @search_libs.each do |search_lib|%>
+              <div class = "sub_item">
+                <input type="checkbox" name="patient_info[<%= search_lib.correspond_field%>]" id="patient_info[<%= search_lib.correspond_field%>]" value="<%= search_lib.correspond_field%>|<%= search_lib.field_name%>" <%= "checked" unless @sys_exports.find{|export|export.field_zh_name==search_lib.field_name }.nil? %> />
+                <label for="patient_info[<%= search_lib.correspond_field%>]"><%= search_lib.field_name||search_lib.correspond_field %></label>
+              </div>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <% @crf_tables.each do |crf_table|  %>
+          <% items = crf_table.items %>
+          <fieldset id="fieldset_<%= crf_table.id%>">
+            <legend><input type="checkbox" name="crf_<%= crf_table.id %>" id="crf_<%= crf_table.id %>" onclick="check_box(this.id,'fieldset_<%= crf_table.id%>')"/><%= crf_table.name%></legend>
+            <div class = "item_line">
+              <% items.each do |item|%>
+                  <div class = "sub_item">
+                    <input type="checkbox" name="crf_<%= crf_table.id %>_name['name_'<%= item.id %>]" id="name_<%= crf_table.id %>_<%= item.id %>" value="<%= item.name %>|<%= item.left_item_text%>|<%= item.id %>" <%= "checked" unless @sys_exports.find{|export|export.field_en_name==item.name&&export.field_zh_name==item.left_item_text&&export.crf_table_id==crf_table.id }.nil? %> />
+                    <label for="name_<%= crf_table.id %>_<%= item.id %>"><%= item.description||item.left_item_text %></label>
+                  </div>
+              <% end %>
+            </div>
+          </fieldset>
+      <% end %>
+
+  <% end %>
+
+
+
+    <%= submit_tag '提交', :class=>'btn btn-info' %>
+
+</div>

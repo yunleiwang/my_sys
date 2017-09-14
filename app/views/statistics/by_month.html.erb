@@ -1,0 +1,253 @@
+<% patient=Patient.find(params[:patient_id]) %>
+<%= breadcrumbs("当前患者", patient.name, patient.id_number) %>
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div style="width: 960px;height:100px; margin-top: 20px; margin-left: 80px">
+  <div style="width:100%;text-align: center"><h1>当前时间：<%= params[:year] %>年<%= params[:month] %>月</h1></div>
+  <table id="monthtable" border="1px" style="width: 80%;height: 80px">
+    <!--<tr>-->
+      <!--<td>日期</td>-->
+      <!--<td>1</td>-->
+      <!--<td>2</td>-->
+      <!--<td>3</td>-->
+      <!--<td>4</td>-->
+      <!--<td>5</td>-->
+      <!--<td>6</td>-->
+      <!--<td>7</td>-->
+      <!--<td>8</td>-->
+      <!--<td>9</td>-->
+      <!--<td>10</td>-->
+      <!--<td>11</td>-->
+      <!--<td>12</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>次数</td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>日期</td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>次数</td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>日期</td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>次数</td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+      <!--<td></td>-->
+    <!--</tr>-->
+
+  </table>
+</div>
+
+
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main" style="width: 960px;height:600px; margin-top: 100px"></div>
+
+<script>
+
+        var year = <%= params[:year] %>;
+        var month = <%= params[:month] %>;
+        var date = new Date(year,month-1, 1);
+        var patient_id = <%= params[:patient_id] %>;
+        loadData(date,patient_id)
+
+
+    function loadData(date,patient_id){
+        $.ajax({
+            url: '/statistics/by_month_data',
+            data: {date: date, patient_id:patient_id },
+            type: 'get',
+            dataType:'json',
+            success:function(data){
+                console.log(data)
+
+                drawBar("main", data);
+                drawTable('monthtable', data);
+            },
+            error:function(msg){
+                alert("系统发生错误")
+            }
+        })
+    }
+
+    function drawBar(divID,data) {
+        var myChart = echarts.init(document.getElementById(divID));
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {type: 'cross'}
+            },
+//            toolbox: {
+//                feature: {
+//                    dataView: {show: true, readOnly: false},
+//                    magicType: {show: true, type: [ 'line']},
+//                    restore: {show: true},
+//                    saveAsImage: {show: true}
+//                }
+//            },
+            toolbox: {
+                show: true,
+                feature: {
+                    saveAsImage: {
+                        show:true,
+                        excludeComponents :['toolbox'],
+                        pixelRatio: 2
+                    }
+                }
+            },
+            legend: {
+                data:["发病次数"]
+
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: data.item,
+                    "axisLabel":{
+                        rotate:45,//倾斜度 -90 至 90 默认为0
+                        interval: 0
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '次数',
+
+                    interval: 1,
+                    axisLabel: {
+                        formatter: '{value} '
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '次数',
+                    interval: 1,
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }
+            ],
+
+            series: data.series,
+            //顶部数字展示pzr
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,//是否展示
+                        textStyle: {
+                            fontWeight:'bolder',
+                            fontSize : '12',
+                            fontFamily : '微软雅黑',
+                        }
+                    }
+                }
+            },
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    }
+
+    function drawTable(divId, data){
+        var table = $("#"+divId);
+        var tr;
+        var tr2;
+
+
+        $.each(data.item, function(i, item){
+            var a=$("<a class='pjax-link' href='/statistics/by_hour?patient_id=<%= params[:patient_id] %>&date="+item+"'> "+data.series[0].data[i]+"&nbsp;&nbsp;</a>");
+            if(i%10==0){
+                tr =$("<tr></tr>");
+                tr.appendTo(table);
+                var td =$("<td>日期</td>");
+                td.appendTo(tr)
+
+                tr2 =$("<tr></tr>");
+                tr2.appendTo(table);
+                var td2 =$("<td>发病次数</td>");
+                td2.appendTo(tr2)
+            }
+            var td =$("<td>"+parseInt(item.split('-')[2])+"日</td>");
+            td.appendTo(tr)
+            var td2;
+            if(data.series[0].data[i]>0){
+                td2 =$("<td><i class='icon-check'></i></td>");
+            }else{
+                td2 =$("<td></td>");
+            }
+
+            td2.appendTo(tr2)
+            a.appendTo(td2)
+
+        });
+
+    }
+
+
+    function showInfo(year, month){
+        $(document).on('click', '[td-pjax]', function(event) {
+            $.pjax({ url: '/statistics/by_month?menu_type=2&&patient_id=<%= params[:patient_id]%>&&patient_visit_id=<%= params[:patient_visit_id]%>&year='+year+'&month='+month, container: '#pjax-container' });
+        })
+    }
+
+</script>

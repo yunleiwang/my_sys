@@ -1,0 +1,1 @@
+json.partial! "observes/obserf", obserf: @obserf

@@ -1,0 +1,146 @@
+<div class="breadcrumbs" id="breadcrumbs">
+  <script type="text/javascript">
+      try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+  </script>
+
+  <ul class="breadcrumb">
+    <li>
+      <i class="icon-home home-icon"></i>
+      <a href="#">病历信息</a>
+    </li>
+
+  </ul><!-- .breadcrumb -->
+</div>
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-10">
+      <!-- PAGE CONTENT BEGINS -->
+      <form class="form-horizontal" action="/item_value_orders/<%= @item_value_order.id %>" method="post" role="form">
+        <input type="hidden" name="_method" value="patch">
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+        <input name="menus_crf_info_id" type="hidden" value="<%= params[:menus_crf_info_id] %>"/>
+        <input name="patient_id" type="hidden" value="<%= params[:patient_id] %>"/>
+        <input name="patient_visit_id" type="hidden" value="<%= params[:patient_visit_id] %>"/>
+        <% @sections.each do |section| %>
+            <div class="widget-box" id="section<%= section.id %>">
+              <div class="widget-header">
+                <h4><%= section.title %></h4>
+                <div class="widget-toolbar">
+                  <a href="#" data-action="collapse">
+                    <i class="icon-chevron-up"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="widget-body">
+                <div class="widget-main">
+                  <% section.item_form_metaelements.order('id asc').each do |item_form_metaelement|%>
+
+                      <% item = item_form_metaelement.item %>
+                      <% value = nil %>
+                      <% parent_item = item_form_metaelement.parent_item  %>
+                      <% cls_suffix="" %>
+                      <% if !parent_item.nil? %>
+                          <% cls_suffix = "_children" %>
+                      <% end %>
+                      <% if !item.nil? %> <!--普通item-->
+                          <% (item_value = @item_values.find{|iv| iv.item_id==item.id}) unless @item_values.empty? %>
+                          <% value = item_value.value unless item_value.nil? %>
+                          <div class="form-group <%= parent_item.nil? ? 'item' : (parent_item.name + " item_children")  %>" index="<%=item_form_metaelement.options_index %>">
+                            <label class="col-sm-3 control-label " for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                            <div class="col-sm-9">
+                              <%= item_display(item, nil, nil,value, options = {}) %><%= item.units %>
+                            </div>
+                          </div>
+                      <% else %> <!--group 中的item -->
+                          <% items = item_form_metaelement.items.order('id asc') %>
+                          <% item_group = item_form_metaelement.item_group %>
+                          <% item_group_ordinal = (ItemValue.where('item_group_id=? and patient_visit_id=?',item_group.id,params[:patient_visit_id]).select('max(item_group_ordinal) as max_ordinal').collect{|o|o.max_ordinal})[0].to_i %>
+
+                          <fieldset>
+                            <legend>
+                              <h4>
+                                <%= item_group.description %>
+                                <a href="javascript:void(null)" onclick="javascript:addGroup('item_group_<%= item_group.id %>')"><span class="icon-plus-sign purple"></span></a>
+                                <a href="javascript:void(null)" onclick="javascript:delGroup('item_group_<%= item_group.id %>')"><span class="icon-trash red"></span></a>
+                              </h4>
+                            </legend>
+                            <div id="item_group_<%= item_group.id %>" >
+                              <div class="group">
+                                <% items.each do |item| %>
+                                    <% item_value = @item_values.find{|iv| iv.item_group_id == item_group.id && iv.item_group_ordinal==0} %>
+                                    <% value = item_value.nil? ? nil : item_value.value %>
+                                    <div class="form-group" >
+                                      <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                                      <div class="col-sm-9">
+                                        <%= item_display(item,item_group.id, 0, value, options = {}) %>
+                                      </div>
+                                    </div>
+                                <% end %>
+                              </div>
+                              <% (1..item_group_ordinal).each do |item_group_num| %>
+                                  <% item_value = @item_values.find{|iv| iv.item_group_id == item_group.id && iv.item_group_ordinal==item_group_num} %>
+                                  <% value = item_value.nil? ? nil : item_value.value %>
+                                  <div class="group">
+                                    <% items.each do |item| %>
+                                        <div class="form-group" >
+                                          <label class="col-sm-3 control-label no-padding-right" for="<%= "item_#{item.id}" %>"> <%= item.left_item_text %> </label>
+                                          <div class="col-sm-9">
+                                            <%= item_display(item,item_group.id, item_group_num, value, options = {}) %>
+                                          </div>
+                                        </div>
+                                    <% end %>
+                                  </div>
+                              <% end %>
+
+                            </div>
+
+                            <input type="hidden" id="group_num<%= item_group.id %>" value="1">
+                          </fieldset>
+                      <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+        <% end %>
+
+        <!--submit & reset button-->
+        <!--<div class="clearfix form-actions">-->
+          <!--<div class="col-md-offset-3 col-md-9">-->
+            <div class=" col-md-offset-6 col-md-8 fixed_submit ">
+            <!--<button class="btn btn-info" type="button">-->
+
+            <button class="btn btn-info " type="submit">
+              <i class="icon-ok bigger-110"></i>
+              提交
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-undo bigger-110")}返回"), :back, :class=>"btn pjax-link" %>
+
+          </div>
+        <!--</div>-->
+        <div class="hr hr-24"></div>
+        <hr />
+      </form>
+      <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+
+    <div class="col-xs-2">
+      <div class="fixed_div">
+      </div>
+    </div>
+
+    <div class="col-xs-2">
+      <div class="fixed_div">
+        <ul class="nav">
+          <% @sections.each do |section| %>
+              <li><a href="#section<%= section.id %>"><%= section.title %></a></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div><!-- /.row -->
+</div><!-- /.page-content -->
+
+

@@ -1,0 +1,1 @@
+json.partial! "item_value_orders/item_value_order", item_value_order: @item_value_order

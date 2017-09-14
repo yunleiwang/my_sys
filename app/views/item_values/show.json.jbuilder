@@ -1,0 +1,1 @@
+json.partial! "item_values/item_value", item_value: @item_value

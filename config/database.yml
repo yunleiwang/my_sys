@@ -6,10 +6,15 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: 127.0.0.1
+  port: 5432
 
 development:
   <<: *default
-  database: my_sys_development
+  #database: my_sys_20170327
+  database: dianxian_20170914
+  username: postgres
+  password: postgres
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.

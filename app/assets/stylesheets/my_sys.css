@@ -3,12 +3,35 @@
     position:fixed;
     top:100px;
 }
-.item_children{
-    display:none
-}
+/*.item_children{*/
+    /*display:none*/
+/*}*/
 
 .fixed_submit{
     position:fixed;
     bottom:30px;
 
+}
+
+.group{
+    border:1px dashed #333;
+    padding: 10px;
+
+}
+
+.my_checkbox{
+    width:45%;
+    float: left;
+    text-align: left;
+}
+.item_children{
+    display: none;
+}
+.show_children{
+    padding-left: 30px;
+}
+
+.text-height-30px {
+    height: 30px;
+    font-size: 12px;
 }

@@ -22,6 +22,7 @@ module MySys
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    config.action_controller.permit_all_parameters = true
     # 数据库时区设置,采用北京时间
     config.encoding = "utf-8"
     config.time_zone = 'Beijing'

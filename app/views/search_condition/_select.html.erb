@@ -1,0 +1,80 @@
+<%session[:num] += 1%>
+
+<div id="s<%=session[:num]%>">
+
+  <%#@s_libs = SearchLib.find(:all, :order => 'created_at')%>
+  <span id="crf_id_container<%=session[:num]%>" >
+    <select name="crf_id<%=session[:num]%>" id="crf_id<%=session[:num]%>" onchange="showSectionInfo(this,<%=session[:num]%>)">
+      <option value='0'>基本信息</option>
+      <%@crf_tables.each do |crf|%>
+          <option value="<%=crf.id%>"><%=crf.name%></option>
+      <%end%>
+    </select>
+  </span>
+
+  <span id="section_id_container<%=session[:num]%>">
+    <select name="section_id<%=session[:num]%>" id="section_id<%=session[:num]%>" onchange="alert(11);">
+      <% if !@crf_table.blank? %>
+          <% sections = CrfInfo.find(@crf_table.id).sections %>
+          <% sections.each do |section| %>
+              <option value="<%=section.id %>"<%= section.section_title %></option>
+         <% end %>
+      <% else %>
+          <option value="0">基本信息</option>
+      <% end %>
+    </select>
+  </span>
+
+
+
+ <span id="item_id_container<%=session[:num]%>" >
+
+   <select name="item_id<%=session[:num]%>" id="item_id<%=session[:num]%>">
+     <option value="">--请选择条目名称--</option>
+     <%if !@items.blank?%>
+         <% @items.each do |item| %>
+             <option value="<%=item.id %>" ><%= item.left_item_text %>111</option>
+         <% end %>
+     <% else %>
+         <% search_libs = SearchLib.all %>
+         <% search_libs.each do |item| %>
+             <option value="<%=item.id %>" ><%= item.field_name %></option>
+         <% end %>
+     <%end%>
+   </select>
+
+ </span>
+
+  <span >
+    <select name="compare_select<%=session[:num]%>">
+      <option value="=" selected>=</option>
+      <option value="&gt;">&gt;</option>
+      <option value="&gt;=">&gt;=</option>
+      <option value="&lt;">&lt;</option>
+      <option value="&lt;=">&lt;=</option>
+      <option value="like">包含</option>
+      <option value="not like">不包含</option>
+      <option value="is null">为空</option>
+      <option value="is not null">不为空</option>
+    </select>
+
+    <input type="text" name="textfield<%=session[:num]%>"/>
+    <select name="end_select<%=session[:num]%>">
+      <option value="and" selected>并且</option>
+      <option value="or">或者</option>
+    </select>
+    <div id="attached_condition_<%=session[:num]%>"></div>
+  </span>
+
+     <!--每行条件之间的关系-->
+
+
+
+</div><br/>
+<script type="text/javascript">
+    $("#crf_id<%=session[:num]%>").select2();//crf
+    $("#section_id<%=session[:num]%>").select2();   //section
+    $("#item_id<%=session[:num]%>").select2();   //item
+    $("#compare_select<%=session[:num]%>").select2();   //符号
+    $("#end_select<%=session[:num]%>").select2();   //并且或者
+</script>

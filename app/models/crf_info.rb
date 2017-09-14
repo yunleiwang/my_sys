@@ -7,6 +7,10 @@ class CrfInfo < ActiveRecord::Base
   has_many :menus_crf_infos
   has_many :menus, :through => :menus_crf_infos
 
+  def items
+    items_ids = ItemFormMetaelement.where('crf_info_id= ?',self.id).collect{|ifm|ifm.item_id}
+    items = Item.where('id in (?)',items_ids )
+  end
   #导入CRF表
   def import_crf(filepath)
     crf_info=nil
@@ -20,8 +24,11 @@ class CrfInfo < ActiveRecord::Base
 
         rows.each_with_index do |row, nn|
           if nn>0
-            crf_info = CrfInfo.new
-            crf_info.name = row[0].to_s
+            crf_info = CrfInfo.find_by_name(row[0].to_s)
+            if crf_info.blank?
+              crf_info = CrfInfo.new
+              crf_info.name = row[0].to_s
+            end
             crf_info.description= row[2].to_s
             crf_info.save
           end
@@ -38,8 +45,11 @@ class CrfInfo < ActiveRecord::Base
 
         rows.each_with_index do |row,no1|
           if no1>0
-            section = Section.new
-            section.crf_info_id=crf_info.id
+            section = Section.find_by_name(row[0].to_s)
+            if section.blank?
+              section = Section.new
+              section.crf_info_id=crf_info.id
+            end
             section.name= row[0].to_s
             section.title = row[1].to_s
             section.subtitle = row[2].to_s
@@ -81,7 +91,8 @@ class CrfInfo < ActiveRecord::Base
         end
         rows = sheet.rows
         rows.each_with_index do |row,no3|
-          if no3>0
+          if (no3>0 && !row[0].to_s.blank?)
+
             name = row[0].to_s
             left_item_text= row[2].to_s
             item = Item.find_by_name_and_left_item_text(name,left_item_text)
@@ -121,29 +132,31 @@ class CrfInfo < ActiveRecord::Base
 
 
             # 导入item_form_metaelement
+            ItemFormMetaelement.where(:crf_info_id => crf_info.id).destroy_all
             group_label = row[6].to_s
             section_label= row[5].to_s
             section= Section.where("title=? and crf_info_id=?",section_label,crf_info.id).first
-
             item_form_metaelement = ItemFormMetaelement.find_by_item_id_and_section_id(item.id, section.id)
             if item_form_metaelement.nil?
               item_form_metaelement = ItemFormMetaelement.new
               item_form_metaelement.section_id=section.id
             end
+
             item_form_metaelement.crf_info_id=crf_info.id
             item_form_metaelement.header= row[7].to_s
             item_form_metaelement.subheader= row[8].to_s
-            # ######查询item_form_metaelement的parent_id#####
+            # ######查询item_form_metaelement的parent_id开始#####
             parent_name = row[9].to_s
             parent_item = nil
-            if !parent_name.nil?
+            if !parent_name.blank?
               parent_item = Item.find_by_name(parent_name)
-              if !parent_item.nil?
+              if (!parent_item.nil? && group_label.blank?)
+
                 parent_item_form_metaelement = ItemFormMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).last
                 item_form_metaelement.parent_id= parent_item_form_metaelement.id
               end
             end
-            # #######查询item_form_metaelement的parent_id#####
+            # #######查询item_form_metaelement的parent_id结束#####
             item_form_metaelement.ordinal= row[10].to_s
             required= row[24].to_s
             if required=="0"
@@ -163,6 +176,7 @@ class CrfInfo < ActiveRecord::Base
             # 导入item_group_metaelement
             #group_label = row[6].to_s
             # group_label 不为空
+            ItemFormMetaelement.where(:crf_info_id => crf_info.id).destroy_all
             if !group_label.blank?
               item_group = ItemGroup.where("name=?",group_label).last
               if !item_group.blank?
@@ -183,7 +197,7 @@ class CrfInfo < ActiveRecord::Base
                 item_group_metaelement.show_group=phi
                 item_group_metaelement.crf_info_id=crf_info.id
                 if !parent_item.nil?
-                  parent_item_group_metaelement = ItemGroupMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).last
+                  parent_item_group_metaelement = ItemGroupMetaelement.where('item_id=?',parent_item.id).last
                   item_group_metaelement.parent_id= parent_item_group_metaelement.id
                 end
                 item_group_metaelement.save

@@ -1,0 +1,213 @@
+
+
+<div class="page-content">
+  <div class="row">
+    <div class="col-xs-10">
+      <!-- PAGE CONTENT BEGINS -->
+      <%= form_for(@obserf, :html=>{:class=>"form-horizontal"}, :role=>"form") do |f| %>
+          <%= hidden_field_tag :file_type, params[:file_type] %>
+          <%= f.hidden_field :patient_id, :value=>params[:patient_id] %>
+          <%= f.hidden_field :patient_visit_id, :value=>params[:patient_visit_id] %>
+          <!--基本信息-->
+          <div class="widget-box" id="patient">
+            <div class="widget-header">
+              <h4>癫痫发作观察表</h4>
+              <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                  <i class="icon-chevron-up"></i>
+                </a>
+              </div>
+            </div>
+            <div class="widget-body">
+              <div class="widget-main">
+                <div class="form-group">
+                  <%= f.label :observe_date, "日期", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-4">
+                    <div class="input-group" >
+                      <%= f.text_field :observe_date, "data-date-format"=>"yyyy-mm-dd", :class=>"form-control date-picker" %>
+                      <span class="input-group-addon">
+                            <i class="icon-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :observe_hour, "发病时间", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.select :observe_hour, (1..24) %>时
+                    <%= f.select :observe_minute, (0..59) %>分
+                  </div>
+
+                </div>
+
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :drug, "药物", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%#= f.select :drug, ["1.丙戊酸钠","2.左乙拉西坦","3.拉莫三嗪","4.奥卡西平","5.卡马西平","6.托吡酯","7.氯硝西泮","8.苯巴比妥","9.苯妥英钠","10.加巴喷丁","11.扑痫酮","12.唑尼沙胺","13其他"],{:value=>@obserf.drug.blank? ? [] : @obserf.drug.split(',')}, :class=>"width-40 chosen-select", :multiple=>true %>
+                    <%= f.select :drug, ["0.无","1.丙戊酸钠","2.左乙拉西坦","3.拉莫三嗪","4.奥卡西平","5.卡马西平","6.托吡酯","7.氯硝西泮","8.苯巴比妥","9.苯妥英钠","10.加巴喷丁","11.扑痫酮","12.唑尼沙胺","13.其他"], :class=>"width-40 chosen-select" %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :other_drug, "其他药物", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <%= f.text_field :other_drug, :class=>"col-xs-10 col-sm-5"  %>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :attack, "发作", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= f.radio_button :attack, 1, :class=>"ace" %>
+                        <span class="lbl"> 是</span>
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label>
+                        <%= f.radio_button :attack, 0, :class=>"ace" %>
+                        <span class="lbl"> 否</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :has_before_cause, "有无发作前状态或诱因", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= f.radio_button :has_before_cause, 1, :class=>"ace" %>
+                        <span class="lbl"> 有</span>
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label>
+                        <%= f.radio_button :has_before_cause, 0, :class=>"ace" %>
+                        <span class="lbl"> 无</span>
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :attack_show, "发作时表现", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                     <div class="checkbox">
+                       <% Observe::ATTACK_SHOW.each do |info| %>
+                           <% if !@obserf.attack_show.blank? %>
+                               <% if @obserf.attack_show.split(',').include?(info)%>
+                                   <% checked = true %>
+                               <% else %>
+                                   <% checked = false %>
+                               <% end %>
+                           <% end %>
+                           <div class="my_checkbox">
+                             <label>
+                               <%= f.check_box :attack_show, {:multiple => true, :class=>"ace ace-checkbox-2",:checked=>checked}, info, nil %>
+                               <span class="lbl"><%= info %></span>
+                             </label>
+                           </div>
+                       <% end %>
+                     </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :cause, "诱因", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+                      <% Observe::CAUSE.each do |info| %>
+                          <% if !@obserf.cause.blank? %>
+                              <% if @obserf.cause.split(',').include?(info)%>
+                                  <% checked = true %>
+                              <% else %>
+                                  <% checked = false %>
+                              <% end %>
+                          <% end %>
+                          <div class="my_checkbox">
+                            <label>
+                              <%= f.check_box :cause, {:multiple => true, :class=>"ace ace-checkbox-2", :checked=>checked}, info, nil %>
+                              <span class="lbl"><%= info %></span>
+                            </label>
+                          </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+                <div class="form-group">
+                  <%= f.label :environment_change, "具体环境改变", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+
+                      <% Observe::ENVIRONMENT.each do |info| %>
+                          <% if !@obserf.environment_change.blank? %>
+                              <% if @obserf.environment_change.split(',').include?(info)%>
+                                  <% checked = true %>
+                              <% else %>
+                                  <% checked = false %>
+                              <% end %>
+                          <% end %>
+                          <div class="my_checkbox">
+                            <label>
+                              <%= f.check_box :environment_change, {:multiple => true, :class=>"ace ace-checkbox-2",:checked=>checked}, info, nil %>
+                              <span class="lbl"><%= info %></span>
+                            </label>
+                          </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-4"></div>
+
+
+                <div class="form-group">
+                  <%= f.label :sleep_info, "睡眠", :class=>"col-sm-3 control-label no-padding-right" %>
+                  <div class="col-sm-9">
+                    <div class="radio">
+                      <label>
+                        <%= f.radio_button :sleep_info, "是", :class=>"ace" %>
+                        <span class="lbl">是</span>
+                      </label>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label>
+                        <%= f.radio_button :sleep_info, "否", :class=>"ace" %>
+                        <span class="lbl"> 否</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-4"></div>
+            </div>
+              </div>
+            </div>
+          <!--crf 内容展现结束-->
+          <div class=" col-md-offset-6 col-md-8 fixed_submit ">
+            <button class="btn btn-info " data-pjax type="submit">
+              <i class="icon-ok bigger-110"></i>
+              提交
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <%= link_to raw("#{content_tag(:i, nil, :class=>"icon-undo bigger-110")}返回"), observes_path+"?patient_id=#{params[:patient_id]}", :class=>"btn pjax-link" %>
+          </div>
+      <% end %>
+
+
+      <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+
+  </div><!-- /.row -->
+</div>

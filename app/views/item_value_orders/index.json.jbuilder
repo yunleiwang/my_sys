@@ -1,0 +1,1 @@
+json.array! @item_value_orders, partial: 'item_value_orders/item_value_order', as: :item_value_order

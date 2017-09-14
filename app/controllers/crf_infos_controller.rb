@@ -7,10 +7,18 @@ class CrfInfosController < ApplicationController
   def index
     # file_path = File.join(Rails.root, "doc")
     # CrfInfo.new.import(file_path)
-    # filepath = File.join(Rails.root, "doc", "随访", "4诊断.xls")
-    # CrfInfo.new.import_crf(filepath)
+    #filepath = File.join(Rails.root, "doc", "癫痫", "病历简况.xls")
+    # filepath = File.join(Rails.root, "doc", "癫痫", "癫痫发作及诊治.xls")
+    #filepath = File.join(Rails.root, "doc", "癫痫", "发育评估.xls")
+    #filepath = File.join(Rails.root, "doc", "癫痫", "既往史.xls")
+    #filepath = File.join(Rails.root, "doc", "癫痫", "脑电图检查.xls")
+    #filepath = File.join(Rails.root, "doc", "癫痫", "头颅MRI检查.xls")
+    #filepath = File.join(Rails.root, "doc", "癫痫", "入组筛选表.xls")
+    # filepath = File.join(Rails.root, "doc", "癫痫", "遗传代谢病及基因检查.xls")
+    #CrfInfo.new.import_crf(filepath)
+    # MenusCrfInfo.create()
     @crf_infos = CrfInfo.all
-
+    #MenusCrfInfo.create
   end
 
   # GET /crf_infos/1

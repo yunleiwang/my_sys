@@ -1,0 +1,6 @@
+<%#session[:num]+=1 %>
+<% if !@flag %>
+<%= select_tag "item_id#{@num}",options_from_collection_for_select(@items,'id',"left_item_text"),:prompt => "-请选择条目-"  %>
+<% else %>
+ <%= select_tag "item_id#{@num}",options_from_collection_for_select(@items,'id',"field_name"),:prompt => "-请选择条目-"  %>
+<% end %>

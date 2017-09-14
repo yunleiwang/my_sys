@@ -16,11 +16,10 @@
                 <span class="lbl"></span>
               </label>
             </th>
-            <th>档案号</th>
-            <th>姓名</th>
-            <th>性别</th>
+            <th>患儿ID号</th>
+            <th>患儿姓名</th>
+            <th>患儿性别</th>
             <th class="hidden-480">出生日期</th>
-            <th class="hidden-480">档案类型</th>
             <th>
               <i class="icon-time bigger-110 hidden-480"></i>
               更新时间
@@ -46,26 +45,15 @@
                 <td class="hidden-480"><%= patient.gender %></td>
                 <td><%= patient.birthday %></td>
 
-                <td class="hidden-480">
-                  <% if patient.file_type==Patient::EASY %>
-                      <span class="label label-sm label-warning"><%= patient.get_file_type %></span>
-                  <% elsif patient.file_type==Patient::DETAIL %>
-                      <span class="label label-sm label-success"><%= patient.get_file_type %></span>
-                  <% end %>
-                </td>
-
                 <td><%= patient.updated_at.localtime.to_s(:db)%></td>
                 <td>
                   <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                    <%#= link_to content_tag(:i, nil, :class=>"icon-zoom-in bigger-130")+"查看", patient, :class=>"blue" %>
-                    <% if patient.file_type==Patient::EASY %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130")+"补充详细", {:action => :edit, :id=>patient.id, :file_type=>2}, :class=>"green pjax-link", :title => '补充详细' %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_path(patient)+"?file_type=1", :class=>"blue  pjax-link" %>
-                    <% elsif patient.file_type==Patient::DETAIL %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-edit bigger-130")+"添加随访", {:controller => :item_form_metaelements, :action => :new, :menu_type=>3}, :class=>"green", :target=>'_blank', :title => '添加随访' %>
-                        <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_path(patient)+"?file_type=2", :class=>"blue  pjax-link" %>
-                    <% end %>
+
+                    <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130")+"详细", {:action => :show, :id=>patient.id, :file_type=>2}, :class=>"green pjax-link", :title => '详细' %>
+                    <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_path(patient)+"?file_type=2", :class=>"blue  pjax-link" %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130")+"删除", patient, {method: :delete, data: { confirm: '确定要删除?' }, :class=>"red  pjax-link"} %>
+                    <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"填写病历", {:controller => :patients, :action => :show_form, :id=>patient.id, :patient_id=>patient.id, :patient_visit_id=>patient.patient_visits.last.id, :menu_type=>2}, {:target=>'_blank', :class=>"green "} %>
+
                   </div>
                 </td>
               </tr>
@@ -84,7 +72,7 @@
         var oTable1 = $('#sample-table').dataTable( {
             "aoColumns": [
                 { "bSortable": false },
-                null, null,null, null, null,null,
+                null, null,null, null, null,
                 { "bSortable": false }
                 ],
             "oLanguage": {
@@ -110,8 +98,7 @@
 //         }
 
         $('#sample-table_filter').prepend(
-                    '<a href="/patients/new?file_type=2" class="pjax-link"><button class="btn btn-sm btn-primary" name="button">添加详细档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'+
-                    '<a href="/patients/new?file_type=1" class="pjax-link"><button class="btn btn-sm btn-primary" name="button">添加简易档案</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                '<a href="/patients/new?file_type=1" class="pjax-link"><button class="btn btn-sm btn-primary" name="button">添加</button></a>&nbsp;&nbsp;&nbsp;&nbsp;'
         )
         $('table th input:checkbox').on('click' , function(){
             var that = this;

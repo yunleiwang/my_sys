@@ -1,0 +1,360 @@
+<%= stylesheet_link_tag 'bootstrap' %>
+<%= stylesheet_link_tag 'style' %>
+<link rel="stylesheet" href="/javascript/libraries/demos.css" type="text/css" media="screen" />
+<%= javascript_include_tag  'libraries/jquery.min.js' %>
+<%= javascript_include_tag 'libraries/RGraph.common.core.js' %>
+<%= javascript_include_tag 'libraries/RGraph.common.tooltips.js' %>
+<%= javascript_include_tag 'libraries/RGraph.common.dynamic.js'%>
+<%= javascript_include_tag 'libraries/RGraph.pie.js'%>
+<%= javascript_include_tag 'libraries/RGraph.common.annotate.js' %>
+<%= javascript_include_tag 'libraries/RGraph.common.context.js' %>
+<%= javascript_include_tag  'libraries/RGraph.common.effects.js' %>
+<%= javascript_include_tag  'libraries/RGraph.common.key.js' %>
+<%= javascript_include_tag  'libraries/RGraph.drawing.yaxis.js' %>
+<%= javascript_include_tag  'libraries/RGraph.line.js' %>
+<%= javascript_include_tag 'libraries/RGraph.bar.js' %>
+<script>
+
+    function add_range(){
+
+        //将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+        $.ajax({
+            type: 'GET',
+            url: '/search_condition/add_range/1',
+            success: function(msg) {
+
+            }
+        });
+    }
+
+
+
+    function del(obj)
+    {
+        var remove_div = obj.parentNode;
+        var parentDiv = remove_div.parentNode
+        parentDiv.removeChild(remove_div);
+    }
+
+    function drawStLine(){
+        var x = <%=@num_arrs %>;
+        var z = new Array();
+        <% @horizontal_arr.each do |n|%>
+        z.push('<%=n%>');
+        <% end %>
+        var line1 = new RGraph.Line('cvs_div', x)
+                .Set('chart.gutter.left',50)
+                .Set('chart.gutter.bottom',35)
+                .Set('chart.gutter.top',35)
+                .Set('chart.gutter.right',50)
+                .Set('background.grid.dashed', true)
+                .Set('colors', ['red'])
+                .Set('labels.above',true)
+                .Set('labels', z)
+                .Set('background.grid.dashed', true)
+                .Set('title', '速度')
+                .Draw();
+
+    }
+    function drawStPie(){
+        var x = new Array();
+        var y = new Array();
+        var z = new Array();
+        <% @horizontal_arr.each do |el| %>
+        x.push('<%= el %>')
+        <% end %>
+        <% @num_arrs.each do |el| %>
+        y.push(<%= el %>)
+        <% end %>
+
+        for(var i= 0;i<x.length;i++){
+            z.push( x[i] +"  "+ y[i])
+        }
+
+        var pie1 = new RGraph.Pie('cvs_div', y)
+                .Set('labels', x)
+                .Set('tooltips', z)
+                .Set('tooltips.event', 'onMouseMove')
+                .Set('colors', ['#EC0033','#A0D300','#FFCD00','#00B869','#999999','#FF7300','#004CB0'])
+                .Set('strokeStyle', 'white')
+                .Set('linewidth', 3)
+                .Set('shadow', true)
+                .Set('shadow.offsetx', 2)
+                .Set('shadow.offsety', 2)
+                .Set('shadow.blur', 3)
+                .Set('exploded', 7)
+
+        pie1.Draw();
+    }
+    function drawStBar(){
+        var y = new Array();
+        var x = new Array();
+        <% @horizontal_arr.each do |el| %>
+        x.push('<%= el %>')
+        <% end %>
+        <% @num_arrs.each do |el| %>
+        y.push(<%= el %>)
+        <% end %>
+
+        var bar1 = new RGraph.Bar('canvas_div', y);
+        bar1.Set('chart.title.vpos', 0.5);
+        bar1.Set('chart.title.hpos', 0.5);
+        bar1.Set('chart.hmargin', 80);
+        bar1.Set('chart.tickmarks', 'endsquare');
+        bar1.Set('chart.labels', x);
+        bar1.Set('chart.labels.above',true);
+        bar1.Set('chart.labels.above.size',10);//柱状上的字体大小
+        //bar3.Set('chart.units.pre', '￥');
+        //bar3.Set('chart.units.post', '万元'); //添加单位
+        bar1.Set('chart.text.color', 'black'); //标签颜色
+        bar1.Set('chart.axis.color', 'red'); //轴线的颜色
+        //bar1.Set('chart.resizable', true); //设置窗口可变
+        //bar3.Set('chart.labels.above.decimals', 0); //精确小数点后几位
+        //bar3.Set('chart.gutter.right', 15);
+        bar1.Set('chart.gutter.left', 75);
+        bar1.Set('chart.gutter.bottom', 35);
+        bar1.Set('chart.shadow', true);
+        bar1.Set('chart.shadow.blur', 15);//阴影的大小
+        bar1.Set('chart.shadow.color', '#FFF45A'); //阴影的颜色
+        bar1.Set('chart.shadow.offsetx', 0);
+        bar1.Set('chart.shadow.offsety', 0);
+        bar1.Set('chart.colors', ['#77f']);
+        bar1.Set('chart.key.position', 'gutter');
+
+        bar1.Set('chart.text.size', 10);
+        bar1.Set('chart.text.font', 'Georgia');
+        bar1.Set('chart.tooltips',x);
+        bar1.Set('chart.grouping', 'stacked');
+        bar1.Set('chart.highlight.stroke', 'gray');
+        bar1.Set('chart.highlight.fill', 'rgba(255,255,255,0.2)');
+
+        bar1.Draw();
+
+    }
+    function drawNumLine(){
+        var x2 = <%=@num_range_arrs %>;
+        var z2 = new Array();
+        <% @num_horizontal_arr.each do |n|%>
+        z2.push('<%=n%>');
+        <% end %>
+        line2 = new RGraph.Line('cvs_div', x2)
+                .Set('chart.gutter.left',50)
+                .Set('chart.gutter.bottom',35)
+                .Set('chart.gutter.top',35)
+                .Set('chart.gutter.right',50)
+                .Set('background.grid.dashed', true)
+                .Set('colors', ['red'])
+                .Set('labels.above',true)
+                .Set('labels', z2)
+                .Set('background.grid.dashed', true)
+                .Set('title', '统计')
+                .Draw();
+
+    }
+    function drawNumPie(){
+        var x2 = new Array();
+        var y2 = new Array();
+        var z2 = new Array();
+        <% @num_horizontal_arr.each do |el| %>
+        x2.push('<%= el %>')
+        <% end %>
+        <% @num_range_arrs.each do |el| %>
+        y2.push(<%= el %>)
+        <% end %>
+        for(var i= 0;i<x2.length;i++){
+            z2.push(x2[i]+"  "+y2[i])
+        }
+
+        var pie2 = new RGraph.Pie('cvs_div', y2)
+                .Set('labels', x2)
+                .Set('tooltips', z2)
+                .Set('tooltips.event', 'onmousemove')
+                .Set('colors', ['#EC0033','#A0D300','#FFCD00','#00B869','#999999','#FF7300','#004CB0'])
+                .Set('strokestyle', 'white')
+                .Set('linewidth', 3)
+                .Set('shadow', true)
+                .Set('shadow.offsetx', 2)
+                .Set('shadow.offsety', 2)
+                .Set('shadow.blur', 3)
+                .Set('exploded', 7)
+
+        pie2.Draw();
+    }
+    function drawNumBar(){
+        var y2 = new Array();
+        var x2 = new Array();
+        <% @num_horizontal_arr.each do |el| %>
+        x2.push('<%= el %>')
+        <% end %>
+        <% @num_range_arrs.each do |el| %>
+        y2.push(<%= el %>)
+        <% end %>
+
+
+
+        var bar3 = new RGraph.Bar('canvas_div', y2);
+        //bar3.Set('chart.background.barcolor1', 'white');
+        //bar3.Set('chart.background.barcolor2', 'white');
+        // bar3.Set('chart.title', '统计图');
+        bar3.Set('chart.title.vpos', 0.5);
+        bar3.Set('chart.title.hpos', 0.5);
+        bar3.Set('chart.hmargin', 80);
+        bar3.Set('chart.tickmarks', 'endsquare');
+        bar3.Set('chart.labels', x2);
+        bar3.Set('chart.labels.above',true);
+        bar3.Set('chart.labels.above.size',10);//柱状上的字体大小
+        //bar3.Set('chart.units.pre', '￥');
+        //bar3.Set('chart.units.post', '万元'); //添加单位
+        bar3.Set('chart.text.color', 'black'); //标签颜色
+        bar3.Set('chart.axis.color', 'red'); //轴线的颜色
+        //bar3.Set('chart.resizable', true); //设置窗口可变
+        //bar3.Set('chart.labels.above.decimals', 0); //精确小数点后几位
+        //bar3.Set('chart.gutter.right', 15);
+        bar3.Set('chart.gutter.left', 75);
+        bar3.Set('chart.gutter.bottom', 35);
+        bar3.Set('chart.shadow', true);
+        bar3.Set('chart.shadow.blur', 15);//阴影的大小
+        bar3.Set('chart.shadow.color', '#FFF45A'); //阴影的颜色
+        bar3.Set('chart.shadow.offsetx', 0);
+        bar3.Set('chart.shadow.offsety', 0);
+        bar3.Set('chart.colors', ['#77f']);
+        bar3.Set('chart.key.position', 'gutter');
+
+        bar3.Set('chart.text.size', 10);
+        bar3.Set('chart.text.font', 'Georgia');
+        bar3.Set('chart.tooltips',x2);
+        bar3.Set('chart.grouping', 'stacked');
+        bar3.Set('chart.highlight.stroke', 'gray');
+        bar3.Set('chart.highlight.fill', 'rgba(255,255,255,0.2)');
+        bar3.Draw();
+    }
+
+function showSectionInfo(obj,num){
+	
+	if (obj.value!=""){
+		var crf_id= obj.value;
+		//将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+        if (crf_id !=0)
+            $.ajax({
+                    type: 'GET',
+                    url: '/search_condition/add_section',
+                    data: 'crf_id='+crf_id+'&num='+num,
+                    success: function(msg) {
+                        //alert(msg);
+                             eval(msg);
+                    }
+                });
+
+        else{
+            $.ajax({
+                type: 'GET',
+                url: '/search_condition/add_item',
+                data: 'crf_id='+crf_id+'&num='+num,
+                success: function(msg) {
+                    //alert(msg);
+                    eval(msg);
+                }
+            });
+
+        }
+
+        return false;
+
+	}
+}
+
+function showItemInfo(obj,num){
+
+	if (obj.value!=""){
+		var section_id= obj.value;
+		//将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+		$.ajax({
+                type: 'GET',
+                url: '/search_condition/add_item',
+                data: 'section_id='+section_id+'&num='+num,
+                success: function(msg) {
+                	//alert(msg);
+                         eval(msg);
+                }
+            });
+            return false;
+	}
+}
+
+
+
+
+</script>
+<style>
+    fieldset { border:2px solid #D8E5F9 }
+
+    legend {
+        padding: 0.2em 0.5em;
+        border:2px solid #D8E5F9;
+        color:#5040FF;
+        font-size:90%;
+        text-align:right;
+    }
+
+    input[type="text"] {
+        height: 18px;
+    }
+
+</style>
+<% content_for :title do %>
+    数据检索
+<% end %>
+<%= form_tag :action => 'index2' do %>
+
+    <input type="hidden" name="search_info" value="true">
+
+    <div class="well contentsBackground span11">
+        <div class="allConditionContainer conditionGroup contentsBackground well">
+          <div class="header">
+            <span>
+              <strong>所有条件</strong>
+            </span>
+            <span>(所有条件都必须满足)</span>
+          </div>
+          <div class="contents">
+            <div class="conditionList">
+              <div class="row-fluid conditionRow marginBottom10px">
+                <div id="search_con" style="clear:left"> </div>
+                <div class="addCondition">
+                  <a href="/search_condition/add_condition/1" class="btn" data-remote="true">
+                    <strong>添加条件</strong>
+                  </a>
+                  <a class="btn"  href="/search_condition/remove_condition/1" data-remote="true">
+                    <strong>删除条件</strong>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <font size=2><strong><%= format_search_word(@search_word) %></strong></font>
+
+        </div>
+        <div class="allConditionContainer conditionGroup contentsBackground well">
+
+                <%= radio_button_tag :statistic_type, '1' ,check(params[:statistic_type],'1'),:onclick=>"showStNum(this.value)"%> 字符类型统计
+                <%= radio_button_tag :statistic_type, '2' ,check(params[:statistic_type],'2'),:onclick=>"showStNum(this.value)"%> 数字类型统计
+                <button class = "btn">提交</button>
+
+            <div id="reportContentsDiv">
+              <div class="contents-topscroll">
+                <div class="topscroll-div container-fluid" style="width: 1068px;"> </div>
+              </div>
+              <div id="reportDetails" class="container-fluid contents-bottomscroll">
+                <div class="bottomscroll-div">
+                  <div>
+                    <%= render "statistic" %>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+     </div>
+
+
+<% end %>

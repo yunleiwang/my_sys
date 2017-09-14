@@ -39,7 +39,7 @@ class MenusCrfInfosController < ApplicationController
     respond_to do |format|
       #if @menus_crf_info.save
       if true
-        format.html { redirect_to @menus_crf_info, notice: 'Menus crf info was successfully created.' }
+        format.html { redirect_to @menus_crf_infos, notice: 'Menus crf info was successfully created.' }
         format.json { render :show, status: :created, location: @menus_crf_info }
       else
         format.html { render :new }

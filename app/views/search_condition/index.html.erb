@@ -1,0 +1,141 @@
+<%#= stylesheet_link_tag 'bootstrap' %>
+<%#= stylesheet_link_tag 'style' %>
+<script>
+function showSectionInfo(obj,num){
+	
+	if (obj.value!=""){
+		var crf_id= obj.value;
+		//将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+        if (crf_id !=0)
+            $.ajax({
+                    type: 'GET',
+                    url: '/search_condition/add_section',
+                    data: 'crf_id='+crf_id+'&num='+num,
+                    success: function(msg) {
+                        //alert(msg);
+                             eval(msg);
+                    }
+                });
+
+        else{
+            $.ajax({
+                type: 'GET',
+                url: '/search_condition/add_item',
+                data: 'crf_id='+crf_id+'&num='+num,
+                success: function(msg) {
+                    //alert(msg);
+                    eval(msg);
+                }
+            });
+
+        }
+
+        return false;
+
+	}
+}
+
+function showItemInfo(obj,num){
+
+	if (obj.value!=""){
+		var section_id= obj.value;
+		//将crf_id 和num（select的行数）传到后台，用于区分是哪个select
+		$.ajax({
+                type: 'GET',
+                url: '/search_condition/add_item',
+                data: 'section_id='+section_id+'&num='+num,
+                success: function(msg) {
+                	//alert(msg);
+                         eval(msg);
+                }
+            });
+            return false;
+	}
+}
+
+</script>
+
+<% content_for :title do %>
+    数据检索
+<% end %>
+<%= form_tag :action => 'index' do %>
+
+  <input type="hidden" name="search_info" value="true">
+  <div class="well contentsBackground span11">
+    <div class="allConditionContainer conditionGroup contentsBackground well">
+      <div class="header">
+        <span>
+         <!-- <strong>所有条件</strong>-->
+           <fieldset style="-moz-border-radius:12px;font-size:10px;margin:3px;">
+             <legend>
+               <% unless session[:sql].blank? %>
+                    <input type="checkbox" name="in_result"/>在结果中检索<br/>
+               <% end %>
+             </legend>
+           </fieldset>
+        </span>
+
+       <!-- <span>(所有条件都必须满足)</span>-->
+      </div>
+    <div id="search_con" > </div>
+    <div class="addCondition">
+      <a href="/search_condition/add_condition" class="btn" data-remote="true">
+        <strong>添加条件</strong>
+      </a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a class="btn"  href="/search_condition/remove_condition" data-remote="true">
+        <strong>删除条件</strong>
+      </a>
+      <font size=2><strong><%= format_search_word(session[:search_word]) %></strong></font>
+      <br>
+      <br>
+      <div style="clear: both"></div>
+      <button class = "btn btn-info">提交</button>
+    </div>
+
+  </div>
+
+
+    <div id="reportContentsDiv">
+      <div id="reportDetails" class="container-fluid contents-bottomscroll">
+        <div class="bottomscroll-div">
+          <table class=" table-bordered table-condensed marginBottom10px" width="100%"></table>
+          <% unless @patient_infos.blank? %>
+              <h2>患者浏览<small>(共<%= @patient_infos.total_entries %>人)</small></h2>
+              <!--<table id='index' class="subject">-->
+             <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>患者编号</th>
+                  <th>姓名</th>
+                  <th>性别</th>
+                  <th>出生日期</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for patient_info in @patient_infos %>
+                    <tr>
+                      <td ><%= link_to patient_info.id, patient_info %></td>
+                      <td ><%= patient_info.name %></td>
+                      <td ><%= patient_info.gender %></td>
+                      <td ><%= patient_info.birthday %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </table>
+        </div>
+              <div>
+                <%= will_paginate @patient_infos, :previous_label => "上一页", :next_label => "下一页" %>
+                <%#= link_to "导出",{:action => "export2excel",:id=>1,:sql => session[:sql]},:class=>"btn"   %>
+                <%= link_to "导出",{},:class=>"btn"   %>
+              </div>
+      </div>
+    </div>
+    <% end %>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+<% end %>

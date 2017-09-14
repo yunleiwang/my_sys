@@ -33,16 +33,17 @@
 
 <ul class="nav nav-list">
   <li class="active">
-    <a href="/patient_visits/<%= params[:patient_visit_id] %>" class="pjax-link">
+    <a href="/patients/<%= params[:patient_id] %>/show_form?menu_type=<%= params[:menu_type]||=2 %>" class="pjax-link">
       <i class="icon-dashboard"></i>
       <span class="menu-text"> 就诊信息 </span>
     </a>
   </li>
-  <% menus= Menu.where('menu_type=?',params[:menu_type].to_i).order('id asc') %>
+  <% menus= Menu.where('menu_type=?',params[:menu_type].to_i).order('seq  asc') %>
   <% first_level_menus = menus.select{|menu|menu.menu_id==0} %>
   <% first_level_menus.each_with_index do |first_level_menu,index| %>
       <% index=index+1 %>
-      <% crf_infos = first_level_menu.crf_infos %>
+      <%# crf_infos = first_level_menu.crf_infos.select('crf_infos.* , menus_crf_infos.seq as seq').order('menus_crf_infos.seq asc') %>
+      <% menus_crf_infos = first_level_menu.menus_crf_infos.includes(:crf_info).order('menus_crf_infos.seq asc') %>
       <li class="<%= nav_li_class(index,params[:menu_id]) %>">
         <a href="<%= first_level_menu.link %>" class="<%= nav_a_class(first_level_menu) %>">
           <i class="<%= first_level_menu.icon_class %>"></i>
@@ -50,14 +51,14 @@
         </a>
         <!--二级菜单判断-->
         <% second_level_menus= first_level_menu.submenus %>
-        <% if ((!second_level_menus.empty?) || (crf_infos.length>0))%>
+        <% if ((!second_level_menus.empty?) || (menus_crf_infos.length>0))%>
             <ul class="submenu">
               <!--菜单上所挂表单开始-->
-              <% crf_infos.each do |crf_info| %>
+              <% menus_crf_infos.each do |menus_crf_info| %>
                   <li>
-                    <a href="/item_form_metaelements/new?crf_info_id=<%= crf_info.id %>&&menu_type=<%= params[:menu_type] %>" class="pjax-link">
+                    <a href="/item_value_orders?menus_crf_info_id=<%= menus_crf_info.id %>&crf_info_id=<%= menus_crf_info.crf_info_id %>&&menu_type=<%= params[:menu_type] %>&&patient_id=<%= params[:patient_id] %>&&patient_visit_id=<%=params[:patient_visit_id] %>" class="pjax-link">
                       <i class="icon-double-angle-right"></i>
-                      <%= crf_info.name %>
+                      <%= menus_crf_info.crf_info.name %>
                     </a>
                   </li>
               <% end %>
@@ -89,12 +90,45 @@
               <% end %>
             </ul>
         <% end %>
-
       </li>
   <% end %>
 
-</ul>
+  <li class="<%= nav_li_class(1,params[:menu_id]) %>">
+    <a href="#" class="dropdown-toggle">
+      <i class="icon-dashboard"></i>
+      <span class="menu-text"> 统计</span>
+    </a>
+    <ul class="submenu">
+      <!--菜单上所挂表单开始-->
 
+      <li>
+        <a href="/observes?menu_type=<%= params[:menu_type] %>&&patient_id=<%= params[:patient_id] %>&&patient_visit_id=<%=params[:patient_visit_id] %>" class="pjax-link">
+          <i class="icon-double-angle-right"></i>
+          癫痫观察表
+        </a>
+      </li>
+      <li>
+        <a href="/statistics/index?menu_type=<%= params[:menu_type] %>&&patient_id=<%= params[:patient_id] %>&&patient_visit_id=<%=params[:patient_visit_id] %>" class="pjax-link">
+          <i class="icon-double-angle-right"></i>
+
+          发作次数及用药统计
+        </a>
+      </li>
+      <!--<li>-->
+        <!--<a href="/statistics/by_month_bak?menu_type=<%= params[:menu_type] %>&&patient_id=<%= params[:patient_id] %>&&patient_visit_id=<%=params[:patient_visit_id] %>" class="pjax-link">-->
+          <!--<i class="icon-double-angle-right"></i>-->
+          <!--发作次数统计表-按月-->
+        <!--</a>-->
+      <!--</li>-->
+      <li>
+        <a href="/statistics/index2?menu_type=<%= params[:menu_type] %>&&patient_id=<%= params[:patient_id] %>&&patient_visit_id=<%=params[:patient_visit_id] %>" class="pjax-link">
+          <i class="icon-double-angle-right"></i>
+          发作次数统计
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 <!-- /.nav-list -->
 <div class="sidebar-collapse" id="sidebar-collapse">

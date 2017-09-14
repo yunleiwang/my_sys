@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>睡眠呼吸暂停综合征患者信息管理系统</title>
+  <!--<title>儿童癫痫患者信息管理系统</title>-->
+  <title>康复信息管理系统</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -11,7 +12,7 @@
   <link href="/assets/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/font-awesome.min.css" />
   <link rel="stylesheet" href="/assets/my_sys.css" />
-
+  <link rel="stylesheet" href="/assets/fullcalendar.css" />
   <!--[if IE 7]>
   <link rel="stylesheet" href="/assets/font-awesome-ie7.min.css" />
   <![endif]-->
@@ -20,7 +21,7 @@
   <link rel="stylesheet" href="/assets/jquery-ui-1.10.3.custom.min.css" />
   <link rel="stylesheet" href="/assets/chosen.css" />
   <link rel="stylesheet" href="/assets/datepicker.css" />
-  <link rel="stylesheet" href="/assets/bootstrap-timepicker.css" />
+  <link rel="stylesheet" href="/assets/bootstrap-datetimepicker.css" />
   <!-- fonts -->
 
   <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />-->
@@ -46,7 +47,30 @@
   <script src="/assets/html5shiv.js"></script>
   <script src="/assets/respond.min.js"></script>
   <!--[if !IE]> -->
-  <script src="/assets/item_form_metaelements.js"></script>
+  <!--[if !IE]> -->
+  <script src='/assets/jquery-2.0.3.min.js'></script>
+  <!--<![endif]-->
+  <script src="/assets/jquery_ujs.js"></script>
+  <!--[if IE]>
+  <script src='/assets/jquery-1.10.2.min.js'></script>
+  <![endif]-->
+  <script src="/assets/fullcalendar.min.js"></script>
+  <!--[if !IE]> -->
+  <script type="text/javascript">
+      window.jQuery || document.write("<script src='/assets/jquery-2.0.3.min.js'>"+"<"+"script>");
+  </script>
+  <!--<![endif]-->
+
+  <!--[if IE]>
+  <script type="text/javascript">
+      window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
+  </script>
+  <!-- <![endif]-->
+  <script src='/assets/jquery.pjax.js'></script>
+  <script src='/assets/jquery.autosize.min.js'></script>
+  <script src='/assets/jquery.inputlimiter.1.3.1.min.js'></script>
+  <script src='/assets/jquery-ui-1.10.3.full.min.js'></script>
+  <script src='/assets/jquery.maskedinput.min.js'></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -69,7 +93,9 @@
       <%= render 'layouts/sidebar_form' %>
     </div>
 
+
     <div class="main-content" id="pjax-container">
+
       <%= yield %>
     </div><!-- /.main-content -->
 
@@ -79,29 +105,10 @@
     <i class="icon-double-angle-up icon-only bigger-110"></i>
   </a>
 </div><!-- /.main-container -->
-<!--[if !IE]> -->
-<script src='/assets/jquery-2.0.3.min.js'></script>
-<!--<![endif]-->
 
-<!--[if IE]>
-<script src='/assets/jquery-1.10.2.min.js'></script>
-<![endif]-->
-<script src="/assets/jquery_ujs.js"></script>
-<!--[if !IE]> -->
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='/assets/jquery-2.0.3.min.js'>"+"<"+"script>");
-</script>
-<!--<![endif]-->
-
-<!--[if IE]>
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='/assets/jquery-1.10.2.min.js'>"+"<"+"script>");
-</script>
-<!-- <![endif]-->
-<script src='/assets/jquery.pjax.js'></script>
 
 <!-- basic scripts -->
-
+<script src="/assets/item_form_metaelements.js"></script>
 <script type="text/javascript">
     if("ontouchend" in document) document.write("<script src='/assets/jquery.mobile.custom.min.js'>"+"<"+"script>");
 </script>
@@ -119,7 +126,8 @@
 <!--form js begin-->
 <script src="/assets/chosen.jquery.min.js"></script>
 <script src="/assets/date-time/bootstrap-datepicker.min.js"></script>
-<script src="/assets/date-time/bootstrap-timepicker.min.js"></script>
+<script src="/assets/date-time/bootstrap-datetimepicker.js"></script>
+
 <!--<script src="/assets/bootstrap-tag.min.js"></script>-->
 <!--form js end-->
 <%= yield :js %>
@@ -128,6 +136,10 @@
 <script src="/assets/ace-elements.min.js"></script>
 <script src='/assets/jquery.pjax.js'></script>
 <!-- inline scripts related to this page -->
+<script src="/assets/jquery.dataTables.min.js"></script>
+<script src="/assets/jquery.dataTables.bootstrap.js"></script>
+<script src="/assets/echarts-all.js"></script>
+
 <script type="text/javascript">
     jQuery(function($) {
         //pjax局部刷新
@@ -135,6 +147,9 @@
             $(document).on('click', 'a.pjax-link', function (event) {
                 $.pjax.click(event, { container: '#pjax-container', cache: false  });
             });
+            $(document).on('click', 'form[data-pjax]', function(event) {
+                $.pjax.submit(event, { container: '#pjax-container', cache: false  })
+            })
             $(document).on('pjax:end', function () {
                 $(".chosen-select").chosen();
                 $('#chosen-multiple-style').on('click', function(e){
@@ -146,6 +161,13 @@
                 $('.date-picker').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
                     $(this).prev().focus();
                 });
+                $('.datetime-picker').datetimepicker({
+                    format: "yyyy-mm-dd hh:ii",
+                    autoclose: true,
+                    todayBtn: true,
+                    //startDate: "2013-02-14 10:00",
+                    minuteStep: 1
+                });
             });
         }
         // form info js
@@ -156,9 +178,10 @@
             if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
             else $('#form-field-select-4').removeClass('tag-input-style');
         });
-        $('.date-picker').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
-            $(this).prev().focus();
-        });
+
+
+
+
     })
 
 </script>

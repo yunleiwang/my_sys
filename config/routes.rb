@@ -1,4 +1,20 @@
 Rails.application.routes.draw do
+  resources :observes
+  get 'statistics/index'
+  get 'statistics/index2'
+  get 'statistics/index_data'
+  get 'statistics/index2_data'
+  get 'statistics/by_month_data'
+
+  get 'statistics/by_month'
+
+  get 'statistics/by_day'
+
+  get 'statistics/by_hour'
+  get 'statistics/by_hour_json'
+
+  resources :item_value_orders
+  resources :item_values
   resources :menus_crf_infos
   resources :public_libs
   resources :patient_visits do
@@ -6,7 +22,11 @@ Rails.application.routes.draw do
       get 'today_visits'
     end
   end
-  resources :patients
+  resources :patients do
+    member do
+      get 'show_form'
+    end
+  end
   resources :menus
   resources :item_group_metaelements
   resources :item_form_metaelements
@@ -22,9 +42,29 @@ Rails.application.routes.draw do
   resources :items
   resources :sections
   resources :crves
+  resources :search_condition do
+    collection do
+      get :index
+      post :index
+      get :index2
+      get :add_condition
+      get :remove_condition
+      get :add_section
+      get :add_item
+      get :export2excel
+    end
+  end
+  resources :sys_exports
   get 'home/index'
-
   devise_for :users
+  devise_scope :user do
+    authenticated :user do
+      root 'home#index', as: :authenticated_root
+    end
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Patient:</strong>
+  <%= @item_value_order.patient_id %>
+</p>
+
+<p>
+  <strong>Patient visit:</strong>
+  <%= @item_value_order.patient_visit_id %>
+</p>
+
+<p>
+  <strong>Complete:</strong>
+  <%= @item_value_order.complete %>
+</p>
+
+<p>
+  <strong>Ordinal:</strong>
+  <%= @item_value_order.ordinal %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @item_value_order.user_id %>
+</p>
+
+<p>
+  <strong>History:</strong>
+  <%= @item_value_order.history %>
+</p>
+
+<%= link_to 'Edit', edit_item_value_order_path(@item_value_order) %> |
+<%= link_to 'Back', item_value_orders_path %>

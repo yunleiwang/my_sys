@@ -1,0 +1,8 @@
+<% session[:range_num]+=1 %>
+  <div>
+  数值范围:
+    <%= text_field_tag "low_range#{session[:range_num]}",nil,:size=>5%> ~ <%= text_field_tag "high_range#{session[:range_num]}",nil,:size=>5%>
+    <a href="javascript:;" onclick="return del(this)">
+    <img width='16' height='16' title=" 删除" src="/images/delete.png"></a>
+  </div>
+

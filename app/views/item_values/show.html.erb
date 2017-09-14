@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @item_value.item_id %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @item_value.value %>
+</p>
+
+<p>
+  <strong>Patient:</strong>
+  <%= @item_value.patient_id %>
+</p>
+
+<p>
+  <strong>Menus crf info:</strong>
+  <%= @item_value.menus_crf_info_id %>
+</p>
+
+<p>
+  <strong>Patient visit:</strong>
+  <%= @item_value.patient_visit_id %>
+</p>
+
+<p>
+  <strong>Item value order:</strong>
+  <%= @item_value.item_value_order_id %>
+</p>
+
+<%= link_to 'Edit', edit_item_value_path(@item_value) %> |
+<%= link_to 'Back', item_values_path %>

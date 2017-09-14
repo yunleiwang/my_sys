@@ -9,7 +9,7 @@
     <a href="#" class="navbar-brand">
       <small>
         <i class="icon-leaf"></i>
-        睡眠呼吸暂停综合征患者信息管理系统
+        <%= YAML.load_file(File.join(Rails.root, 'config', 'app.yml'))['name'] %>
       </small>
     </a><!-- /.brand -->
   </div><!-- /.navbar-header -->
@@ -230,7 +230,7 @@
           <img class="nav-user-photo" src="/assets/avatars/user.jpg" alt="Jason's Photo" />
             <span class="user-info">
                 <small>欢迎光临,</small>
-                Jason
+                <%= current_user.username %>
             </span>
 
           <i class="icon-caret-down"></i>

@@ -1,0 +1,4 @@
+<% if session[:num] > 0 %>
+   $("#<%= "s#{session[:num]}" %>").remove();
+   <% session[:num] = session[:num] -1 %>
+<% end %>

@@ -62,8 +62,9 @@ class ItemGroupsController < ApplicationController
   end
 
   def add_item_group
-    item_group = ItemGroup.find(params[:id])
-    @items = item_group.items
+    @item_group = ItemGroup.find(params[:id])
+    @num = params[:num]
+    @items = @item_group.items
   end
 
   def remove_item_group

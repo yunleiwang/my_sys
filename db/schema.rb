@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161203141313) do
+ActiveRecord::Schema.define(version: 20170914165620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20161203141313) do
     t.string   "options_index"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "parent_id"
   end
 
   create_table "item_groups", force: :cascade do |t|
@@ -68,6 +69,33 @@ ActiveRecord::Schema.define(version: 20161203141313) do
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "item_value_orders", force: :cascade do |t|
+    t.integer  "patient_id"
+    t.integer  "patient_visit_id"
+    t.float    "complete"
+    t.integer  "ordinal"
+    t.integer  "user_id"
+    t.integer  "history"
+    t.integer  "status"
+    t.integer  "crf_info_id"
+    t.integer  "menus_crf_info_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "item_values", force: :cascade do |t|
+    t.integer  "item_id"
+    t.text     "value"
+    t.integer  "patient_id"
+    t.integer  "menus_crf_info_id"
+    t.integer  "patient_visit_id"
+    t.integer  "item_value_order_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "item_group_id"
+    t.integer  "item_group_ordinal"
   end
 
   create_table "items", force: :cascade do |t|
@@ -108,6 +136,27 @@ ActiveRecord::Schema.define(version: 20161203141313) do
     t.integer  "crf_info_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "seq"
+  end
+
+  create_table "observes", force: :cascade do |t|
+    t.date     "observe_date"
+    t.integer  "patient_id"
+    t.integer  "patient_visit_id"
+    t.integer  "observe_hour"
+    t.string   "drug"
+    t.integer  "attack"
+    t.string   "cause"
+    t.string   "sleep_info"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "observe_minute"
+    t.string   "other_drug"
+    t.integer  "has_before_cause"
+    t.string   "attack_show"
+    t.string   "duration"
+    t.integer  "duration_time"
+    t.string   "environment_change"
   end
 
   create_table "patient_visits", force: :cascade do |t|
@@ -148,9 +197,13 @@ ActiveRecord::Schema.define(version: 20161203141313) do
     t.date     "birthday"
     t.string   "nation"
     t.string   "native_place"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "file_type"
+    t.string   "birth_place"
+    t.date     "first_admission_date"
+    t.string   "family_name"
+    t.string   "contact_phone"
   end
 
   create_table "public_libs", force: :cascade do |t|
@@ -163,6 +216,25 @@ ActiveRecord::Schema.define(version: 20161203141313) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "search_libs", force: :cascade do |t|
+    t.string   "field_name",             limit: 255
+    t.string   "host_table",             limit: 255
+    t.string   "correspond_field",       limit: 255
+    t.string   "correspond_field_value", limit: 255
+    t.string   "note",                   limit: 255
+    t.string   "patient_info_name",      limit: 255
+    t.string   "attached_field",         limit: 255
+    t.string   "attached_value",         limit: 255
+    t.string   "ha",                     limit: 255
+    t.string   "ha_value",               limit: 255
+    t.string   "parent_table",           limit: 255
+    t.string   "parent_field",           limit: 255
+    t.string   "parent_release",         limit: 255
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "is_lib_public"
+  end
+
   create_table "sections", force: :cascade do |t|
     t.string   "name"
     t.string   "title"
@@ -172,6 +244,16 @@ ActiveRecord::Schema.define(version: 20161203141313) do
     t.integer  "crf_info_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "sys_exports", force: :cascade do |t|
+    t.string   "field_zh_name", limit: 255
+    t.string   "field_en_name", limit: 255
+    t.string   "table_name",    limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "crf_table_id"
+    t.integer  "item_id"
   end
 
   create_table "users", force: :cascade do |t|

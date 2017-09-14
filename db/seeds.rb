@@ -7,47 +7,47 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
     # 初始化菜单
-    Menu.create([
-                    # {name_cn: '控制台',name_en:'',link: '/home/index',seq:1,menu_id:0,menu_type:1,hidden:0},
-                    # {name_cn: '患者信息',name_en:'',link: '#',seq:2,menu_id:0,menu_type:1,hidden:0},
-                    # {name_cn: '患者信息',name_en:'',link: '/patients',seq:1,menu_id:2,menu_type:1,hidden:0},
-                    # {name_cn: '就诊信息',name_en:'',link: '#',seq:3,menu_id:0,menu_type:1,hidden:0},
-                    # {name_cn: '随访信息',name_en:'',link: '#',seq:4,menu_id:0,menu_type:1,hidden:0},
-                    # {name_cn: '系统管理',name_en:'',link: '#',seq:5,menu_id:0,menu_type:1,hidden:0},
-                    # {name_cn: '今日就诊',name_en:'',link: '/patient_visits/today_visits',seq:1,menu_id:4,menu_type:1,hidden:0},
-                    # {name_cn: '就诊列表',name_en:'',link: '/patient_visits',seq:2,menu_id:4,menu_type:1,hidden:0},
-                    # {name_cn: '菜单管理',name_en:'',link: '/menus',seq:1,menu_id:6,menu_type:1,hidden:0},
-                    # {name_cn: '用户管理',name_en:'',link: '#',seq:2,menu_id:6,menu_type:1,hidden:0},
-                    # {name_cn: '角色管理',name_en:'',link: '#',seq:1,menu_id:11,menu_type:1,hidden:0},
-                    # {name_cn: '用户列表',name_en:'',link: '#',seq:2,menu_id:11,menu_type:1,hidden:0},
-                    # {name_cn: '表单管理',name_en:'',link: '#',seq:3,menu_id:6,menu_type:1,hidden:0},
-                    # {name_cn: '字典库管理',name_en:'',link: '#',seq:4,menu_id:6,menu_type:1,hidden:0},
-                    # {name_cn: '主诉及现病史',name_en:'',link: '#',seq:1,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '并发症病史和其他病史及相关治疗',name_en:'',link: '#',seq:2,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '个人史',name_en:'',link: '#',seq:3,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '体格检查',name_en:'',link: '#',seq:4,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '辅助检查',name_en:'',link: '#',seq:5,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '病情评估',name_en:'',link: '#',seq:6,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '治疗',name_en:'',link: '#',seq:7,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '标本记录',name_en:'',link: '#',seq:8,menu_id:0,menu_type:2,hidden:0},
-                    # {name_cn: '基本情况',name_en:'',link: '#',seq:1,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '预后',name_en:'',link: '#',seq:2,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '合并症情况',name_en:'',link: '#',seq:3,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '诊断',name_en:'',link: '#',seq:4,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '体格检查',name_en:'',link: '#',seq:5,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '实验室及辅助检查',name_en:'',link: '#',seq:6,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '病情问卷评估',name_en:'',link: '#',seq:7,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '治疗情况',name_en:'',link: '#',seq:8,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '标本记录',name_en:'',link: '#',seq:9,menu_id:0,menu_type:3,hidden:0},
-                    # {name_cn: '菜单管理',name_en:'',link: '#',seq:9,menu_id:6,menu_type:1,hidden:0},
-                    {name_cn: '随访方案',name_en:'',link: '/follow_programs',seq:2,menu_id:5,menu_type:1,hidden:0},
-                    {name_cn: '待随访列表',name_en:'',link: '/follow_ups',seq:1,menu_id:5,menu_type:1,hidden:0},
-
-                ])
+    # Menu.create([
+    #                 {name_cn: '控制台',name_en:'',link: '/home/index',seq:1,menu_id:0,menu_type:1,hidden:0},
+    #                 {name_cn: '患者信息',name_en:'',link: '#',seq:2,menu_id:0,menu_type:1,hidden:0},
+    #                 {name_cn: '患者信息',name_en:'',link: '/patients',seq:1,menu_id:2,menu_type:1,hidden:0},
+    #                 {name_cn: '就诊信息',name_en:'',link: '#',seq:3,menu_id:0,menu_type:1,hidden:0},
+    #                 {name_cn: '随访信息',name_en:'',link: '#',seq:4,menu_id:0,menu_type:1,hidden:0},
+    #                 {name_cn: '系统管理',name_en:'',link: '#',seq:5,menu_id:0,menu_type:1,hidden:0},
+    #                 {name_cn: '今日就诊',name_en:'',link: '/patient_visits/today_visits',seq:1,menu_id:4,menu_type:1,hidden:0},
+    #                 {name_cn: '就诊列表',name_en:'',link: '/patient_visits',seq:2,menu_id:4,menu_type:1,hidden:0},
+    #                 {name_cn: '菜单管理',name_en:'',link: '/menus',seq:1,menu_id:6,menu_type:1,hidden:0},
+    #                 {name_cn: '用户管理',name_en:'',link: '#',seq:2,menu_id:6,menu_type:1,hidden:0},
+    #                 {name_cn: '角色管理',name_en:'',link: '#',seq:1,menu_id:11,menu_type:1,hidden:0},
+    #                 {name_cn: '用户列表',name_en:'',link: '#',seq:2,menu_id:11,menu_type:1,hidden:0},
+    #                 {name_cn: '表单管理',name_en:'',link: '#',seq:3,menu_id:6,menu_type:1,hidden:0},
+    #                 {name_cn: '字典库管理',name_en:'',link: '#',seq:4,menu_id:6,menu_type:1,hidden:0},
+    #                 # {name_cn: '主诉及现病史',name_en:'',link: '#',seq:1,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '并发症病史和其他病史及相关治疗',name_en:'',link: '#',seq:2,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '个人史',name_en:'',link: '#',seq:3,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '体格检查',name_en:'',link: '#',seq:4,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '辅助检查',name_en:'',link: '#',seq:5,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '病情评估',name_en:'',link: '#',seq:6,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '治疗',name_en:'',link: '#',seq:7,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '标本记录',name_en:'',link: '#',seq:8,menu_id:0,menu_type:2,hidden:0},
+    #                 # {name_cn: '基本情况',name_en:'',link: '#',seq:1,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '预后',name_en:'',link: '#',seq:2,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '合并症情况',name_en:'',link: '#',seq:3,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '诊断',name_en:'',link: '#',seq:4,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '体格检查',name_en:'',link: '#',seq:5,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '实验室及辅助检查',name_en:'',link: '#',seq:6,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '病情问卷评估',name_en:'',link: '#',seq:7,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '治疗情况',name_en:'',link: '#',seq:8,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '标本记录',name_en:'',link: '#',seq:9,menu_id:0,menu_type:3,hidden:0},
+    #                 # {name_cn: '菜单管理',name_en:'',link: '#',seq:9,menu_id:6,menu_type:1,hidden:0},
+    #                 # {name_cn: '随访方案',name_en:'',link: '/follow_programs',seq:2,menu_id:5,menu_type:1,hidden:0},
+    #                 # {name_cn: '待随访列表',name_en:'',link: '/follow_ups',seq:1,menu_id:5,menu_type:1,hidden:0},
+    #
+    #             ])
     # 创建出事用户,用户名admin,密码123456
-    # User.create([
-    #                {username: 'admin',encrypted_password:'$2a$11$B.CX1qPIHc/2ZKjcseNrl.ak6yAVK2GfCNlXmG/OmudhaXzFGMOqy'}
-    #            ])
+    User.create([
+                   {username: 'admin',encrypted_password:'$2a$11$B.CX1qPIHc/2ZKjcseNrl.ak6yAVK2GfCNlXmG/OmudhaXzFGMOqy'}
+               ])
 
     # 初始化字典库
     # 学历：学龄前、小学、初中、高中、中技、中专、大专、本科、博士、博士后、硕士、文盲、其他

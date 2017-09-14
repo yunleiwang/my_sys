@@ -1,0 +1,124 @@
+<% patient=Patient.find(params[:patient_id]) %>
+<%= breadcrumbs("当前患者", patient.name, patient.id_number) %>
+<div style="padding: 20px 30px">
+  开始日期: <input type="text" name="begin_date" id="begin_date" value="<%= params[:begin_date] %>" data-date-format="yyyy-mm-dd" class="date-picker">-&nbsp;&nbsp;截止日期<input type="text" name="end_date" id="end_date" value="<%= params[:end_date] %>" class="date-picker" data-date-format="yyyy-mm-dd">&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; <button id="search_btn" class="btn btn-sm btn-primary" name="button">搜索</button>
+</div>
+
+
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main" style="width: 960px;height:600px; margin-top: 20px"></div>
+
+
+<script>
+    $(document).ready(function(){
+        var begin_date = $("#begin_date").val()
+        var end_date = $("#end_date").val()
+        var patient_id = <%= params[:patient_id] %>;
+        loadData(begin_date,end_date,patient_id)
+    })
+
+    function loadData(begin_date,end_date,patient_id){
+        $.ajax({
+            url: '/statistics/index_data',
+            data: {begin_date: begin_date, end_date: end_date, patient_id:patient_id },
+            type: 'get',
+            dataType:'json',
+            success:function(data){
+                drawBar("main", data);
+            },
+            error:function(msg){
+                alert("系统发生错误")
+            }
+        })
+    }
+
+    function drawBar(divID,data) {
+        var myChart = echarts.init(document.getElementById(divID));
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {type: 'cross'}
+            },
+//            toolbox: {
+//                feature: {
+//                    dataView: {show: true, readOnly: false},
+//                    magicType: {show: true, type: [ 'bar','line']},
+//                    restore: {show: true},
+//                    saveAsImage: {show: true}
+//                }
+//            },
+            toolbox: {
+                show: true,
+                feature: {
+                    saveAsImage: {
+                        show:true,
+                        excludeComponents :['toolbox'],
+                        pixelRatio: 2
+                    }
+                }
+            },
+            legend: {
+                data:data.legend
+
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    // data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    data: data.xAxis_data
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '次数',
+                    min: 0,
+                    max: 10,
+                    interval: 1,
+                    axisLabel: {
+                        formatter: '{value} '
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '次数',
+                    min: 0,
+                    max: 10,
+                    interval: 1,
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }
+            ],
+
+            series: data.series
+        };
+    // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    }
+
+    $('#search_btn').click(function(){
+        var begin_date = $("#begin_date").val()
+        var end_date = $("#end_date").val()
+        var patient_id = <%= params[:patient_id] %>;
+        if(begin_date !=null && end_date !=null ){
+
+            if(begin_date < end_date){
+                console.log("重新加载数据");
+                loadData(begin_date,end_date,patient_id)
+            }else{
+                alert("开始时间必须小于截止时间")
+            }
+
+        }
+    })
+
+    $('#begin_date').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
+        $(this).prev().focus();
+    });
+
+    $('#end_date').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
+        $(this).prev().focus();
+    });
+</script>

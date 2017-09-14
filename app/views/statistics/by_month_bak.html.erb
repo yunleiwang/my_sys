@@ -1,0 +1,147 @@
+<% patient=Patient.find(params[:patient_id]) %>
+<%= breadcrumbs("当前患者", patient.name, patient.id_number) %>
+<div style="padding-left: 20px">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="row">
+      <div class="col-sm-9">
+        <div style="text-align: center;"><h1><%= params[:year]%>年<%= params[:month] %>月</h1></div>
+        <div id="calendar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div style="display: none"><a id="hidden_a" href="/observes?patient_id=<%#= params[:patient_id] %>" class="pjax-link"></a></div>-->
+<div style="display: none"><a id="hidden_a" href="/statistics/by_hour?patient_id=<%= params[:patient_id] %>" class="pjax-link"></a></div>
+
+</div>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        var patient_id = <%= params[:patient_id] %>
+
+        var y = <%= params[:year].to_i%>;
+        var m = <%= params[:month].to_i%>;
+        var d = 1;
+        var calendar = $('#calendar').fullCalendar({
+            height: 200,
+            year: y,
+            month: m,
+            date: d,
+            buttonText:false,
+
+            titleFormat: {
+                month: 'yyyy年 MMMM月',
+                week: "[yyyy年] MMMM月d日 { '&#8212;' [yyyy年] MMMM月d日}",
+                day: 'yyyy年 MMMM月d日 dddd'
+            },
+            monthNames: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            dayNames: ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+
+            header: false,
+            events: "/statistics/by_month_data.json?patient_id="+patient_id ,
+            editable: true,
+            droppable: true, // this allows things to be dropped onto the calendar !!!
+
+            selectable: true,
+            selectHelper: true,
+            eventClick: function(event) {
+                var val = $('#hidden_a').attr('href')
+                $('#hidden_a').attr('href',val+"&date="+event.start)
+                $('#hidden_a').click();
+            }
+
+        });
+    })
+
+    $(document).ready(function(){
+        var begin_date = $("#begin_date").val()
+        var end_date = $("#end_date").val()
+        var patient_id = <%= params[:patient_id] %>;
+        loadData(begin_date,end_date,patient_id)
+    })
+
+    function loadData(begin_date,end_date,patient_id){
+        $.ajax({
+            url: '/statistics/index_data',
+            data: {begin_date: begin_date, end_date: end_date, patient_id:patient_id },
+            type: 'get',
+            dataType:'json',
+            success:function(data){
+                drawBar("main", data);
+            },
+            error:function(msg){
+                alert("系统发生错误")
+            }
+        })
+    }
+
+    function drawBar(divID,data) {
+        var myChart = echarts.init(document.getElementById(divID));
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {type: 'cross'}
+            },
+//            toolbox: {
+//                feature: {
+//                    dataView: {show: true, readOnly: false},
+//                    magicType: {show: true, type: [ 'bar','line']},
+//                    restore: {show: true},
+//                    saveAsImage: {show: true}
+//                }
+//            },
+            toolbox: {
+                show: true,
+                feature: {
+                    saveAsImage: {
+                        show:true,
+                        excludeComponents :['toolbox'],
+                        pixelRatio: 2
+                    }
+                }
+            },
+            legend: {
+                data:data.legend
+
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    // data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                    data: data.xAxis_data
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '次数',
+                    min: 0,
+                    max: 10,
+                    interval: 1,
+                    axisLabel: {
+                        formatter: '{value} '
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '次数',
+                    min: 0,
+                    max: 10,
+                    interval: 1,
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }
+            ],
+
+            series: data.series
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    }
+
+
+
+</script>

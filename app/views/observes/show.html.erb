@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Observe date:</strong>
+  <%= @obserf.observe_date %>
+</p>
+
+<p>
+  <strong>Patient:</strong>
+  <%= @obserf.patient_id %>
+</p>
+
+<p>
+  <strong>Patient visit:</strong>
+  <%= @obserf.patient_visit %>
+</p>
+
+<p>
+  <strong>Observe hour:</strong>
+  <%= @obserf.observe_hour %>
+</p>
+
+<p>
+  <strong>Drug:</strong>
+  <%= @obserf.drug %>
+</p>
+
+<p>
+  <strong>Attack:</strong>
+  <%= @obserf.attack %>
+</p>
+
+<p>
+  <strong>Cause:</strong>
+  <%= @obserf.cause %>
+</p>
+
+<p>
+  <strong>Sleep info:</strong>
+  <%= @obserf.sleep_info %>
+</p>
+
+<%= link_to 'Edit', edit_obserf_path(@obserf) %> |
+<%= link_to 'Back', observes_path %>

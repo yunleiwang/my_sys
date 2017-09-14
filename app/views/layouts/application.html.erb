@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>睡眠呼吸暂停综合征患者信息管理系统</title>
+  <!--<title>儿童癫痫患者信息管理系统</title>-->
+  <title>康复信息管理系统</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%#= stylesheet_link_tag 'application', media: 'all' %>
@@ -20,7 +21,7 @@
 
   <link rel="stylesheet" href="/assets/chosen.css" />
   <link rel="stylesheet" href="/assets/datepicker.css" />
-  <link rel="stylesheet" href="/assets/bootstrap-timepicker.css" />
+  <link rel="stylesheet" href="/assets/bootstrap-datetimepicker.css" />
 
   <!-- ace styles -->
   <link rel="stylesheet" href="/assets/ace.min.css" />
@@ -118,7 +119,7 @@
     <!--form elements js-->
     <script src="/assets/chosen.jquery.min.js"></script>
     <script src="/assets/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="/assets/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="/assets/date-time/bootstrap-datetimepicker.js"></script>
 
     <%#= yield :js %>
 
@@ -140,6 +141,7 @@
            $(document).on('click', 'a.pjax-link', function (event) {
                $.pjax.click(event, { container: '#pjax-container', cache: false  });
            });
+
            $(document).on('pjax:end', function () {
                $(".chosen-select").chosen();
                $('#chosen-multiple-style').on('click', function(e){
@@ -151,6 +153,24 @@
                $('.date-picker').datepicker({autoclose:true, width:20}).next().on(ace.click_event, function(){
                    $(this).prev().focus();
                });
+
+//               $('.datetime-picker').datepicker({
+//                   dateFormat: "yy-mm-dd",
+//                   showSecond: false,
+//                   timeFormat: 'hh:mm',
+//                   stepHour: 1,
+//                   stepMinute: 1,
+                   //stepSecond: 1
+//               });
+
+               $('.datetime-picker').datetimepicker({
+                   format: "yyyy-mm-dd hh:ii",
+                   autoclose: true,
+                   todayBtn: true,
+                   //startDate: "2013-02-14 10:00",
+                   minuteStep: 1
+               });
+
 
            });
        }
