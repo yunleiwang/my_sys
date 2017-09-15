@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get 'statistics/by_hour'
   get 'statistics/by_hour_json'
+  get 'statistics/relative_json'
 
   resources :item_value_orders
   resources :item_values

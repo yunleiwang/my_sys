@@ -196,4 +196,45 @@ class StatisticsController < ApplicationController
     render :json=>json
   end
 
+  # 发作次数与用药相关性统计
+  def relative_json
+    legend = ["发病次数","1.丙戊酸钠","2.左乙拉西坦","3.拉莫三嗪","4.奥卡西平","5.卡马西平","6.托吡酯","7.氯硝西泮","8.苯巴比妥","9.苯妥英钠","10.加巴喷丁","11.扑痫酮","12.唑尼沙胺","13其他"]
+    xAxis_data = [] # 横坐标
+    series = []
+    patient_id = params[:patient_id]
+    date = params[:date]
+    (1..24).each do |hour|
+      xAxis_data << hour.to_s+'时'
+    end
+
+    legend.each_with_index do |leg, index|
+      data = []
+      if index == 0  # 发病次数统计
+        (1..24).each do |hour|
+          count = Observe.where('observe_date = ? and patient_id=? and attack=1 and observe_hour=?', date, patient_id,hour).count
+          data << count
+        end
+        series << {:name=>leg, :type=>'bar', :data=>data,:barWidth =>10,:stack=>'次数'}
+      else # 各个药物使用统计
+        (1..24).each do |hour|
+          count = Observe.where('observe_date = ? and patient_id=? and drug=? and observe_hour=?', date, patient_id,leg,hour).count
+          if count>0
+            count=1
+          end
+          data << count
+        end
+        series << {:name=>leg, :type=>'bar', :data=>data,:barWidth =>10,:stack=>'药物'}
+      end
+
+
+    end
+    data = {
+        :legend => legend,
+        :xAxis_data => xAxis_data,
+        :series => series
+    }
+    render :json=>data
+
+  end
+
 end

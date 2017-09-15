@@ -12,7 +12,7 @@ default: &default
 development:
   <<: *default
   #database: my_sys_20170327
-  database: dianxian_20170914
+  database: dianxian_20170915
   username: postgres
   password: postgres
 

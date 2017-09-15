@@ -6,7 +6,7 @@
     <h1>当前时间：<%= params[:year] %>年<%= params[:month] %>月</h1>
     <h5><font color="red">提示：点击发作次数可查看详情</font></h5>
   </div>
-  <table id="monthtable" border="1px" style="width: 80%;height: 50px;text-align: center">
+  <table id="monthtable" border="2px" style="width: 80%;height: 50px;text-align: center">
     <!--<tr>-->
       <!--<td>日期</td>-->
       <!--<td>1</td>-->
@@ -150,6 +150,7 @@
             toolbox: {
                 show: true,
                 feature: {
+                    magicType: {show: true, type: ['line', 'bar']},
                     saveAsImage: {
                         show:true,
                         excludeComponents :['toolbox'],

@@ -5,10 +5,12 @@ function showSub(obj,name){
 
     var index = "";
     if(obj.type == 'select-one'){
-
         index = $(obj).find("option:selected").attr('index');
+        $('.'+name+'[index='+index+']').css('display','block');
     }else{
         index = $(obj).attr('index');
+        $('.'+name).hide();
+        $('.'+name+'[index='+index+']').css('display','block');
     }
 
     if(obj.type == 'checkbox'){

@@ -34,6 +34,8 @@ class CrfInfo < ActiveRecord::Base
           end
         end
 
+        ItemFormMetaelement.where(:crf_info_id => crf_info.id).destroy_all
+        Section.where(:crf_info_id => crf_info.id).destroy_all
         # 导入section信息
         sheet = nil
         begin
@@ -132,10 +134,14 @@ class CrfInfo < ActiveRecord::Base
 
 
             # 导入item_form_metaelement
-            ItemFormMetaelement.where(:crf_info_id => crf_info.id).destroy_all
+
             group_label = row[6].to_s
             section_label= row[5].to_s
             section= Section.where("title=? and crf_info_id=?",section_label,crf_info.id).first
+            p '------------============='
+            p section
+            p section_label
+            p '------------============='
             item_form_metaelement = ItemFormMetaelement.find_by_item_id_and_section_id(item.id, section.id)
             if item_form_metaelement.nil?
               item_form_metaelement = ItemFormMetaelement.new
@@ -151,7 +157,11 @@ class CrfInfo < ActiveRecord::Base
             if !parent_name.blank?
               parent_item = Item.find_by_name(parent_name)
               if (!parent_item.nil? && group_label.blank?)
-
+                p '--------------------'
+                p parent_item.name
+                p item.name
+                p item.left_item_text
+                p '--------------------'
                 parent_item_form_metaelement = ItemFormMetaelement.where('item_id=? and section_id=?',parent_item.id,section.id).last
                 item_form_metaelement.parent_id= parent_item_form_metaelement.id
               end
@@ -176,7 +186,7 @@ class CrfInfo < ActiveRecord::Base
             # 导入item_group_metaelement
             #group_label = row[6].to_s
             # group_label 不为空
-            ItemFormMetaelement.where(:crf_info_id => crf_info.id).destroy_all
+            #ItemFormMetaelement.where(:crf_info_id => crf_info.id).destroy_all
             if !group_label.blank?
               item_group = ItemGroup.where("name=?",group_label).last
               if !item_group.blank?

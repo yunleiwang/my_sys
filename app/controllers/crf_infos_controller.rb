@@ -15,7 +15,8 @@ class CrfInfosController < ApplicationController
     #filepath = File.join(Rails.root, "doc", "癫痫", "头颅MRI检查.xls")
     #filepath = File.join(Rails.root, "doc", "癫痫", "入组筛选表.xls")
     # filepath = File.join(Rails.root, "doc", "癫痫", "遗传代谢病及基因检查.xls")
-    #CrfInfo.new.import_crf(filepath)
+    # filepath = File.join(Rails.root, "doc", "癫痫excel20170904", "癫痫发作及诊治.xls")
+    # CrfInfo.new.import_crf(filepath)
     # MenusCrfInfo.create()
     @crf_infos = CrfInfo.all
     #MenusCrfInfo.create

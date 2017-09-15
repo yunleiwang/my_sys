@@ -52,7 +52,7 @@
                     <%= link_to content_tag(:i, nil, :class=>"icon-book bigger-130")+"详细", {:action => :show, :id=>patient.id, :file_type=>2}, :class=>"green pjax-link", :title => '详细' %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"修改", edit_patient_path(patient)+"?file_type=2", :class=>"blue  pjax-link" %>
                     <%= link_to content_tag(:i, nil, :class=>"icon-trash bigger-130")+"删除", patient, {method: :delete, data: { confirm: '确定要删除?' }, :class=>"red  pjax-link"} %>
-                    <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"填写病历", {:controller => :patients, :action => :show_form, :id=>patient.id, :patient_id=>patient.id, :patient_visit_id=>patient.patient_visits.last.id, :menu_type=>2}, {:target=>'_blank', :class=>"green "} %>
+                    <%= link_to content_tag(:i, nil, :class=>"icon-pencil bigger-130")+"病历信息", {:controller => :patients, :action => :show_form, :id=>patient.id, :patient_id=>patient.id, :patient_visit_id=>patient.patient_visits.last.id, :menu_type=>2}, {:target=>'_blank', :class=>"green "} %>
 
                   </div>
                 </td>
