@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914165620) do
+ActiveRecord::Schema.define(version: 20170915051005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,12 @@ ActiveRecord::Schema.define(version: 20170914165620) do
     t.datetime "updated_at",    null: false
   end
 
+  add_index "item_form_metaelements", ["crf_info_id"], name: "index_item_form_metaelements_on_crf_info_id", using: :btree
+  add_index "item_form_metaelements", ["item_group_id"], name: "index_item_form_metaelements_on_item_group_id", using: :btree
+  add_index "item_form_metaelements", ["item_id"], name: "index_item_form_metaelements_on_item_id", using: :btree
+  add_index "item_form_metaelements", ["parent_id"], name: "index_item_form_metaelements_on_parent_id", using: :btree
+  add_index "item_form_metaelements", ["section_id"], name: "index_item_form_metaelements_on_section_id", using: :btree
+
   create_table "item_group_metaelements", force: :cascade do |t|
     t.string   "no"
     t.string   "parentno"
@@ -63,6 +69,10 @@ ActiveRecord::Schema.define(version: 20170914165620) do
     t.datetime "updated_at",      null: false
     t.integer  "parent_id"
   end
+
+  add_index "item_group_metaelements", ["crf_info_id"], name: "index_item_group_metaelements_on_crf_info_id", using: :btree
+  add_index "item_group_metaelements", ["item_group_id"], name: "index_item_group_metaelements_on_item_group_id", using: :btree
+  add_index "item_group_metaelements", ["item_id"], name: "index_item_group_metaelements_on_item_id", using: :btree
 
   create_table "item_groups", force: :cascade do |t|
     t.string   "name"
@@ -84,6 +94,13 @@ ActiveRecord::Schema.define(version: 20170914165620) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
+
+  add_index "item_value_orders", ["crf_info_id"], name: "index_item_value_orders_on_crf_info_id", using: :btree
+  add_index "item_value_orders", ["menus_crf_info_id"], name: "index_item_value_orders_on_menus_crf_info_id", using: :btree
+  add_index "item_value_orders", ["ordinal"], name: "index_item_value_orders_on_ordinal", using: :btree
+  add_index "item_value_orders", ["patient_id"], name: "index_item_value_orders_on_patient_id", using: :btree
+  add_index "item_value_orders", ["patient_visit_id"], name: "index_item_value_orders_on_patient_visit_id", using: :btree
+  add_index "item_value_orders", ["user_id"], name: "index_item_value_orders_on_user_id", using: :btree
 
   create_table "item_values", force: :cascade do |t|
     t.integer  "item_id"

@@ -156,7 +156,21 @@ class StatisticsController < ApplicationController
   end
 
   def by_hour
-
+    patient_id = params[:patient_id]
+    date = params[:date]
+    @data = []
+    (1..24).each do |hour|
+      observe = Observe.where(:patient_id=>patient_id,:observe_date => date, :observe_hour =>hour).order('id asc').last
+      if !observe.blank?
+        if observe.sleep_info=='是'
+          @data << 1
+        else
+          @data << 0
+        end
+      else
+        @data << 0
+      end
+    end
   end
 
   def by_hour_json
@@ -181,8 +195,7 @@ class StatisticsController < ApplicationController
       data << observe_count
       item << hour.to_s+'时'
     end
-    p '----------------------------'
-    p eat_drug
+
     series << {:name=>"发病次数", :type=>'bar', :data => data,   itemStyle: {
         normal: {
             label: {
@@ -236,6 +249,34 @@ class StatisticsController < ApplicationController
     }
     render :json=>data
 
+  end
+
+  # var data = [
+  # {
+  #    'type':1,  //类型，1睡，2醒
+  #    'length':3, //时长
+  #    'start':0,  //开始时间
+  #    'end':3, //结束时间，可有可无
+  # }
+  # ]
+  def sleep_wake_json
+    patient_id = params[:patient_id]
+    date = params[:date]
+    data = []
+    (1..24).each do |hour|
+      observe = Observe.where(:patient_id=>patient_id,:observe_date => date, :observe_hour =>hour).order('id asc').last
+      if !observe.blank?
+        if observe.sleep_info=='是'
+          hash = {'type'=>1,'length'=>1,'start'=>hour,'end'=>hour+1}
+          data << hash
+        elsif observe.sleep_info=='否'
+          hash = {'type'=>2,'length'=>1,'start'=>hour,'end'=>hour+1}
+          data << hash
+        end
+
+      end
+    end
+    render :json=>data
   end
 
 end
