@@ -2,7 +2,7 @@
 <%= breadcrumbs("当前患者", patient.name, patient.id_number) %>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div style="width: 960px;height:100px; margin-top: 20px; margin-left: 80px">
-  <div style="width:100%;text-align: center"><h1>当前日期：<%= params[:date].to_date.strftime("%Y-%m-%d") %></h1></div>
+  <div style="text-align: center"><h2>当前日期：<%= params[:date].to_date.strftime("%Y-%m-%d") %></h2></div>
   <table id="monthtable" border="2px" style="width: 80%;height: 80px;text-align: center">
     <tr>
       <td>小时</td>
@@ -87,6 +87,7 @@
   </table>
 </div>
 <div id="main" style="width: 960px;height:600px; margin-top: 100px"></div>
+<div style="text-align: center"><h2>相关性统计图</h2></div>
 <div id="canvas" style="width: 960px;height:500px; margin-top: 20px"></div>
 <script>
     $(document).ready(function(){
@@ -217,7 +218,7 @@
                         str = data[i-1]
                     }
 
-                    if(eat_drug[i-1]===true){
+                    if(eat_drug[i-1]!==undefined & eat_drug[i-1]!=="" & eat_drug[i-1]!==null){
                         $("#"+divId + " tr:nth-child(1)").find("td").eq(i)[0].innerHTML =  $("#"+divId + " tr:nth-child(1)").find("td").eq(i)[0].innerHTML+'★'
                     }
                     item.innerHTML = str;
@@ -235,7 +236,7 @@
                         str = data[10+i-1]
 
                     }
-                    if(eat_drug[10+i-1]===true){
+                    if(eat_drug[10+i-1]!==undefined & eat_drug[10+i-1]!=="" & eat_drug[10+i-1]!==null){
                         $("#"+divId + " tr:nth-child(3)").find("td").eq(i)[0].innerHTML =  $("#"+divId + " tr:nth-child(3)").find("td").eq(i)[0].innerHTML+'★'
                     }
                     item.innerHTML = str;
@@ -255,7 +256,7 @@
                     if(data[20+i-1]>0){
                         str = "<i class='icon-check'></i>"+data[20+i-1]
                     }
-                    if(eat_drug[20+i-1]===true){
+                    if(eat_drug[20+i-1]!==undefined & eat_drug[20+i-1]!=="" & eat_drug[20+i-1]!==null){
                         $("#"+divId + " tr:nth-child(5)").find("td").eq(i)[0].innerHTML =  $("#"+divId + " tr:nth-child(5)").find("td").eq(i)[0].innerHTML+'★'
                     }
                     item.innerHTML = str;

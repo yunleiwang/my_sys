@@ -166,22 +166,23 @@ class StatisticsController < ApplicationController
     item = []
     observes = Observe.where('observe_date=? and patient_id=? and attack=1',date, patient_id)
     data = []
-    eat_drug = []
+    eat_drug = [] #是否吃药
+
     (1..24).each do |hour|
       hour_observes = observes.where(:observe_hour => hour)
       observe_count = hour_observes.count
       drugs_arr = hour_observes.collect{|ho|ho.drug}.compact.select{|bb|!bb.include?('0.无')}
 
       if drugs_arr.length>0
-        eat_drug<< true
+        eat_drug<< drugs_arr.join(" ")
       else
-        eat_drug<< false
+        eat_drug<< nil
       end
       data << observe_count
       item << hour.to_s+'时'
     end
-
-
+    p '----------------------------'
+    p eat_drug
     series << {:name=>"发病次数", :type=>'bar', :data => data,   itemStyle: {
         normal: {
             label: {
